@@ -129,4 +129,31 @@ const BookingModal: React.FC<BookingModalProps> = ({ car, isOpen, onClose }) => 
                 {bookingData.startDate && bookingData.endDate && (
                   <>
                     <div className="flex justify-between items-center mb-2">
-                      <span className="text-neutral-600">Rental
+                      <span className="text-neutral-600">Rental Days</span>
+                      <span className="font-medium">
+                        {Math.ceil((new Date(bookingData.endDate).getTime() - new Date(bookingData.startDate).getTime()) / (1000 * 60 * 60 * 24))} days
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center pt-2 border-t border-neutral-200">
+                      <span className="text-lg font-semibold">Total</span>
+                      <span className="text-lg font-bold text-primary-600">${calculateTotal()}</span>
+                    </div>
+                  </>
+                )}
+              </div>
+
+              <button
+                type="submit"
+                className="w-full bg-primary-600 text-white py-3 px-4 rounded-md hover:bg-primary-700 transition-colors font-medium"
+              >
+                Confirm Booking
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default BookingModal;
