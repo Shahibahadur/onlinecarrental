@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { X, Calendar, MapPin } from 'lucide-react';
-import { Car } from '../../types';
+import { type Car } from '../../types';
 
 interface BookingModalProps {
   car: Car;

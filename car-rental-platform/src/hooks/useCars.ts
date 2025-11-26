@@ -1,5 +1,5 @@
 import { useQuery } from 'react-query';
-import { Car, SearchFilters } from '../types';
+import {type  Car, type SearchFilters } from '../types';
 import { mockCars } from '../constants/mockData';
 
 export const useCars = (filters: Partial<SearchFilters>) => {
