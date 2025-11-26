@@ -286,4 +286,4 @@ const Admin: React.FC = () => {
   );
 };
 
-export default Admin;as 
+export default Admin;
