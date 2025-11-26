@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Car, User, Menu, X } from 'lucide-react';
-import { RootState } from '../../store';
+import type  { RootState } from '../../store';
 import { clearUser } from '../../store/slices/authSlice';
 
 const Header: React.FC = () => {

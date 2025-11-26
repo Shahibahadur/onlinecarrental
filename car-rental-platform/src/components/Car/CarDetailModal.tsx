@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { X, Users, Luggage, Fuel, MapPin, Star, ChevronLeft, ChevronRight } from 'lucide-react';
-import { Car } from '../../types';
+import { type Car } from '../../types';
 
 interface CarDetailModalProps {
   car: Car;

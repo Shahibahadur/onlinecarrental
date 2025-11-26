@@ -1,8 +1,8 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Calendar, Car, MapPin, DollarSign, Clock } from 'lucide-react';
-import { RootState } from '../store';
-import { Booking } from '../types';
+import type{ RootState } from '../store';
+import type { Booking } from '../types';
 
 const Dashboard: React.FC = () => {
   const { user } = useSelector((state: RootState) => state.auth);

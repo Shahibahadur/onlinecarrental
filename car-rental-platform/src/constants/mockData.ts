@@ -1,4 +1,4 @@
-import { Car } from '../types';
+import {type  Car } from '../types';
 import { CARS_CDN_BASE_URL } from '.';
 
 export const mockCars: Car[] = [

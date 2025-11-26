@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Car, Users, Luggage, Fuel, Star, MapPin, Calendar } from 'lucide-react';
-import { Car as CarType } from '../../types';
+import {type Car as CarType } from '../../types';
 
 interface CarCardProps {
   car: CarType;

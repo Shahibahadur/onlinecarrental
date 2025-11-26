@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Plus, Edit, Trash2, Car, Users, DollarSign, TrendingUp } from 'lucide-react';
-import { RootState } from '../store';
-import { Car as CarType } from '../types';
+import type { RootState } from '../store';
+import type { Car as CarType } from '../types';
 import { mockCars } from '../constants/mockData';
 
 const Admin: React.FC = () => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Search, Filter } from 'lucide-react';
-import { RootState } from '../../store';
+import type { RootState } from '../../store';
 import { setFilters } from '../../store/slices/searchSlice';
 import { CAR_TYPES, TRANSMISSION_TYPES, FUEL_TYPES, LOCATIONS } from '../../constants';
 

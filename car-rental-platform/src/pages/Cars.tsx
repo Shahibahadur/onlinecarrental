@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Search, Grid, List, Filter } from 'lucide-react';
-import { RootState } from '../store';
+import type { RootState } from '../store';
 import { useCars } from '../hooks/useCars';
 import CarCard from '../components/Car/CarCard';
 import SearchFilters from '../components/Search/SearchFilters';
 import CarDetailModal from '../components/Car/CarDetailModal';
 import BookingModal from '../components/Booking/BookingModal';
-import { Car } from '../types';
+import type { Car } from '../types';
 
 const Cars: React.FC = () => {
   const filters = useSelector((state: RootState) => state.search);
