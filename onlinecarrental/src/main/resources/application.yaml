@@ -1,0 +1,40 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/car_rental_db
+    username: root
+    password: password
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: true
+  
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password:
+      timeout: 60000
+
+  cache:
+    type: redis
+    redis:
+      time-to-live: 3600000
+
+server:
+  port: 8080
+
+app:
+  jwt:
+    secret: your-secret-key-here-make-it-very-long-and-secure
+    expiration: 86400000 # 24 hours
+
+logging:
+  level:
+    com.driverental.onlinecarrental: DEBUG
+    org.springframework.security: DEBUG
