@@ -1,1 +1,10 @@
-﻿package com.driverental.onlinecarrental.model.enum;\n\npublic enum VehicleType {\n    SEDAN,\n    SUV,\n    TRUCK,\n    VAN\n}\n
+﻿package com.driverental.onlinecarrental.model.enum;
+
+public enum VehicleType {
+    SUV,
+    SEDAN,
+    HATCHBACK,
+    LUXURY,
+    SPORTS,
+    ELECTRIC
+}

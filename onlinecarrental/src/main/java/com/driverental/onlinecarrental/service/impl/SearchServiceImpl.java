@@ -1,8 +1,114 @@
 ﻿package com.driverental.onlinecarrental.service.impl;
 
-import org.springframework.stereotype.Service;
+import com.driverental.onlinecarrental.algorithm.aho_corasick.AhoCorasick;
+import com.driverental.onlinecarrental.algorithm.aho_corasick.SearchResult;
+import com.driverental.onlinecarrental.model.dto.SearchCriteria;
+import com.driverental.onlinecarrental.model.entity.Vehicle;
+import com.driverental.onlinecarrental.repository.VehicleRepository;
 import com.driverental.onlinecarrental.service.SearchService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Service;
+
+import jakarta.annotation.PostConstruct;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
+@Slf4j
 public class SearchServiceImpl implements SearchService {
+    
+    private final VehicleRepository vehicleRepository;
+    private final AhoCorasick ahoCorasick;
+    private List<String> searchKeywords;
+    
+    @PostConstruct
+    public void init() {
+        rebuildSearchIndex();
+    }
+    
+    @Override
+    @Scheduled(fixedRate = 3600000) // Rebuild every hour
+    public void rebuildSearchIndex() {
+        log.info("Rebuilding search index...");
+        List<Vehicle> allVehicles = vehicleRepository.findAll();
+        searchKeywords = extractKeywords(allVehicles);
+        ahoCorasick.buildTrie(searchKeywords);
+        log.info("Search index rebuilt with {} keywords", searchKeywords.size());
+    }
+    
+    private List<String> extractKeywords(List<Vehicle> vehicles) {
+        Set<String> keywords = new HashSet<>();
+        for (Vehicle vehicle : vehicles) {
+            keywords.add(vehicle.getMake().toLowerCase());
+            keywords.add(vehicle.getModel().toLowerCase());
+            keywords.add(vehicle.getType().name().toLowerCase());
+            keywords.add(vehicle.getFuelType().name().toLowerCase());
+            keywords.addAll(vehicle.getFeatures().stream()
+                    .map(String::toLowerCase)
+                    .collect(Collectors.toSet()));
+        }
+        return new ArrayList<>(keywords);
+    }
+    
+    @Override
+    @Cacheable(value = "searchResults", key = "#criteria.hashCode() + '-' + #pageable.pageNumber")
+    public Page<Vehicle> searchVehicles(SearchCriteria criteria, Pageable pageable) {
+        Specification<Vehicle> spec = buildSpecification(criteria);
+        return vehicleRepository.findAll(spec, pageable);
+    }
+    
+    @Override
+    @Cacheable(value = "intelligentSearch", key = "#query + '-' + #location + '-' + #pageable.pageNumber")
+    public List<Vehicle> intelligentSearch(String query, String location, Pageable pageable) {
+        List<SearchResult> matches = ahoCorasick.search(query);
+        Set<String> matchedKeywords = matches.stream()
+                .map(SearchResult::getKeyword)
+                .collect(Collectors.toSet());
+        
+        return vehicleRepository.findByIntelligentSearch(matchedKeywords, location, pageable);
+    }
+    
+    private Specification<Vehicle> buildSpecification(SearchCriteria criteria) {
+        return (root, query, cb) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            
+            if (criteria.getLocation() != null) {
+                predicates.add(cb.like(cb.lower(root.get("location")), 
+                    "%" + criteria.getLocation().toLowerCase() + "%"));
+            }
+            
+            if (criteria.getVehicleType() != null) {
+                predicates.add(cb.equal(root.get("type"), criteria.getVehicleType()));
+            }
+            
+            if (criteria.getMinPrice() != null) {
+                predicates.add(cb.greaterThanOrEqualTo(root.get("dailyPrice"), criteria.getMinPrice()));
+            }
+            
+            if (criteria.getMaxPrice() != null) {
+                predicates.add(cb.lessThanOrEqualTo(root.get("dailyPrice"), criteria.getMaxPrice()));
+            }
+            
+            if (criteria.getFuelType() != null) {
+                predicates.add(cb.equal(root.get("fuelType"), criteria.getFuelType()));
+            }
+            
+            if (criteria.getFeatures() != null && !criteria.getFeatures().isEmpty()) {
+                for (String feature : criteria.getFeatures()) {
+                    predicates.add(cb.isMember(feature, root.get("features")));
+                }
+            }
+            
+            predicates.add(cb.equal(root.get("isAvailable"), true));
+            
+            return cb.and(predicates.toArray(new Predicate[0]));
+        };
+    }
 }
