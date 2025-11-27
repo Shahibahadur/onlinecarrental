@@ -1,12 +1,12 @@
 ﻿package com.driverental.onlinecarrental.model.exception;
 
 public class BusinessException extends RuntimeException {
-
+    
     public BusinessException(String message) {
         super(message);
     }
-
-    public BusinessException() {
-        this("Business rule violated");
+    
+    public BusinessException(String message, Throwable cause) {
+        super(message, cause);
     }
 }

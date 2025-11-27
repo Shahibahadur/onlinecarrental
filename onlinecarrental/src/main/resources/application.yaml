@@ -13,6 +13,10 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
         format_sql: true
+        jdbc:
+          batch_size: 20
+        order_inserts: true
+        order_updates: true
   
   data:
     redis:
@@ -20,21 +24,59 @@ spring:
       port: 6379
       password:
       timeout: 60000
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 2
+          max-wait: -1ms
 
   cache:
     type: redis
     redis:
       time-to-live: 3600000
+      cache-null-values: false
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
 
 server:
   port: 8080
+  servlet:
+    context-path: /api
 
 app:
   jwt:
-    secret: your-secret-key-here-make-it-very-long-and-secure
+    secret: your-super-secure-jwt-secret-key-that-is-at-least-256-bits-long
     expiration: 86400000 # 24 hours
+  
+  cors:
+    allowed-origins: "http://localhost:3000,http://localhost:5173"
+  
+  pricing:
+    min-multiplier: 0.5
+    max-multiplier: 2.0
+    peak-season-months: "6,7,8,12"
+    weekend-multiplier: 1.25
 
 logging:
   level:
-    com.driverental.onlinecarrental: DEBUG
-    org.springframework.security: DEBUG
+    com.driverental.onlinecarrental: INFO
+    org.springframework.security: WARN
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %logger{36} - %msg%n"
+  file:
+    name: logs/car-rental-app.log
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always

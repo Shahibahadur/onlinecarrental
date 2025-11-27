@@ -1,80 +1,154 @@
 ﻿package com.driverental.onlinecarrental.controller;
 
-import com.driverental.onlinecarrental.model.dto.request.ReviewRequest;
-import com.driverental.onlinecarrental.model.dto.response.ReviewResponse;
-import com.driverental.onlinecarrental.service.ReviewService;
+import com.driverental.onlinecarrental.model.dto.response.RecommendationResponse;
+import com.driverental.onlinecarrental.model.dto.response.VehicleResponse;
+import com.driverental.onlinecarrental.service.RecommendationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/reviews")
+@RequestMapping("/api/recommendations")
 @RequiredArgsConstructor
-@Tag(name = "Review", description = "Review management APIs")
-public class ReviewController {
-
-    private final ReviewService reviewService;
-
-    @PostMapping
-    @Operation(summary = "Create a new review")
-    public ResponseEntity<ReviewResponse> createReview(
-            @Valid @RequestBody ReviewRequest request,
-            Authentication authentication) {
+@Tag(name = "Recommendation", description = "Vehicle recommendation APIs")
+public class RecommendationController {
+    
+    private final RecommendationService recommendationService;
+    
+    @GetMapping("/personalized")
+    @Operation(summary = "Get personalized recommendations for authenticated user")
+    public ResponseEntity<List<VehicleResponse>> getPersonalizedRecommendations(Authentication authentication) {
         Long userId = extractUserIdFromAuth(authentication);
-        return ResponseEntity.ok(reviewService.createReview(request, userId));
+        
+        var recommendations = recommendationService.getRecommendationsForUser(userId)
+                .stream()
+                .map(this::convertToResponse)
+                .collect(Collectors.toList());
+        
+        // Track this recommendation impression
+        recommendations.forEach(vehicle -> 
+            recommendationService.trackUserInteraction(userId, vehicle.getId(), "IMPRESSION"));
+        
+        return ResponseEntity.ok(recommendations);
     }
-
-    @GetMapping("/vehicle/{vehicleId}")
-    @Operation(summary = "Get reviews for a vehicle")
-    public ResponseEntity<Page<ReviewResponse>> getVehicleReviews(
+    
+    @GetMapping("/hybrid")
+    @Operation(summary = "Get comprehensive hybrid recommendations")
+    public ResponseEntity<RecommendationResponse> getHybridRecommendations(Authentication authentication) {
+        Long userId = extractUserIdFromAuth(authentication);
+        
+        RecommendationResponse response = recommendationService.getHybridRecommendations(userId);
+        
+        // Track impressions for all recommended vehicles
+        response.getRecommendations().forEach(vehicle -> 
+            recommendationService.trackUserInteraction(userId, vehicle.getId(), "IMPRESSION"));
+        
+        return ResponseEntity.ok(response);
+    }
+    
+    @GetMapping("/popular")
+    @Operation(summary = "Get popular vehicles")
+    public ResponseEntity<List<VehicleResponse>> getPopularVehicles() {
+        var popularVehicles = recommendationService.getPopularVehicles()
+                .stream()
+                .map(this::convertToResponse)
+                .collect(Collectors.toList());
+        
+        return ResponseEntity.ok(popularVehicles);
+    }
+    
+    @GetMapping("/similar/{vehicleId}")
+    @Operation(summary = "Get vehicles similar to a specific vehicle")
+    public ResponseEntity<List<VehicleResponse>> getSimilarVehicles(@PathVariable Long vehicleId) {
+        var similarVehicles = recommendationService.getSimilarVehicles(vehicleId)
+                .stream()
+                .map(this::convertToResponse)
+                .collect(Collectors.toList());
+        
+        return ResponseEntity.ok(similarVehicles);
+    }
+    
+    @GetMapping("/trending")
+    @Operation(summary = "Get currently trending vehicles")
+    public ResponseEntity<List<VehicleResponse>> getTrendingVehicles() {
+        var trendingVehicles = recommendationService.getTrendingVehicles()
+                .stream()
+                .map(this::convertToResponse)
+                .collect(Collectors.toList());
+        
+        return ResponseEntity.ok(trendingVehicles);
+    }
+    
+    @GetMapping("/explanations/{vehicleId}")
+    @Operation(summary = "Get explanation for why a vehicle was recommended")
+    public ResponseEntity<Map<String, Object>> getRecommendationExplanation(
+            Authentication authentication,
+            @PathVariable Long vehicleId) {
+        Long userId = extractUserIdFromAuth(authentication);
+        
+        Map<String, Object> explanations = recommendationService.getRecommendationExplanations(userId, vehicleId);
+        return ResponseEntity.ok(explanations);
+    }
+    
+    @PostMapping("/interaction/{vehicleId}")
+    @Operation(summary = "Track user interaction with a recommended vehicle")
+    public ResponseEntity<Void> trackInteraction(
+            Authentication authentication,
             @PathVariable Long vehicleId,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        return ResponseEntity.ok(reviewService.getVehicleReviews(vehicleId, pageable));
-    }
-
-    @GetMapping("/user/{userId}")
-    @Operation(summary = "Get reviews by user")
-    public ResponseEntity<Page<ReviewResponse>> getUserReviews(
-            @PathVariable Long userId,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        return ResponseEntity.ok(reviewService.getUserReviews(userId, pageable));
-    }
-
-    @GetMapping("/{id}")
-    @Operation(summary = "Get review by ID")
-    public ResponseEntity<ReviewResponse> getReviewById(@PathVariable Long id) {
-        return ResponseEntity.ok(reviewService.getReviewById(id));
-    }
-
-    @PutMapping("/{id}")
-    @Operation(summary = "Update review")
-    public ResponseEntity<ReviewResponse> updateReview(
-            @PathVariable Long id,
-            @Valid @RequestBody ReviewRequest request) {
-        return ResponseEntity.ok(reviewService.updateReview(id, request));
-    }
-
-    @DeleteMapping("/{id}")
-    @Operation(summary = "Delete review")
-    public ResponseEntity<Void> deleteReview(@PathVariable Long id) {
-        reviewService.deleteReview(id);
+            @RequestParam String interactionType) {
+        Long userId = extractUserIdFromAuth(authentication);
+        
+        recommendationService.trackUserInteraction(userId, vehicleId, interactionType);
         return ResponseEntity.ok().build();
     }
-
+    
+    @GetMapping("/metrics")
+    @Operation(summary = "Get recommendation system performance metrics (Admin)")
+    public ResponseEntity<Map<String, Double>> getRecommendationMetrics() {
+        Map<String, Double> metrics = recommendationService.getRecommendationMetrics();
+        return ResponseEntity.ok(metrics);
+    }
+    
+    @PostMapping("/refresh")
+    @Operation(summary = "Refresh recommendation models (Admin)")
+    public ResponseEntity<Void> refreshRecommendationModels() {
+        recommendationService.refreshRecommendationModel();
+        return ResponseEntity.ok().build();
+    }
+    
+    private VehicleResponse convertToResponse(com.driverental.onlinecarrental.model.entity.Vehicle vehicle) {
+        return VehicleResponse.builder()
+                .id(vehicle.getId())
+                .make(vehicle.getMake())
+                .model(vehicle.getModel())
+                .year(vehicle.getYear())
+                .type(vehicle.getType())
+                .fuelType(vehicle.getFuelType())
+                .transmission(vehicle.getTransmission())
+                .seats(vehicle.getSeats())
+                .luggageCapacity(vehicle.getLuggageCapacity())
+                .features(vehicle.getFeatures())
+                .basePrice(vehicle.getBasePrice())
+                .dailyPrice(vehicle.getDailyPrice())
+                .location(vehicle.getLocation())
+                .imageUrl(vehicle.getImageUrl())
+                .isAvailable(vehicle.getIsAvailable())
+                .rating(vehicle.getRating())
+                .reviewCount(vehicle.getReviewCount())
+                .createdAt(vehicle.getCreatedAt())
+                .build();
+    }
+    
     private Long extractUserIdFromAuth(Authentication authentication) {
-        return 1L; // Placeholder
+        // Implementation to extract user ID from authentication
+        // This would typically come from JWT token
+        return 1L; // Placeholder - in real implementation, extract from SecurityContext
     }
 }
