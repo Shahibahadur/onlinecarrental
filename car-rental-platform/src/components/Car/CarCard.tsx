@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Car, Users, Luggage, Fuel, Star, MapPin, Calendar } from 'lucide-react';
+import { Users, Luggage, Fuel, Star, MapPin } from 'lucide-react';
 import {type Car as CarType } from '../../types';
 
 interface CarCardProps {

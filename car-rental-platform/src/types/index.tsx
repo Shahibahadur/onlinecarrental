@@ -42,6 +42,8 @@ export interface Booking {
 
 export interface SearchFilters {
   location: string;
+  pickupLocation: string;
+  dropoffLocation: string;
   startDate: string;
   endDate: string;
   carType: string;

@@ -3,6 +3,8 @@ import type { SearchFilters } from '../../types';
 
 const initialState: SearchFilters = {
   location: '',
+  pickupLocation: '',
+  dropoffLocation: '',
   startDate: '',
   endDate: '',
   carType: '',
