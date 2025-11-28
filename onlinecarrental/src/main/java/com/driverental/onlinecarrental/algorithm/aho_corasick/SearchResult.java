@@ -171,6 +171,8 @@ public class SearchResult implements Comparable<SearchResult> {
             case PARTIAL -> 25.0;
             case FUZZY -> 10.0;
             case SEMANTIC -> 30.0;
+            case PHONETIC -> 15.0;
+            case STEMMED -> 12.0;
         };
         
         // Adjust score based on keyword length (longer matches are generally better)
@@ -347,11 +349,11 @@ public class SearchResult implements Comparable<SearchResult> {
          * Set match type based on confidence level
          */
         public SearchResultBuilder inferMatchType() {
-            if (confidence == 1.0) {
+            if (this.confidence == 1.0) {
                 this.matchType = MatchType.EXACT;
-            } else if (confidence >= 0.8) {
+            } else if (this.confidence >= 0.8) {
                 this.matchType = MatchType.PARTIAL;
-            } else if (confidence >= 0.6) {
+            } else if (this.confidence >= 0.6) {
                 this.matchType = MatchType.FUZZY;
             } else {
                 this.matchType = MatchType.SEMANTIC;
@@ -369,7 +371,7 @@ public class SearchResult implements Comparable<SearchResult> {
             if (this.length == 0 && this.startIndex != 0 && this.endIndex != 0) {
                 this.length = this.endIndex - this.startIndex + 1;
             }
-            return new SearchResult(keyword, startIndex, endIndex, length, confidence, matchType, metadata);
+            return new SearchResult(keyword, startIndex, endIndex, length, this.confidence, this.matchType, metadata);
         }
     }
 }
