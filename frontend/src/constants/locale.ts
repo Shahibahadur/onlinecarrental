@@ -108,3 +108,5 @@ export const formatPricePerDay = (amount: number): string => {
   return `${formatCurrency(amount)}/day`;
 };
 
+
+
