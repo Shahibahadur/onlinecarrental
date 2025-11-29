@@ -12,6 +12,23 @@ export const FUEL_TYPES = [
   'Petrol', 'Diesel', 'Electric', 'Hybrid'
 ] as const;
 
+// Nepali market locations
 export const LOCATIONS = [
-  'New York', 'Los Angeles', 'Chicago', 'Miami', 'Las Vegas', 'San Francisco'
+  'Kathmandu', 
+  'Pokhara', 
+  'Chitwan', 
+  'Lalitpur', 
+  'Bhaktapur', 
+  'Nagarkot',
+  'Lumbini',
+  'Dharan',
+  'Biratnagar',
+  'Butwal',
+  'Hetauda',
+  'Janakpur'
 ];
+
+// Popular car brands in Nepal
+export const POPULAR_BRANDS = [
+  'Toyota', 'Hyundai', 'Suzuki', 'Mahindra', 'Tata', 'Honda', 'Nissan', 'Ford', 'Kia', 'MG'
+] as const;

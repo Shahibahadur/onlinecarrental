@@ -6,7 +6,7 @@ export default {
   ],
   safelist: [
     { pattern: /primary-(50|100|500|600|700)/ },
-    { pattern: /hover:bg-primary-(600|700)/ },
+    { pattern: /hover:bg-primary-(600|700)/ }
   ],
   theme: {
     colors: {
@@ -28,7 +28,7 @@ export default {
         700: '#374151',
         800: '#1f2937',
         900: '#111827',
-      },
+      }
     },
     fontFamily: {
       sans: ['Inter', 'system-ui', 'sans-serif'],
@@ -36,3 +36,4 @@ export default {
   },
   plugins: [],
 }
+

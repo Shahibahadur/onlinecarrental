@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Car, Facebook, Twitter, Instagram } from 'lucide-react';
+import { Car, Facebook, Instagram } from 'lucide-react';
+import { CONTENT, LOCALE } from '../../constants/locale';
 
 const Footer: React.FC = () => {
   return (
@@ -11,20 +12,16 @@ const Footer: React.FC = () => {
           <div className="col-span-1 md:col-span-2">
             <Link to="/" className="flex items-center space-x-2 mb-4">
               <Car className="h-8 w-8 text-primary-400" />
-              <span className="text-xl font-bold">DriveRental</span>
+              <span className="text-xl font-bold">DriveRental Nepal</span>
             </Link>
             <p className="text-neutral-400 mb-4 max-w-md">
-              Your trusted partner for car rentals. We offer the best vehicles at competitive prices 
-              with exceptional customer service.
+              {CONTENT.footer.description}
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="text-neutral-400 hover:text-white transition-colors">
+              <a href={LOCALE.socialMedia.facebook} target="_blank" rel="noopener noreferrer" className="text-neutral-400 hover:text-white transition-colors">
                 <Facebook className="h-6 w-6" />
               </a>
-              <a href="#" className="text-neutral-400 hover:text-white transition-colors">
-                <Twitter className="h-6 w-6" />
-              </a>
-              <a href="#" className="text-neutral-400 hover:text-white transition-colors">
+              <a href={LOCALE.socialMedia.instagram} target="_blank" rel="noopener noreferrer" className="text-neutral-400 hover:text-white transition-colors">
                 <Instagram className="h-6 w-6" />
               </a>
             </div>
@@ -34,26 +31,13 @@ const Footer: React.FC = () => {
           <div>
             <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
             <ul className="space-y-2">
-              <li>
-                <Link to="/cars" className="text-neutral-400 hover:text-white transition-colors">
-                  Browse Cars
-                </Link>
-              </li>
-              <li>
-                <Link to="/about" className="text-neutral-400 hover:text-white transition-colors">
-                  About Us
-                </Link>
-              </li>
-              <li>
-                <Link to="/contact" className="text-neutral-400 hover:text-white transition-colors">
-                  Contact
-                </Link>
-              </li>
-              <li>
-                <Link to="/faq" className="text-neutral-400 hover:text-white transition-colors">
-                  FAQ
-                </Link>
-              </li>
+              {CONTENT.footer.quickLinks.map((link) => (
+                <li key={link.href}>
+                  <Link to={link.href} className="text-neutral-400 hover:text-white transition-colors">
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
@@ -61,16 +45,16 @@ const Footer: React.FC = () => {
           <div>
             <h3 className="text-lg font-semibold mb-4">Contact</h3>
             <ul className="space-y-2 text-neutral-400">
-              <li>123 Rental Street</li>
-              <li>City, State 12345</li>
-              <li>info@driverental.com</li>
-              <li>+1 (555) 123-4567</li>
+              <li>{LOCALE.contact.address}</li>
+              <li>{LOCALE.contact.email}</li>
+              <li>{LOCALE.contact.phone}</li>
+              <li className="text-sm mt-3">{LOCALE.contact.workingHours}</li>
             </ul>
           </div>
         </div>
 
         <div className="border-t border-neutral-800 mt-8 pt-8 text-center text-neutral-400">
-          <p>&copy; 2024 DriveRental. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} DriveRental Nepal. All rights reserved.</p>
         </div>
       </div>
     </footer>

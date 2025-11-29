@@ -39,9 +39,9 @@ const Cars: React.FC = () => {
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-neutral-900">Available Cars</h1>
+            <h1 className="text-3xl font-bold text-neutral-900">Available Cars in Nepal</h1>
             <p className="text-neutral-600 mt-2">
-              Find the perfect vehicle for your journey
+              Find the perfect vehicle for your journey across Nepal
             </p>
           </div>
 

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Users, Luggage, Fuel, Star, MapPin } from 'lucide-react';
 import {type Car as CarType } from '../../types';
+import { formatPricePerDay } from '../../constants/locale';
 
 interface CarCardProps {
   car: CarType;
@@ -26,7 +27,7 @@ const CarCard: React.FC<CarCardProps> = ({ car, onBook, onViewDetails }) => {
         {!car.available && (
           <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
             <span className="text-white font-semibold bg-red-600 px-3 py-1 rounded-full">
-              Not Available
+              उपलब्ध छैन (Not Available)
             </span>
           </div>
         )}
@@ -40,8 +41,7 @@ const CarCard: React.FC<CarCardProps> = ({ car, onBook, onViewDetails }) => {
         <div className="flex justify-between items-start mb-2">
           <h3 className="text-lg font-semibold text-neutral-900">{car.name}</h3>
           <div className="text-right">
-            <div className="text-2xl font-bold text-primary-600">${car.pricePerDay}</div>
-            <div className="text-sm text-neutral-500">per day</div>
+            <div className="text-2xl font-bold text-primary-600">{formatPricePerDay(car.pricePerDay)}</div>
           </div>
         </div>
 

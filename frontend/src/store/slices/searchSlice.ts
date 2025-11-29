@@ -9,7 +9,7 @@ const initialState: SearchFilters = {
   endDate: '',
   carType: '',
   minPrice: 0,
-  maxPrice: 1000,
+  maxPrice: 15000, // NPR - adjusted for Nepali market
   transmission: '',
   fuelType: '',
 };

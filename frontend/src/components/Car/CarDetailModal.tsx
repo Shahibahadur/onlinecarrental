@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { X, Users, Luggage, Fuel, MapPin, Star, ChevronLeft, ChevronRight } from 'lucide-react';
 import { type Car } from '../../types';
+import { formatPricePerDay } from '../../constants/locale';
 
 interface CarDetailModalProps {
   car: Car;
@@ -104,8 +105,7 @@ const CarDetailModal: React.FC<CarDetailModalProps> = ({
                   </div>
                 </div>
                 <div className="mt-4 sm:mt-0 text-right">
-                  <div className="text-3xl font-bold text-primary-600">${car.pricePerDay}</div>
-                  <div className="text-sm text-neutral-500">per day</div>
+                  <div className="text-3xl font-bold text-primary-600">{formatPricePerDay(car.pricePerDay)}</div>
                 </div>
               </div>
 

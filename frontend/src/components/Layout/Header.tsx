@@ -34,7 +34,7 @@ const Header: React.FC = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
             <Car className="h-8 w-8 text-primary-600" />
-            <span className="text-xl font-bold text-neutral-900">DriveRental</span>
+            <span className="text-xl font-bold text-neutral-900">DriveRental Nepal</span>
           </Link>
 
           {/* Desktop Navigation */}

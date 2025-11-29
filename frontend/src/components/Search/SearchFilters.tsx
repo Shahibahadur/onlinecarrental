@@ -101,14 +101,14 @@ const SearchFilters: React.FC = () => {
       {/* Price Range */}
       <div className="mt-4">
         <label className="block text-sm font-medium text-neutral-700 mb-2">
-          Price Range: ${filters.minPrice} - ${filters.maxPrice}
+          Price Range: रू {filters.minPrice.toLocaleString('en-NP')} - रू {filters.maxPrice.toLocaleString('en-NP')} per day
         </label>
         <div className="flex space-x-4">
           <input
             type="range"
             min="0"
-            max="1000"
-            step="10"
+            max="15000"
+            step="500"
             value={filters.minPrice}
             onChange={(e) => handleFilterChange('minPrice', Number(e.target.value))}
             className="w-full"
@@ -116,8 +116,8 @@ const SearchFilters: React.FC = () => {
           <input
             type="range"
             min="0"
-            max="1000"
-            step="10"
+            max="15000"
+            step="500"
             value={filters.maxPrice}
             onChange={(e) => handleFilterChange('maxPrice', Number(e.target.value))}
             className="w-full"

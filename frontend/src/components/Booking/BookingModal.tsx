@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { X, Calendar, MapPin } from 'lucide-react';
 import { type Car } from '../../types';
+import { formatCurrency, formatPricePerDay } from '../../constants/locale';
+import { LOCATIONS } from '../../constants';
 
 interface BookingModalProps {
   car: Car;
@@ -94,13 +96,19 @@ const BookingModal: React.FC<BookingModalProps> = ({ car, isOpen, onClose }) => 
                 </label>
                 <div className="relative">
                   <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-neutral-400" />
-                  <input
-                    type="text"
+                  <select
                     required
                     value={bookingData.pickupLocation}
                     onChange={(e) => setBookingData(prev => ({ ...prev, pickupLocation: e.target.value }))}
-                    className="w-full pl-10 pr-3 py-2 border border-neutral-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                  />
+                    className="w-full pl-10 pr-3 py-2 border border-neutral-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent appearance-none bg-white"
+                  >
+                    <option value="">Select pickup location</option>
+                    {LOCATIONS.map((location) => (
+                      <option key={location} value={location}>
+                        {location}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
 
@@ -110,13 +118,19 @@ const BookingModal: React.FC<BookingModalProps> = ({ car, isOpen, onClose }) => 
                 </label>
                 <div className="relative">
                   <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-neutral-400" />
-                  <input
-                    type="text"
+                  <select
                     required
                     value={bookingData.dropoffLocation}
                     onChange={(e) => setBookingData(prev => ({ ...prev, dropoffLocation: e.target.value }))}
-                    className="w-full pl-10 pr-3 py-2 border border-neutral-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                  />
+                    className="w-full pl-10 pr-3 py-2 border border-neutral-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent appearance-none bg-white"
+                  >
+                    <option value="">Select drop-off location</option>
+                    {LOCATIONS.map((location) => (
+                      <option key={location} value={location}>
+                        {location}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
 
@@ -124,7 +138,7 @@ const BookingModal: React.FC<BookingModalProps> = ({ car, isOpen, onClose }) => 
               <div className="bg-neutral-50 p-4 rounded-lg">
                 <div className="flex justify-between items-center mb-2">
                   <span className="text-neutral-600">Daily Rate</span>
-                  <span className="font-medium">${car.pricePerDay}/day</span>
+                  <span className="font-medium">{formatPricePerDay(car.pricePerDay)}</span>
                 </div>
                 {bookingData.startDate && bookingData.endDate && (
                   <>
@@ -136,7 +150,7 @@ const BookingModal: React.FC<BookingModalProps> = ({ car, isOpen, onClose }) => 
                     </div>
                     <div className="flex justify-between items-center pt-2 border-t border-neutral-200">
                       <span className="text-lg font-semibold">Total</span>
-                      <span className="text-lg font-bold text-primary-600">${calculateTotal()}</span>
+                      <span className="text-lg font-bold text-primary-600">{formatCurrency(calculateTotal())}</span>
                     </div>
                   </>
                 )}
