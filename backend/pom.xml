@@ -88,6 +88,27 @@
             <optional>true</optional>
         </dependency>
         
+        <!-- Apache Commons Math for Matrix Operations -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-math3</artifactId>
+            <version>3.6.1</version>
+        </dependency>
+
+        <!-- Apache Commons Lang for utility functions -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.13.0</version>
+        </dependency>
+
+        <!-- Apache Commons Collections -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-collections4</artifactId>
+            <version>4.4</version>
+        </dependency>
+        
         <!-- Development -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -107,22 +128,7 @@
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
-
-         <!-- Apache Mahout for Matrix Factorization -->
-    <dependency>
-        <groupId>org.apache.mahout</groupId>
-        <artifactId>mahout-math</artifactId>
-        <version>0.13.0</version>
-    </dependency>
-    
-    <dependency>
-        <groupId>org.apache.mahout</groupId>
-        <artifactId>mahout-core</artifactId>
-        <version>0.13.0</version>
-    </dependency>
-
-
-    </dependencies>cd 
+    </dependencies>
 
     <build>
         <plugins>
