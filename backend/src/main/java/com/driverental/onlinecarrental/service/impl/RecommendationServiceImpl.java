@@ -374,7 +374,7 @@ public class RecommendationServiceImpl implements RecommendationService {
         
         // Group by vehicle type and select top from each group
         Map<VehicleType, List<Vehicle>> byType = baseRecommendations.stream()
-                .collect(Collectors.groupingBy(Vehicle::getType));
+                .collect(Collectors.<Vehicle, VehicleType, List<Vehicle>>groupingBy(Vehicle::getType));
         
         List<Vehicle> diverse = new ArrayList<>();
         for (List<Vehicle> vehicles : byType.values()) {

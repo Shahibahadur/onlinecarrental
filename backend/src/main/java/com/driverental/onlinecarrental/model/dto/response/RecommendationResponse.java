@@ -1,5 +1,6 @@
 package com.driverental.onlinecarrental.model.dto.response;
 
+import java.util.Map;
 import com.driverental.onlinecarrental.model.entity.Vehicle;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

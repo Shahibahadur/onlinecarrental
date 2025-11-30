@@ -107,7 +107,22 @@
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
-    </dependencies>
+
+         <!-- Apache Mahout for Matrix Factorization -->
+    <dependency>
+        <groupId>org.apache.mahout</groupId>
+        <artifactId>mahout-math</artifactId>
+        <version>0.13.0</version>
+    </dependency>
+    
+    <dependency>
+        <groupId>org.apache.mahout</groupId>
+        <artifactId>mahout-core</artifactId>
+        <version>0.13.0</version>
+    </dependency>
+
+
+    </dependencies>cd 
 
     <build>
         <plugins>

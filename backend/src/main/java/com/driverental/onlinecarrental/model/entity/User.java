@@ -1,5 +1,5 @@
 package com.driverental.onlinecarrental.model.entity;
-import com.driverental.onlinecarrental.model.enum.UserRole;
+import com.driverental.onlinecarrental.model.enums.UserRole;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
