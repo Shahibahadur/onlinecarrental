@@ -4,8 +4,8 @@ import com.driverental.onlinecarrental.model.entity.Booking;
 import com.driverental.onlinecarrental.model.entity.User;
 import com.driverental.onlinecarrental.model.entity.Vehicle;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.mahout.math.DenseMatrix;
-import org.apache.mahout.math.Matrix;
+import org.apache.commons.math3.linear.Array2DRowRealMatrix;
+import org.apache.commons.math3.linear.RealMatrix;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -26,19 +26,19 @@ public class MatrixFactorization {
         int numItems = vehicles.size();
         
         // Initialize user and item matrices
-        Matrix userFeatures = new DenseMatrix(numUsers, LATENT_FEATURES);
-        Matrix itemFeatures = new DenseMatrix(numItems, LATENT_FEATURES);
+        RealMatrix userFeatures = new Array2DRowRealMatrix(numUsers, LATENT_FEATURES);
+        RealMatrix itemFeatures = new Array2DRowRealMatrix(numItems, LATENT_FEATURES);
         
         Random random = new Random();
         for (int i = 0; i < numUsers; i++) {
             for (int j = 0; j < LATENT_FEATURES; j++) {
-                userFeatures.set(i, j, random.nextDouble() * 0.1);
+                userFeatures.setEntry(i, j, random.nextDouble() * 0.1);
             }
         }
         
         for (int i = 0; i < numItems; i++) {
             for (int j = 0; j < LATENT_FEATURES; j++) {
-                itemFeatures.set(i, j, random.nextDouble() * 0.1);
+                itemFeatures.setEntry(i, j, random.nextDouble() * 0.1);
             }
         }
         
@@ -59,19 +59,23 @@ public class MatrixFactorization {
                         
                         // Update user and item features
                         for (int f = 0; f < LATENT_FEATURES; f++) {
-                            double userFeature = userFeatures.get(userIndex, f);
-                            double itemFeature = itemFeatures.get(itemIndex, f);
+                            double userFeature = userFeatures.getEntry(userIndex, f);
+                            double itemFeature = itemFeatures.getEntry(itemIndex, f);
                             
-                            userFeatures.set(userIndex, f, 
-                                userFeature + LEARNING_RATE * 
-                                (error * itemFeature - REGULARIZATION * userFeature));
+                            double newUserFeature = userFeature + LEARNING_RATE * 
+                                (error * itemFeature - REGULARIZATION * userFeature);
+                            userFeatures.setEntry(userIndex, f, newUserFeature);
                             
-                            itemFeatures.set(itemIndex, f,
-                                itemFeature + LEARNING_RATE *
-                                (error * userFeature - REGULARIZATION * itemFeature));
+                            double newItemFeature = itemFeature + LEARNING_RATE *
+                                (error * userFeature - REGULARIZATION * itemFeature);
+                            itemFeatures.setEntry(itemIndex, f, newItemFeature);
                         }
                     }
                 }
+            }
+            
+            if (iter % 10 == 0) {
+                log.debug("Completed iteration {}/{}", iter, ITERATIONS);
             }
         }
         
@@ -86,13 +90,14 @@ public class MatrixFactorization {
             }
         }
         
+        log.info("Matrix factorization completed. Generated {} predictions.", predictions.size());
         return predictions;
     }
     
-    private double predictRating(Matrix userFeatures, Matrix itemFeatures, int userIndex, int itemIndex) {
+    private double predictRating(RealMatrix userFeatures, RealMatrix itemFeatures, int userIndex, int itemIndex) {
         double prediction = 0.0;
         for (int f = 0; f < LATENT_FEATURES; f++) {
-            prediction += userFeatures.get(userIndex, f) * itemFeatures.get(itemIndex, f);
+            prediction += userFeatures.getEntry(userIndex, f) * itemFeatures.getEntry(itemIndex, f);
         }
         return Math.min(5.0, Math.max(1.0, prediction)); // Clip to 1-5 rating scale
     }
@@ -100,18 +105,27 @@ public class MatrixFactorization {
     public Map<Long, Map<Long, Double>> buildUserItemMatrix(List<User> users, List<Booking> bookings) {
         Map<Long, Map<Long, Double>> userItemRatings = new HashMap<>();
         
+        // Create a mapping of user IDs to their bookings for faster lookup
+        Map<Long, List<Booking>> userBookingsMap = bookings.stream()
+                .collect(Collectors.groupingBy(booking -> booking.getUser().getId()));
+        
         for (User user : users) {
             Map<Long, Double> itemRatings = new HashMap<>();
+            List<Booking> userBookings = userBookingsMap.get(user.getId());
             
-            // Calculate implicit ratings from booking behavior
-            for (Booking booking : user.getBookings()) {
-                double rating = calculateImplicitRating(booking);
-                itemRatings.put(booking.getVehicle().getId(), rating);
+            if (userBookings != null) {
+                for (Booking booking : userBookings) {
+                    if (booking.getVehicle() != null) {
+                        double rating = calculateImplicitRating(booking);
+                        itemRatings.put(booking.getVehicle().getId(), rating);
+                    }
+                }
             }
             
             userItemRatings.put(user.getId(), itemRatings);
         }
         
+        log.info("Built user-item matrix with {} users and ratings", userItemRatings.size());
         return userItemRatings;
     }
     
@@ -119,11 +133,36 @@ public class MatrixFactorization {
         double baseRating = 3.0; // Base rating for any booking
         
         // Adjust based on booking duration (longer duration = higher preference)
-        long days = booking.getEndDate().toEpochDay() - booking.getStartDate().toEpochDay();
-        double durationBonus = Math.min(2.0, days / 7.0); // Max 2 points bonus
+        if (booking.getEndDate() != null && booking.getStartDate() != null) {
+            long days = booking.getEndDate().toEpochDay() - booking.getStartDate().toEpochDay();
+            double durationBonus = Math.min(2.0, days / 7.0); // Max 2 points bonus
+            baseRating += durationBonus;
+        }
         
-        // Adjust based on repeat bookings (not implemented here)
+        // Additional factors could be added here:
+        // - Repeat bookings
+        // - Vehicle category preferences
+        // - Seasonal factors
+        // - User ratings if available
         
-        return Math.min(5.0, baseRating + durationBonus);
+        return Math.min(5.0, Math.max(1.0, baseRating)); // Ensure rating is between 1-5
+    }
+    
+    /**
+     * Alternative method using matrix operations for prediction
+     */
+    public RealMatrix predictAllRatings(RealMatrix userFeatures, RealMatrix itemFeatures) {
+        return userFeatures.multiply(itemFeatures.transpose());
+    }
+    
+    /**
+     * Get top N recommendations for a user
+     */
+    public List<Long> getTopRecommendations(Map<Long, Double> predictions, int topN) {
+        return predictions.entrySet().stream()
+                .sorted(Map.Entry.<Long, Double>comparingByValue().reversed())
+                .limit(topN)
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
     }
 }
