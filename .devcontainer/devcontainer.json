@@ -1,0 +1,25 @@
+{
+  "name": "Online Car Rental DevContainer",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "app",
+  "workspaceFolder": "/workspace",
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "vscjava.vscode-java-pack",
+        "vscjava.vscode-maven",
+        "vscjava.vscode-spring-initializr",
+        "redhat.java",
+        "donjayamanne.javadebugger",
+        "ms-azuretools.vscode-docker",
+        "github.copilot"
+      ]
+    }
+  },
+
+  "postCreateCommand": "mvn -q clean install -DskipTests",
+  "updateContentCommand": "mvn -q install -DskipTests",
+
+  "remoteUser": "vscode"
+}
