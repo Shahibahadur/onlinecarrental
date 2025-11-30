@@ -1,4 +1,4 @@
-﻿package com.driverental.onlinecarrental.algorithm.recommendation;
+package com.driverental.onlinecarrental.algorithm.recommendation;
 
 import com.driverental.onlinecarrental.model.entity.Booking;
 import com.driverental.onlinecarrental.model.entity.User;

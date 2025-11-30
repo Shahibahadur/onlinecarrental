@@ -1,4 +1,4 @@
-﻿package com.driverental.onlinecarrental.config;
+package com.driverental.onlinecarrental.config;
 
 import com.driverental.onlinecarrental.security.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;

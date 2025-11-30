@@ -1,4 +1,4 @@
-﻿package com.driverental.onlinecarrental.security;
+package com.driverental.onlinecarrental.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

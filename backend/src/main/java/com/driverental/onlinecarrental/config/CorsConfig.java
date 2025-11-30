@@ -1,4 +1,4 @@
-﻿package com.driverental.onlinecarrental.config;
+package com.driverental.onlinecarrental.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

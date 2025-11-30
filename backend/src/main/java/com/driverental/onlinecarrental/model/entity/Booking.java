@@ -1,6 +1,6 @@
-﻿package com.driverental.onlinecarrental.model.entity;
+package com.driverental.onlinecarrental.model.entity;
 
-import com.driverental.onlinecarrental.model.enum.BookingStatus;
+import com.driverental.onlinecarrental.model.enums.BookingStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;

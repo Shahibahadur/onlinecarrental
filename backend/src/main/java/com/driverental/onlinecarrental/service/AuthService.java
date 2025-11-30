@@ -1,4 +1,4 @@
-﻿package com.driverental.onlinecarrental.service;
+package com.driverental.onlinecarrental.service;
 
 import com.driverental.onlinecarrental.model.dto.request.LoginRequest;
 import com.driverental.onlinecarrental.model.dto.request.RegisterRequest;

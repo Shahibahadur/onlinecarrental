@@ -1,4 +1,4 @@
-﻿package com.driverental.onlinecarrental.service.impl;
+package com.driverental.onlinecarrental.service.impl;
 
 import com.driverental.onlinecarrental.algorithm.aho_corasick.AhoCorasick;
 import com.driverental.onlinecarrental.algorithm.aho_corasick.SearchResult;

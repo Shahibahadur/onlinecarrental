@@ -1,4 +1,4 @@
-﻿package com.driverental.onlinecarrental.repository;
+package com.driverental.onlinecarrental.repository;
 
 import com.driverental.onlinecarrental.model.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;

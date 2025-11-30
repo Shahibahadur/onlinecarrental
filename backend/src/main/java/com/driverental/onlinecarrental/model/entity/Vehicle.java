@@ -1,7 +1,7 @@
-﻿package com.driverental.onlinecarrental.model.entity;
+package com.driverental.onlinecarrental.model.entity;
 
-import com.driverental.onlinecarrental.model.enum.FuelType;
-import com.driverental.onlinecarrental.model.enum.VehicleType;
+import com.driverental.onlinecarrental.model.enums.FuelType;
+import com.driverental.onlinecarrental.model.enums.VehicleType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;

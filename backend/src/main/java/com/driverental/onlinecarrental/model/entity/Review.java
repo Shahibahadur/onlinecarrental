@@ -1,4 +1,4 @@
-﻿package com.driverental.onlinecarrental.model.entity;
+package com.driverental.onlinecarrental.model.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

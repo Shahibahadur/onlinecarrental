@@ -1,4 +1,4 @@
-﻿package com.driverental.onlinecarrental.controller;
+package com.driverental.onlinecarrental.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

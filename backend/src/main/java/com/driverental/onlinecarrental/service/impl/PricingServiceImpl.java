@@ -1,4 +1,4 @@
-﻿package com.driverental.onlinecarrental.util;
+package com.driverental.onlinecarrental.util;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;

@@ -1,4 +1,4 @@
-﻿package com.driverental.onlinecarrental.algorithm.pricing;
+package com.driverental.onlinecarrental.algorithm.pricing;
 
 import org.springframework.stereotype.Component;
 

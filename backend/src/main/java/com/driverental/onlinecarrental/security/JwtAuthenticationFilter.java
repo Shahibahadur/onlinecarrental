@@ -1,4 +1,4 @@
-﻿package com.driverental.onlinecarrental.security;
+package com.driverental.onlinecarrental.security;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

@@ -1,4 +1,4 @@
-﻿package com.driverental.onlinecarrental.algorithm.recommendation;
+package com.driverental.onlinecarrental.algorithm.recommendation;
 
 public class ItemSimilarity {
 }

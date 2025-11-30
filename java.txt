@@ -1,0 +1,4 @@
+export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
+export PATH=$JAVA_HOME/bin:$PATH
+Find and remove BOM from all Java files using sed 
+find . -name "*.java" -type f -exec sed -i '1s/^\xEF\xBB\xBF//' {} \;

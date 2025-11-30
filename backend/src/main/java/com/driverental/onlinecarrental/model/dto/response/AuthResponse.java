@@ -1,6 +1,6 @@
-﻿package com.driverental.onlinecarrental.model.dto.response;
+package com.driverental.onlinecarrental.model.dto.response;
 
-import com.driverental.onlinecarrental.model.enum.UserRole;
+import com.driverental.onlinecarrental.model.enums.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

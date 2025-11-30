@@ -1,4 +1,4 @@
-﻿package com.driverental.onlinecarrental.algorithm.pricing;
+package com.driverental.onlinecarrental.algorithm.pricing;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

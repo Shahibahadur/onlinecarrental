@@ -1,10 +1,10 @@
-﻿package com.driverental.onlinecarrental.service.impl;
+package com.driverental.onlinecarrental.service.impl;
 
 import com.driverental.onlinecarrental.model.dto.request.LoginRequest;
 import com.driverental.onlinecarrental.model.dto.request.RegisterRequest;
 import com.driverental.onlinecarrental.model.dto.response.AuthResponse;
 import com.driverental.onlinecarrental.model.entity.User;
-import com.driverental.onlinecarrental.model.enum.UserRole;
+import com.driverental.onlinecarrental.model.enums.UserRole;
 import com.driverental.onlinecarrental.repository.UserRepository;
 import com.driverental.onlinecarrental.security.JwtService;
 import com.driverental.onlinecarrental.service.AuthService;

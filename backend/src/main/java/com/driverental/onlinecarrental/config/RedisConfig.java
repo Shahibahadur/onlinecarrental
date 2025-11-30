@@ -1,4 +1,4 @@
-﻿package com.driverental.onlinecarrental.config;
+package com.driverental.onlinecarrental.config;
 
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;

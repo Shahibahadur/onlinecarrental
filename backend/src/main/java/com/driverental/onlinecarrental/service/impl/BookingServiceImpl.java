@@ -1,11 +1,11 @@
-﻿package com.driverental.onlinecarrental.service.impl;
+package com.driverental.onlinecarrental.service.impl;
 
 import com.driverental.onlinecarrental.model.dto.request.BookingRequest;
 import com.driverental.onlinecarrental.model.dto.response.BookingResponse;
 import com.driverental.onlinecarrental.model.entity.Booking;
 import com.driverental.onlinecarrental.model.entity.User;
 import com.driverental.onlinecarrental.model.entity.Vehicle;
-import com.driverental.onlinecarrental.model.enum.BookingStatus;
+import com.driverental.onlinecarrental.model.enums.BookingStatus;
 import com.driverental.onlinecarrental.model.exception.BusinessException;
 import com.driverental.onlinecarrental.model.exception.ResourceNotFoundException;
 import com.driverental.onlinecarrental.repository.BookingRepository;

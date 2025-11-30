@@ -1,4 +1,4 @@
-﻿package com.driverental.onlinecarrental.model.exception;
+package com.driverental.onlinecarrental.model.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

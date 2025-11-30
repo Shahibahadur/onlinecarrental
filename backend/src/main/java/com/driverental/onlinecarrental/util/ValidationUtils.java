@@ -1,4 +1,4 @@
-﻿package com.driverental.onlinecarrental.util;
+package com.driverental.onlinecarrental.util;
 
 import java.time.LocalDate;
 import java.util.regex.Pattern;

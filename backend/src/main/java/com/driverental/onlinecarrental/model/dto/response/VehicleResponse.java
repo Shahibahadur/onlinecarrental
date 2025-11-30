@@ -1,7 +1,7 @@
-﻿package com.driverental.onlinecarrental.model.dto.response;
+package com.driverental.onlinecarrental.model.dto.response;
 
-import com.driverental.onlinecarrental.model.enum.FuelType;
-import com.driverental.onlinecarrental.model.enum.VehicleType;
+import com.driverental.onlinecarrental.model.enums.FuelType;
+import com.driverental.onlinecarrental.model.enums.VehicleType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

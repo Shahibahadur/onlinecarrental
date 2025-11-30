@@ -1,4 +1,4 @@
-﻿package com.driverental.onlinecarrental.repository;
+package com.driverental.onlinecarrental.repository;
 
 import com.driverental.onlinecarrental.model.entity.Review;
 import org.springframework.data.domain.Page;

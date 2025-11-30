@@ -1,7 +1,7 @@
-﻿package com.driverental.onlinecarrental.repository;
+package com.driverental.onlinecarrental.repository;
 
 import com.driverental.onlinecarrental.model.entity.Booking;
-import com.driverental.onlinecarrental.model.enum.BookingStatus;
+import com.driverental.onlinecarrental.model.enums.BookingStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,4 +1,4 @@
-﻿package com.driverental.onlinecarrental.algorithm.aho_corasick;
+package com.driverental.onlinecarrental.algorithm.aho_corasick;
 
 import lombok.Data;
 import java.util.HashMap;

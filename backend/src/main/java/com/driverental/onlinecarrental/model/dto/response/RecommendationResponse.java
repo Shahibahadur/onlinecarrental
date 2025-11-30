@@ -1,4 +1,4 @@
-﻿package com.driverental.onlinecarrental.model.dto.response;
+package com.driverental.onlinecarrental.model.dto.response;
 
 import com.driverental.onlinecarrental.model.entity.Vehicle;
 import lombok.AllArgsConstructor;

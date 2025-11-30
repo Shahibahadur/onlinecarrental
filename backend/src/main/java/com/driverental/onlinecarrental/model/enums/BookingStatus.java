@@ -1,4 +1,4 @@
-﻿package com.driverental.onlinecarrental.model.enum;
+package com.driverental.onlinecarrental.model.enums;
 
 public enum BookingStatus {
     PENDING,

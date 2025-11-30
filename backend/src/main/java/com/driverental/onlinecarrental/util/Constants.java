@@ -1,4 +1,4 @@
-﻿package com.driverental.onlinecarrental.util;
+package com.driverental.onlinecarrental.util;
 
 public class Constants {
     

@@ -1,4 +1,4 @@
-﻿package com.driverental.onlinecarrental.security;
+package com.driverental.onlinecarrental.security;
 
 import com.driverental.onlinecarrental.model.entity.User;
 import com.driverental.onlinecarrental.repository.UserRepository;

@@ -1,4 +1,4 @@
-﻿package com.driverental.onlinecarrental.service.impl;
+package com.driverental.onlinecarrental.service.impl;
 
 import com.driverental.onlinecarrental.algorithm.recommendation.CollaborativeFiltering;
 import com.driverental.onlinecarrental.algorithm.recommendation.HybridRecommender;
@@ -7,7 +7,7 @@ import com.driverental.onlinecarrental.model.dto.response.RecommendationResponse
 import com.driverental.onlinecarrental.model.entity.Booking;
 import com.driverental.onlinecarrental.model.entity.User;
 import com.driverental.onlinecarrental.model.entity.Vehicle;
-import com.driverental.onlinecarrental.model.enum.VehicleType;
+import com.driverental.onlinecarrental.model.enums.VehicleType;
 import com.driverental.onlinecarrental.repository.BookingRepository;
 import com.driverental.onlinecarrental.repository.UserRepository;
 import com.driverental.onlinecarrental.repository.VehicleRepository;
