@@ -4,8 +4,8 @@ import com.driverental.onlinecarrental.model.entity.User;
 import com.driverental.onlinecarrental.model.entity.Booking;
 import com.driverental.onlinecarrental.model.entity.Review;
 import com.driverental.onlinecarrental.model.entity.Vehicle;
-import com.driverental.onlinecarrental.model.enum.VehicleType;
-import com.driverental.onlinecarrental.model.enum.FuelType;
+import com.driverental.onlinecarrental.model.enums.VehicleType;
+import com.driverental.onlinecarrental.model.enums.FuelType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
