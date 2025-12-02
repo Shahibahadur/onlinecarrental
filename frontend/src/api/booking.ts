@@ -1,5 +1,5 @@
 import axiosInstance from './axios';
-import { Booking, BookingRequest } from '../types/api';
+import type { Booking, BookingRequest } from '../types/api';
 
 export const bookingAPI = {
   getAll: () =>

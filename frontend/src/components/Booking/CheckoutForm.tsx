@@ -9,7 +9,7 @@ interface CheckoutFormProps {
   isLoading?: boolean;
 }
 
-const CheckoutForm: React.FC<CheckoutFormProps> = ({ booking, totalPrice, onSubmit, isLoading = false }) => {
+const CheckoutForm: React.FC<CheckoutFormProps> = ({ totalPrice, onSubmit, isLoading = false }) => {
   const [cardNumber, setCardNumber] = useState('');
   const [expiryDate, setExpiryDate] = useState('');
   const [cvv, setCvv] = useState('');

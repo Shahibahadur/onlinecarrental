@@ -5,14 +5,7 @@ import CarList from '../../components/Car/CarList';
 import type { Car } from '../../types/car';
 
 const SearchResults: React.FC = () => {
-  const [cars, setCars] = useState<Car[]>([]);
-  const [filters, setFilters] = useState({
-    carType: '',
-    minPrice: 0,
-    maxPrice: 15000,
-    transmission: '',
-    fuelType: '',
-  });
+  const [cars] = useState<Car[]>([]);
 
   const handleSearch = (query: string) => {
     console.log('Search:', query);
@@ -37,7 +30,7 @@ const SearchResults: React.FC = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
         <aside className="lg:col-span-1">
-          <SearchFilters filters={filters} onFilterChange={setFilters} />
+          <SearchFilters />
         </aside>
 
         <main className="lg:col-span-3">

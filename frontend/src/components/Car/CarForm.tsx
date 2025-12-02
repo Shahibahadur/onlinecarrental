@@ -1,4 +1,5 @@
-import React, { useForm } from 'react-hook-form';
+import React from 'react';
+import { useForm } from 'react-hook-form';
 import type { Car } from '../../types/car';
 import { CAR_TYPES, TRANSMISSION_TYPES, FUEL_TYPES } from '../../utils/constants';
 
@@ -9,7 +10,7 @@ interface CarFormProps {
 }
 
 const CarForm: React.FC<CarFormProps> = ({ car, onSubmit, isLoading = false }) => {
-  const { register, handleSubmit, formState: { errors } } = useForm({
+  const { register, handleSubmit } = useForm({
     defaultValues: car,
   });
 

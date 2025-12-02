@@ -1,5 +1,3 @@
-import { User } from './auth';
-
 export interface Booking {
   id: string;
   carId: string;

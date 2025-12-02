@@ -1,5 +1,5 @@
 import axiosInstance from './axios';
-import { Car, CarFilters } from '../types/car';
+import type { Car, CarFilters } from '../types/car';
 
 export const carsAPI = {
   getAll: (filters?: CarFilters) =>

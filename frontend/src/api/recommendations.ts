@@ -1,5 +1,5 @@
 import axiosInstance from './axios';
-import { Car } from '../types/car';
+import type { Car } from '../types/car';
 
 export const recommendationsAPI = {
   getRecommendations: (limit: number = 5) =>

@@ -1,5 +1,5 @@
 import axiosInstance from './axios';
-import { LoginRequest, RegisterRequest, AuthResponse } from '../types/auth';
+import type { LoginRequest, RegisterRequest, AuthResponse } from '../types/auth';
 
 export const authAPI = {
   login: (data: LoginRequest) =>
