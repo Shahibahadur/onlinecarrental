@@ -1,0 +1,29 @@
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import type { SearchFilters } from '../types/api';
+
+const initialState: SearchFilters = {
+  location: '',
+  pickupLocation: '',
+  dropoffLocation: '',
+  startDate: '',
+  endDate: '',
+  carType: '',
+  minPrice: 0,
+  maxPrice: 15000,
+  transmission: '',
+  fuelType: '',
+};
+
+const searchSlice = createSlice({
+  name: 'search',
+  initialState,
+  reducers: {
+    setFilters: (state, action: PayloadAction<Partial<SearchFilters>>) => {
+      return { ...state, ...action.payload };
+    },
+    clearFilters: () => initialState,
+  },
+});
+
+export const { setFilters, clearFilters } = searchSlice.actions;
+export default searchSlice.reducer;
