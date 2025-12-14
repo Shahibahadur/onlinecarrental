@@ -2,10 +2,10 @@ package com.driverental.onlinecarrental.controller;
 
 import com.driverental.onlinecarrental.model.dto.response.BookingResponse;
 import com.driverental.onlinecarrental.model.dto.response.UserResponse;
-import com.driverental.onlinecarrental.model.dto.response.VehicleResponse;
+import com.driverental.onlinecarrental.model.dto.response.CarResponse;
 import com.driverental.onlinecarrental.service.BookingService;
 import com.driverental.onlinecarrental.service.UserService;
-import com.driverental.onlinecarrental.service.VehicleService;
+import com.driverental.onlinecarrental.service.CarService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +26,7 @@ import java.util.Map;
 public class AdminController {
 
     private final UserService userService;
-    private final VehicleService vehicleService;
+    private final CarService carService;
     private final BookingService bookingService;
 
     @GetMapping("/users")
@@ -38,13 +38,13 @@ public class AdminController {
         return ResponseEntity.ok(userService.getAllUsers(pageable));
     }
 
-    @GetMapping("/vehicles")
-    @Operation(summary = "Get all vehicles with admin details")
-    public ResponseEntity<Page<VehicleResponse>> getAllVehiclesAdmin(
+    @GetMapping("/cars")
+    @Operation(summary = "Get all cars with admin details")
+    public ResponseEntity<Page<CarResponse>> getAllCarsAdmin(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         Pageable pageable = PageRequest.of(page, size);
-        return ResponseEntity.ok(vehicleService.getAllVehicles(pageable));
+        return ResponseEntity.ok(carService.getAllCars(pageable));
     }
 
     @GetMapping("/bookings")
@@ -61,21 +61,20 @@ public class AdminController {
     public ResponseEntity<Map<String, Object>> getDashboardStats() {
         // This would typically call a dedicated service for dashboard statistics
         Map<String, Object> stats = Map.of(
-            "totalUsers", 150,
-            "totalVehicles", 45,
-            "totalBookings", 320,
-            "revenue", 45000.00,
-            "activeBookings", 12
-        );
+                "totalUsers", 150,
+                "totalCars", 45,
+                "totalBookings", 320,
+                "revenue", 45000.00,
+                "activeBookings", 12);
         return ResponseEntity.ok(stats);
     }
 
-    @PutMapping("/vehicles/{id}/availability")
-    @Operation(summary = "Update vehicle availability (Admin only)")
-    public ResponseEntity<VehicleResponse> updateVehicleAvailability(
+    @PutMapping("/cars/{id}/availability")
+    @Operation(summary = "Update car availability (Admin only)")
+    public ResponseEntity<CarResponse> updateCarAvailability(
             @PathVariable Long id,
             @RequestParam Boolean available) {
-        return ResponseEntity.ok(vehicleService.updateAvailability(id, available));
+        return ResponseEntity.ok(carService.updateAvailability(id, available));
     }
 
     @PutMapping("/bookings/{id}/status")

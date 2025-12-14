@@ -63,13 +63,13 @@ public class BookingController {
         return ResponseEntity.ok(bookingService.confirmBooking(bookingId));
     }
 
-    @GetMapping("/vehicle/{vehicleId}/availability")
-    @Operation(summary = "Check vehicle availability for dates")
+    @GetMapping("/car/{carId}/availability")
+    @Operation(summary = "Check car availability for dates")
     public ResponseEntity<Boolean> checkAvailability(
-            @PathVariable Long vehicleId,
+            @PathVariable Long carId,
             @RequestParam String startDate,
             @RequestParam String endDate) {
-        return ResponseEntity.ok(bookingService.isVehicleAvailable(vehicleId, startDate, endDate));
+        return ResponseEntity.ok(bookingService.isCarAvailable(carId, startDate, endDate));
     }
 
     private Long extractUserIdFromAuth(Authentication authentication) {

@@ -1,4 +1,4 @@
-package com.driverental.online_car_rental;
+package com.driverental.onlinecarrental;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

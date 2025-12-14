@@ -1,7 +1,7 @@
 package com.driverental.onlinecarrental.model.dto.response;
 
 import java.util.Map;
-import com.driverental.onlinecarrental.model.entity.Vehicle;
+import com.driverental.onlinecarrental.model.entity.Car;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 public class RecommendationResponse {
     private Long userId;
-    private List<Vehicle> recommendations;
+    private List<Car> recommendations;
     private Integer personalizedCount;
     private Integer popularCount;
     private Integer trendingCount;
@@ -24,16 +24,16 @@ public class RecommendationResponse {
     private String recommendationStrategy;
     private LocalDateTime generatedAt;
     private Map<String, Object> metadata;
-    
+
     // Helper methods
     public Integer getTotalRecommendations() {
         return recommendations != null ? recommendations.size() : 0;
     }
-    
+
     public String getSummary() {
         return String.format("Generated %d recommendations using hybrid approach " +
-                           "(%d personalized, %d popular, %d trending, %d diverse)",
-                           getTotalRecommendations(), personalizedCount, popularCount, 
-                           trendingCount, diverseCount);
+                "(%d personalized, %d popular, %d trending, %d diverse)",
+                getTotalRecommendations(), personalizedCount, popularCount,
+                trendingCount, diverseCount);
     }
 }

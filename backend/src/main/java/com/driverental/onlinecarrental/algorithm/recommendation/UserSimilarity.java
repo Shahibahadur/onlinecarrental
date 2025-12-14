@@ -3,10 +3,11 @@ package com.driverental.onlinecarrental.algorithm.recommendation;
 import com.driverental.onlinecarrental.model.entity.User;
 import com.driverental.onlinecarrental.model.entity.Booking;
 import com.driverental.onlinecarrental.model.entity.Review;
-import com.driverental.onlinecarrental.model.entity.Vehicle;
-import com.driverental.onlinecarrental.model.enums.VehicleType;
-import com.driverental.onlinecarrental.model.enums.FuelType;
+import com.driverental.onlinecarrental.model.entity.Car;
+import com.driverental.onlinecarrental.model.enums.CarCategory;
 import lombok.extern.slf4j.Slf4j;
+import lombok.Data;
+import lombok.Builder;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -17,7 +18,7 @@ import java.util.stream.Collectors;
 /**
  * Calculates similarity between users based on various factors:
  * - Booking history and preferences
- * - Vehicle ratings and reviews
+ * - Car ratings and reviews
  * - Demographic information
  * - Behavioral patterns
  */
@@ -49,15 +50,15 @@ public class UserSimilarity {
         double demographicSimilarity = calculateDemographicSimilarity(user1, user2);
         double behavioralSimilarity = calculateBehavioralSimilarity(user1, user2);
 
-        double overallSimilarity = 
-            (BOOKING_SIMILARITY_WEIGHT * bookingSimilarity) +
-            (RATING_SIMILARITY_WEIGHT * ratingSimilarity) +
-            (DEMOGRAPHIC_SIMILARITY_WEIGHT * demographicSimilarity) +
-            (BEHAVIORAL_SIMILARITY_WEIGHT * behavioralSimilarity);
+        double overallSimilarity = (BOOKING_SIMILARITY_WEIGHT * bookingSimilarity) +
+                (RATING_SIMILARITY_WEIGHT * ratingSimilarity) +
+                (DEMOGRAPHIC_SIMILARITY_WEIGHT * demographicSimilarity) +
+                (BEHAVIORAL_SIMILARITY_WEIGHT * behavioralSimilarity);
 
-        log.debug("User similarity calculated: {} vs {} = {} (booking: {}, rating: {}, demographic: {}, behavioral: {})",
-                 user1.getId(), user2.getId(), overallSimilarity, bookingSimilarity, 
-                 ratingSimilarity, demographicSimilarity, behavioralSimilarity);
+        log.debug(
+                "User similarity calculated: {} vs {} = {} (booking: {}, rating: {}, demographic: {}, behavioral: {})",
+                user1.getId(), user2.getId(), overallSimilarity, bookingSimilarity,
+                ratingSimilarity, demographicSimilarity, behavioralSimilarity);
 
         return overallSimilarity;
     }
@@ -76,15 +77,15 @@ public class UserSimilarity {
             return 0.0; // No similarity if one has no bookings
         }
 
-        // Extract vehicle types from bookings
-        Set<VehicleType> types1 = bookings1.stream()
-                .map(booking -> booking.getVehicle().getType())
+        // Extract car types from bookings
+        Set<CarCategory> types1 = bookings1.stream()
+                .map(booking -> booking.getCar().getType())
                 .collect(Collectors.toSet());
-        Set<VehicleType> types2 = bookings2.stream()
-                .map(booking -> booking.getVehicle().getType())
+        Set<CarCategory> types2 = bookings2.stream()
+                .map(booking -> booking.getCar().getType())
                 .collect(Collectors.toSet());
 
-        // Calculate Jaccard similarity for vehicle types
+        // Calculate Jaccard similarity for car types
         double typeSimilarity = calculateJaccardSimilarity(types1, types2);
 
         // Calculate similarity based on booking frequency and patterns
@@ -96,8 +97,8 @@ public class UserSimilarity {
         // Calculate duration similarity
         double durationSimilarity = calculateDurationSimilarity(bookings1, bookings2);
 
-        return (typeSimilarity * 0.4) + (patternSimilarity * 0.3) + 
-               (priceSimilarity * 0.2) + (durationSimilarity * 0.1);
+        return (typeSimilarity * 0.4) + (patternSimilarity * 0.3) +
+                (priceSimilarity * 0.2) + (durationSimilarity * 0.1);
     }
 
     /**
@@ -114,27 +115,25 @@ public class UserSimilarity {
             return 0.0;
         }
 
-        // Find common vehicles that both users have reviewed
+        // Find common cars that both users have reviewed
         Map<Long, Integer> ratings1 = reviews1.stream()
                 .collect(Collectors.toMap(
-                    review -> review.getVehicle().getId(),
-                    Review::getRating
-                ));
+                        review -> review.getCar().getId(),
+                        Review::getRating));
         Map<Long, Integer> ratings2 = reviews2.stream()
                 .collect(Collectors.toMap(
-                    review -> review.getVehicle().getId(),
-                    Review::getRating
-                ));
+                        review -> review.getCar().getId(),
+                        Review::getRating));
 
-        Set<Long> commonVehicles = new HashSet<>(ratings1.keySet());
-        commonVehicles.retainAll(ratings2.keySet());
+        Set<Long> commonCars = new HashSet<>(ratings1.keySet());
+        commonCars.retainAll(ratings2.keySet());
 
-        if (commonVehicles.isEmpty()) {
+        if (commonCars.isEmpty()) {
             return 0.0;
         }
 
         // Calculate Pearson correlation for common ratings
-        double correlation = calculatePearsonCorrelation(ratings1, ratings2, commonVehicles);
+        double correlation = calculatePearsonCorrelation(ratings1, ratings2, commonCars);
 
         // Normalize correlation to 0-1 range
         return Math.max(0.0, (correlation + 1) / 2);
@@ -151,9 +150,8 @@ public class UserSimilarity {
         // For now, we'll use registration date as a proxy
         if (user1.getCreatedAt() != null && user2.getCreatedAt() != null) {
             long daysDiff = Math.abs(ChronoUnit.DAYS.between(
-                user1.getCreatedAt().toLocalDate(), 
-                user2.getCreatedAt().toLocalDate()
-            ));
+                    user1.getCreatedAt().toLocalDate(),
+                    user2.getCreatedAt().toLocalDate()));
             double timeSimilarity = Math.max(0, 1.0 - (daysDiff / 365.0)); // Normalize to 1 year
             similarity += timeSimilarity;
             factors++;
@@ -161,11 +159,11 @@ public class UserSimilarity {
 
         // Location similarity (simplified - in real implementation, use geolocation)
         if (user1.getBookings() != null && !user1.getBookings().isEmpty() &&
-            user2.getBookings() != null && !user2.getBookings().isEmpty()) {
-            
+                user2.getBookings() != null && !user2.getBookings().isEmpty()) {
+
             String commonLocation1 = findMostCommonLocation(user1);
             String commonLocation2 = findMostCommonLocation(user2);
-            
+
             if (commonLocation1 != null && commonLocation2 != null) {
                 double locationSimilarity = commonLocation1.equalsIgnoreCase(commonLocation2) ? 1.0 : 0.0;
                 similarity += locationSimilarity;
@@ -212,9 +210,10 @@ public class UserSimilarity {
     }
 
     /**
-     * Find users with similar vehicle preferences
+     * Find users with similar car preferences
      */
-    public List<UserSimilarityScore> findUsersWithSimilarVehiclePreferences(User targetUser, List<User> allUsers, int topN) {
+    public List<UserSimilarityScore> findUsersWithSimilarCarPreferences(User targetUser, List<User> allUsers,
+            int topN) {
         return allUsers.stream()
                 .filter(user -> !user.getId().equals(targetUser.getId()))
                 .map(user -> new UserSimilarityScore(user, calculateBookingSimilarity(targetUser, user)))
@@ -226,7 +225,8 @@ public class UserSimilarity {
     /**
      * Find users with similar rating patterns
      */
-    public List<UserSimilarityScore> findUsersWithSimilarRatingPatterns(User targetUser, List<User> allUsers, int topN) {
+    public List<UserSimilarityScore> findUsersWithSimilarRatingPatterns(User targetUser, List<User> allUsers,
+            int topN) {
         return allUsers.stream()
                 .filter(user -> !user.getId().equals(targetUser.getId()))
                 .map(user -> new UserSimilarityScore(user, calculateRatingSimilarity(targetUser, user)))
@@ -319,7 +319,8 @@ public class UserSimilarity {
         return Math.max(0.0, durationRatio);
     }
 
-    private double calculatePearsonCorrelation(Map<Long, Integer> ratings1, Map<Long, Integer> ratings2, Set<Long> commonItems) {
+    private double calculatePearsonCorrelation(Map<Long, Integer> ratings1, Map<Long, Integer> ratings2,
+            Set<Long> commonItems) {
         if (commonItems.size() < 2) {
             return 0.0;
         }
@@ -353,9 +354,8 @@ public class UserSimilarity {
     private String findMostCommonLocation(User user) {
         return user.getBookings().stream()
                 .collect(Collectors.groupingBy(
-                    Booking::getPickupLocation,
-                    Collectors.counting()
-                ))
+                        Booking::getPickupLocation,
+                        Collectors.counting()))
                 .entrySet().stream()
                 .max(Map.Entry.comparingByValue())
                 .map(Map.Entry::getKey)
@@ -433,19 +433,17 @@ public class UserSimilarity {
             return 0;
         }
         LocalDate firstBooking = bookings.stream()
-                .map(Booking::getCreatedAt)
+                .map(booking -> booking.getCreatedAt().toLocalDate())
                 .min(LocalDate::compareTo)
-                .get()
-                .toLocalDate();
+                .get();
         return ChronoUnit.DAYS.between(firstBooking, LocalDate.now());
     }
 
     private Map<Integer, Long> groupBookingsByMonth(List<Booking> bookings) {
         return bookings.stream()
                 .collect(Collectors.groupingBy(
-                    booking -> booking.getStartDate().getMonthValue(),
-                    Collectors.counting()
-                ));
+                        booking -> booking.getStartDate().getMonthValue(),
+                        Collectors.counting()));
     }
 
     private double calculateCosineSimilarity(Map<Integer, Long> vec1, Map<Integer, Long> vec2) {
@@ -476,9 +474,8 @@ public class UserSimilarity {
     private double calculateAverageAdvanceBooking(List<Booking> bookings) {
         return bookings.stream()
                 .mapToLong(booking -> ChronoUnit.DAYS.between(
-                    booking.getCreatedAt().toLocalDate(), 
-                    booking.getStartDate()
-                ))
+                        booking.getCreatedAt().toLocalDate(),
+                        booking.getStartDate()))
                 .average()
                 .orElse(0.0);
     }
@@ -523,8 +520,8 @@ public class UserSimilarity {
 
         @Override
         public String toString() {
-            return String.format("UserSimilarityScore{user=%d, similarity=%.3f}", 
-                               user.getId(), similarityScore);
+            return String.format("UserSimilarityScore{user=%d, similarity=%.3f}",
+                    user.getId(), similarityScore);
         }
     }
 
@@ -536,19 +533,19 @@ public class UserSimilarity {
     public static class SimilarityWeights {
         @Builder.Default
         private double bookingSimilarityWeight = 0.4;
-        
+
         @Builder.Default
         private double ratingSimilarityWeight = 0.3;
-        
+
         @Builder.Default
         private double demographicSimilarityWeight = 0.2;
-        
+
         @Builder.Default
         private double behavioralSimilarityWeight = 0.1;
 
         public void validate() {
-            double total = bookingSimilarityWeight + ratingSimilarityWeight + 
-                          demographicSimilarityWeight + behavioralSimilarityWeight;
+            double total = bookingSimilarityWeight + ratingSimilarityWeight +
+                    demographicSimilarityWeight + behavioralSimilarityWeight;
             if (Math.abs(total - 1.0) > 0.001) {
                 throw new IllegalArgumentException("Similarity weights must sum to 1.0");
             }

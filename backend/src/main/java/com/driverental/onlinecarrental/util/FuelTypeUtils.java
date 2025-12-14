@@ -38,12 +38,12 @@ public class FuelTypeUtils {
             case PLUGIN_HYBRID -> 0.08;
             case CNG -> 0.18;
             case LPG -> 0.20;
-            case HYDROGEN -> 0.0;  // Only water vapor
+            case HYDROGEN -> 0.0; // Only water vapor
             case BIODIESEL -> 0.15;
             case ETHANOL -> 0.17;
             case SYNTHETIC -> 0.23;
         };
-        
+
         return emissionsPerKm * distance;
     }
 
@@ -71,15 +71,12 @@ public class FuelTypeUtils {
     public static List<FuelType> getFuelTypesForUseCase(String useCase) {
         return switch (useCase.toLowerCase()) {
             case "city" -> Arrays.asList(
-                FuelType.ELECTRIC, FuelType.HYBRID, FuelType.PETROL, FuelType.CNG
-            );
+                    FuelType.ELECTRIC, FuelType.HYBRID, FuelType.PETROL, FuelType.CNG);
             case "highway" -> Arrays.asList(
-                FuelType.DIESEL, FuelType.PETROL, FuelType.HYBRID, FuelType.PLUGIN_HYBRID
-            );
+                    FuelType.DIESEL, FuelType.PETROL, FuelType.HYBRID, FuelType.PLUGIN_HYBRID);
             case "eco" -> FuelType.getEcoFriendlyFuelTypes();
             case "performance" -> Arrays.asList(
-                FuelType.PETROL, FuelType.DIESEL, FuelType.ELECTRIC, FuelType.SYNTHETIC
-            );
+                    FuelType.PETROL, FuelType.DIESEL, FuelType.ELECTRIC, FuelType.SYNTHETIC);
             case "long_distance" -> FuelType.getLongDistanceFuelTypes();
             case "low_cost" -> FuelType.getLowCostFuelTypes();
             default -> Arrays.asList(FuelType.values());
@@ -89,8 +86,8 @@ public class FuelTypeUtils {
     /**
      * Calculate total operating cost including maintenance
      */
-    public static double calculateTotalOperatingCost(FuelType fuelType, double annualDistance, 
-                                                   double fuelPrice, double baseMaintenanceCost) {
+    public static double calculateTotalOperatingCost(FuelType fuelType, double annualDistance,
+            double fuelPrice, double baseMaintenanceCost) {
         double fuelCost = calculateFuelCost(fuelType, annualDistance, fuelPrice);
         double maintenanceCost = baseMaintenanceCost * fuelType.getMaintenanceCostFactor();
         return fuelCost + maintenanceCost;
@@ -100,51 +97,49 @@ public class FuelTypeUtils {
      * Get fuel type recommendations based on user preferences
      */
     public static Map<FuelType, Double> getFuelTypeRecommendations(
-            boolean prioritizeCost, 
-            boolean prioritizeEnvironment, 
-            boolean longDistance, 
+            boolean prioritizeCost,
+            boolean prioritizeEnvironment,
+            boolean longDistance,
             boolean cityDriving) {
-        
+
         return Arrays.stream(FuelType.values())
                 .collect(Collectors.toMap(
-                    fuelType -> fuelType,
-                    fuelType -> calculateRecommendationScore(fuelType, prioritizeCost, 
-                                                           prioritizeEnvironment, longDistance, cityDriving)
-                ))
+                        fuelType -> fuelType,
+                        fuelType -> calculateRecommendationScore(fuelType, prioritizeCost,
+                                prioritizeEnvironment, longDistance, cityDriving)))
                 .entrySet().stream()
                 .filter(entry -> entry.getValue() > 0.5)
                 .sorted(Map.Entry.<FuelType, Double>comparingByValue().reversed())
                 .collect(Collectors.toMap(
-                    Map.Entry::getKey,
-                    Map.Entry::getValue,
-                    (e1, e2) -> e1,
-                    java.util.LinkedHashMap::new
-                ));
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (e1, e2) -> e1,
+                        java.util.LinkedHashMap::new));
     }
 
-    private static double calculateRecommendationScore(FuelType fuelType, boolean prioritizeCost, 
-                                                     boolean prioritizeEnvironment, 
-                                                     boolean longDistance, boolean cityDriving) {
+    private static double calculateRecommendationScore(FuelType fuelType, boolean prioritizeCost,
+            boolean prioritizeEnvironment,
+            boolean longDistance, boolean cityDriving) {
         double score = 0.0;
-        
+
         if (prioritizeCost) {
             score += (1.0 - fuelType.getCostFactor()) * 0.4;
         }
-        
+
         if (prioritizeEnvironment) {
             score += (1.0 - fuelType.getEnvironmentalImpact()) * 0.4;
         }
-        
+
         if (longDistance) {
             score += (fuelType.getAvailabilityScore() / 10.0) * 0.2;
         }
-        
+
         if (cityDriving) {
             if (fuelType.isElectricOrHybrid()) {
                 score += 0.2;
             }
         }
-        
+
         return Math.min(score, 1.0);
     }
 
@@ -152,19 +147,18 @@ public class FuelTypeUtils {
      * Get fuel type compatibility matrix
      */
     public static Map<FuelType, List<FuelType>> getCompatibleFuelTypes() {
-        return Map.of(
-            FuelType.PETROL, Arrays.asList(FuelType.PETROL, FuelType.ETHANOL),
-            FuelType.DIESEL, Arrays.asList(FuelType.DIESEL, FuelType.BIODIESEL),
-            FuelType.ELECTRIC, List.of(FuelType.ELECTRIC),
-            FuelType.HYBRID, Arrays.asList(FuelType.PETROL, FuelType.ELECTRIC),
-            FuelType.PLUGIN_HYBRID, Arrays.asList(FuelType.PETROL, FuelType.ELECTRIC),
-            FuelType.CNG, List.of(FuelType.CNG),
-            FuelType.LPG, List.of(FuelType.LPG),
-            FuelType.HYDROGEN, List.of(FuelType.HYDROGEN),
-            FuelType.BIODIESEL, Arrays.asList(FuelType.DIESEL, FuelType.BIODIESEL),
-            FuelType.ETHANOL, Arrays.asList(FuelType.PETROL, FuelType.ETHANOL),
-            FuelType.SYNTHETIC, Arrays.asList(FuelType.PETROL, FuelType.DIESEL)
-        );
+        return Map.ofEntries(
+                Map.entry(FuelType.PETROL, Arrays.asList(FuelType.PETROL, FuelType.ETHANOL)),
+                Map.entry(FuelType.DIESEL, Arrays.asList(FuelType.DIESEL, FuelType.BIODIESEL)),
+                Map.entry(FuelType.ELECTRIC, List.of(FuelType.ELECTRIC)),
+                Map.entry(FuelType.HYBRID, Arrays.asList(FuelType.PETROL, FuelType.ELECTRIC)),
+                Map.entry(FuelType.PLUGIN_HYBRID, Arrays.asList(FuelType.PETROL, FuelType.ELECTRIC)),
+                Map.entry(FuelType.CNG, List.of(FuelType.CNG)),
+                Map.entry(FuelType.LPG, List.of(FuelType.LPG)),
+                Map.entry(FuelType.HYDROGEN, List.of(FuelType.HYDROGEN)),
+                Map.entry(FuelType.BIODIESEL, Arrays.asList(FuelType.DIESEL, FuelType.BIODIESEL)),
+                Map.entry(FuelType.ETHANOL, Arrays.asList(FuelType.PETROL, FuelType.ETHANOL)),
+                Map.entry(FuelType.SYNTHETIC, Arrays.asList(FuelType.PETROL, FuelType.DIESEL)));
     }
 
     /**
@@ -178,27 +172,31 @@ public class FuelTypeUtils {
     /**
      * Get transition recommendations for switching fuel types
      */
-    public static List<FuelType> getTransitionRecommendations(FuelType currentType, 
-                                                            FuelType.TargetCategory targetCategory) {
+    public static List<FuelType> getTransitionRecommendations(FuelType currentType,
+            TargetCategory targetCategory) {
         return Arrays.stream(FuelType.values())
                 .filter(targetType -> targetType != currentType)
                 .filter(targetType -> isGoodTransition(currentType, targetType, targetCategory))
-                .sorted(Comparator.comparingDouble(type -> 
-                    calculateTransitionEase(currentType, type)))
+                .sorted(Comparator.comparingDouble(type -> calculateTransitionEase(currentType, type)))
                 .collect(Collectors.toList());
     }
 
-    private static boolean isGoodTransition(FuelType from, FuelType to, FuelType.TargetCategory category) {
+    private static boolean isGoodTransition(FuelType from, FuelType to, TargetCategory category) {
         // Implementation would depend on specific transition logic
         return true;
     }
 
     private static double calculateTransitionEase(FuelType from, FuelType to) {
-        // Simple implementation - in reality this would consider infrastructure, cost, etc.
-        if (from == to) return 0.0;
-        if (areCompatible(from, to)) return 0.3;
-        if (from.isFossilFuel() && to.isFossilFuel()) return 0.5;
-        if (from.isElectricOrHybrid() && to.isElectricOrHybrid()) return 0.6;
+        // Simple implementation - in reality this would consider infrastructure, cost,
+        // etc.
+        if (from == to)
+            return 0.0;
+        if (areCompatible(from, to))
+            return 0.3;
+        if (from.isFossilFuel() && to.isFossilFuel())
+            return 0.5;
+        if (from.isElectricOrHybrid() && to.isElectricOrHybrid())
+            return 0.6;
         return 1.0;
     }
 

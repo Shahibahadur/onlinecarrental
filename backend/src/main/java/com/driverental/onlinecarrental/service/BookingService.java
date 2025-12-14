@@ -7,9 +7,16 @@ import org.springframework.data.domain.Pageable;
 
 public interface BookingService {
     BookingResponse createBooking(BookingRequest request, Long userId);
+
     BookingResponse getBookingById(Long id);
+
     Page<BookingResponse> getUserBookings(Long userId, Pageable pageable);
+
     BookingResponse cancelBooking(Long id);
+
     BookingResponse confirmBooking(Long id);
-    boolean isVehicleAvailable(Long vehicleId, String startDate, String endDate);
+
+    boolean isCarAvailable(Long carId, String startDate, String endDate);
+
+    Page<BookingResponse> getAllBookings(Pageable pageable);
 }

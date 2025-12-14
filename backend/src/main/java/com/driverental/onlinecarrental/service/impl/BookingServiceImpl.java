@@ -4,13 +4,13 @@ import com.driverental.onlinecarrental.model.dto.request.BookingRequest;
 import com.driverental.onlinecarrental.model.dto.response.BookingResponse;
 import com.driverental.onlinecarrental.model.entity.Booking;
 import com.driverental.onlinecarrental.model.entity.User;
-import com.driverental.onlinecarrental.model.entity.Vehicle;
+import com.driverental.onlinecarrental.model.entity.Car;
 import com.driverental.onlinecarrental.model.enums.BookingStatus;
 import com.driverental.onlinecarrental.model.exception.BusinessException;
 import com.driverental.onlinecarrental.model.exception.ResourceNotFoundException;
 import com.driverental.onlinecarrental.repository.BookingRepository;
 import com.driverental.onlinecarrental.repository.UserRepository;
-import com.driverental.onlinecarrental.repository.VehicleRepository;
+import com.driverental.onlinecarrental.repository.CarRepository;
 import com.driverental.onlinecarrental.service.BookingService;
 import com.driverental.onlinecarrental.service.PricingService;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +32,7 @@ public class BookingServiceImpl implements BookingService {
 
     private final BookingRepository bookingRepository;
     private final UserRepository userRepository;
-    private final VehicleRepository vehicleRepository;
+    private final CarRepository carRepository;
     private final PricingService pricingService;
 
     @Override
@@ -40,23 +40,23 @@ public class BookingServiceImpl implements BookingService {
     public BookingResponse createBooking(BookingRequest request, Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
-        
-        Vehicle vehicle = vehicleRepository.findById(request.getVehicleId())
-                .orElseThrow(() -> new ResourceNotFoundException("Vehicle", "id", request.getVehicleId()));
 
-        if (!vehicle.getIsAvailable()) {
-            throw new BusinessException("Vehicle is not available for booking");
+        Car car = carRepository.findById(request.getCarId())
+                .orElseThrow(() -> new ResourceNotFoundException("Car", "id", request.getCarId()));
+
+        if (!car.getIsAvailable()) {
+            throw new BusinessException("Car is not available for booking");
         }
 
-        // Check vehicle availability
-        if (!isVehicleAvailable(request.getVehicleId(), request.getStartDate(), request.getEndDate())) {
-            throw new BusinessException("Vehicle not available for selected dates");
+        // Check car availability
+        if (!isCarAvailable(request.getCarId(), request.getStartDate(), request.getEndDate())) {
+            throw new BusinessException("Car not available for selected dates");
         }
 
         // Calculate price using dynamic pricing
         LocalDate startDate = LocalDate.parse(request.getStartDate());
         LocalDate endDate = LocalDate.parse(request.getEndDate());
-        
+
         if (startDate.isAfter(endDate)) {
             throw new BusinessException("Start date cannot be after end date");
         }
@@ -64,13 +64,13 @@ public class BookingServiceImpl implements BookingService {
         if (startDate.isBefore(LocalDate.now())) {
             throw new BusinessException("Start date cannot be in the past");
         }
-        
-        BigDecimal totalPrice = pricingService.calculateBookingPrice(vehicle, startDate, endDate);
+
+        BigDecimal totalPrice = pricingService.calculateBookingPrice(car, startDate, endDate);
 
         // Create booking
         Booking booking = Booking.builder()
                 .user(user)
-                .vehicle(vehicle)
+                .car(car)
                 .startDate(startDate)
                 .endDate(endDate)
                 .totalPrice(totalPrice)
@@ -98,7 +98,7 @@ public class BookingServiceImpl implements BookingService {
         if (!userRepository.existsById(userId)) {
             throw new ResourceNotFoundException("User", "id", userId);
         }
-        
+
         Page<Booking> bookings = bookingRepository.findByUserId(userId, pageable);
         return bookings.map(this::convertToResponse);
     }
@@ -125,10 +125,10 @@ public class BookingServiceImpl implements BookingService {
 
         booking.setStatus(BookingStatus.CANCELLED);
         booking.setCancelledAt(LocalDateTime.now());
-        
+
         Booking updatedBooking = bookingRepository.save(booking);
         log.info("Booking cancelled: {}", id);
-        
+
         return convertToResponse(updatedBooking);
     }
 
@@ -142,30 +142,30 @@ public class BookingServiceImpl implements BookingService {
             throw new BusinessException("Booking cannot be confirmed in current status: " + booking.getStatus());
         }
 
-        // Double-check vehicle availability
-        if (!isVehicleAvailable(booking.getVehicle().getId(), 
-                               booking.getStartDate().toString(), 
-                               booking.getEndDate().toString())) {
-            throw new BusinessException("Vehicle no longer available for booking dates");
+        // Double-check car availability
+        if (!isCarAvailable(booking.getCar().getId(),
+                booking.getStartDate().toString(),
+                booking.getEndDate().toString())) {
+            throw new BusinessException("Car no longer available for booking dates");
         }
 
         booking.setStatus(BookingStatus.CONFIRMED);
         booking.setConfirmedAt(LocalDateTime.now());
-        
+
         Booking updatedBooking = bookingRepository.save(booking);
         log.info("Booking confirmed: {}", id);
-        
+
         return convertToResponse(updatedBooking);
     }
 
     @Override
-    public boolean isVehicleAvailable(Long vehicleId, String startDate, String endDate) {
+    public boolean isCarAvailable(Long carId, String startDate, String endDate) {
         LocalDate start = LocalDate.parse(startDate);
         LocalDate end = LocalDate.parse(endDate);
-        
+
         List<Booking> conflictingBookings = bookingRepository.findConflictingBookings(
-                vehicleId, start, end);
-        
+                carId, start, end);
+
         return conflictingBookings.isEmpty();
     }
 
@@ -174,13 +174,13 @@ public class BookingServiceImpl implements BookingService {
         LocalDateTime cutoffTime = LocalDateTime.now().minusHours(24);
         List<Booking> expiredBookings = bookingRepository.findByStatusAndCreatedAtBefore(
                 BookingStatus.PENDING, cutoffTime);
-        
+
         for (Booking booking : expiredBookings) {
             booking.setStatus(BookingStatus.CANCELLED);
             booking.setCancelledAt(LocalDateTime.now());
             log.info("Auto-cancelled expired booking: {}", booking.getId());
         }
-        
+
         bookingRepository.saveAll(expiredBookings);
     }
 
@@ -188,7 +188,7 @@ public class BookingServiceImpl implements BookingService {
         return BookingResponse.builder()
                 .id(booking.getId())
                 .userId(booking.getUser().getId())
-                .vehicleId(booking.getVehicle().getId())
+                .carId(booking.getCar().getId())
                 .startDate(booking.getStartDate().toString())
                 .endDate(booking.getEndDate().toString())
                 .totalPrice(booking.getTotalPrice())

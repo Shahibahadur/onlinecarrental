@@ -2,8 +2,10 @@ package com.driverental.onlinecarrental.model.entity;
 
 import com.driverental.onlinecarrental.model.enums.BookingStatus;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -17,6 +19,7 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,8 +32,8 @@ public class Booking {
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "vehicle_id")
-    private Vehicle vehicle;
+    @JoinColumn(name = "car_id")
+    private Car car;
 
     @NotNull
     private LocalDate startDate;

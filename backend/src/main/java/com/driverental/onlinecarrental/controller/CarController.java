@@ -1,10 +1,10 @@
 package com.driverental.onlinecarrental.controller;
 
 import com.driverental.onlinecarrental.model.dto.SearchCriteria;
-import com.driverental.onlinecarrental.model.dto.request.VehicleRequest;
-import com.driverental.onlinecarrental.model.dto.response.VehicleResponse;
+import com.driverental.onlinecarrental.model.dto.request.CarRequest;
+import com.driverental.onlinecarrental.model.dto.response.CarResponse;
 import com.driverental.onlinecarrental.service.SearchService;
-import com.driverental.onlinecarrental.service.VehicleService;
+import com.driverental.onlinecarrental.service.CarService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -17,82 +17,74 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/cars")
 @RequiredArgsConstructor
-@Tag(name = "Car", description = "Car management APIs (aliases for vehicle APIs)")
+@Tag(name = "Car", description = "Car management APIs")
 public class CarController {
 
-    private final VehicleService vehicleService;
+    private final CarService carService;
     private final SearchService searchService;
 
     @GetMapping
     @Operation(summary = "Get all cars with pagination")
-    public ResponseEntity<Page<VehicleResponse>> getAllCars(
+    public ResponseEntity<Page<CarResponse>> getAllCars(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         Pageable pageable = PageRequest.of(page, size);
-        return ResponseEntity.ok(vehicleService.getAllVehicles(pageable));
+        return ResponseEntity.ok(carService.getAllCars(pageable));
     }
 
     @GetMapping("/{id}")
     @Operation(summary = "Get car by ID")
-    public ResponseEntity<VehicleResponse> getCarById(@PathVariable Long id) {
-        return ResponseEntity.ok(vehicleService.getVehicleById(id));
+    public ResponseEntity<CarResponse> getCarById(@PathVariable Long id) {
+        return ResponseEntity.ok(carService.getCarById(id));
     }
 
     @PostMapping("/search")
     @Operation(summary = "Search cars with criteria")
-    public ResponseEntity<Page<VehicleResponse>> searchCars(
+    public ResponseEntity<Page<CarResponse>> searchCars(
             @RequestBody SearchCriteria criteria,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         Pageable pageable = PageRequest.of(page, size);
-        return ResponseEntity.ok(searchService.searchVehicles(criteria, pageable));
+        return ResponseEntity.ok(searchService.searchCars(criteria, pageable));
     }
 
     @GetMapping("/search/intelligent")
     @Operation(summary = "Intelligent search using Aho-Corasick algorithm")
-    public ResponseEntity<List<VehicleResponse>> intelligentSearch(
+    public ResponseEntity<List<CarResponse>> intelligentSearch(
             @RequestParam String query,
             @RequestParam(required = false) String location,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
+
         Pageable pageable = PageRequest.of(page, size);
-        var results = searchService.intelligentSearch(query, location, pageable)
-                .stream()
-                .map(this::convertToResponse)
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(results);
+        return ResponseEntity.ok(searchService.intelligentSearch(query, location, pageable));
     }
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Create new car (Admin only)")
-    public ResponseEntity<VehicleResponse> createCar(@Valid @RequestBody VehicleRequest request) {
-        return ResponseEntity.ok(vehicleService.createVehicle(request));
+    public ResponseEntity<CarResponse> createCar(@Valid @RequestBody CarRequest request) {
+        return ResponseEntity.ok(carService.createCar(request));
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Update car (Admin only)")
-    public ResponseEntity<VehicleResponse> updateCar(@PathVariable Long id, @Valid @RequestBody VehicleRequest request) {
-        return ResponseEntity.ok(vehicleService.updateVehicle(id, request));
+    public ResponseEntity<CarResponse> updateCar(
+            @PathVariable Long id, @Valid @RequestBody CarRequest request) {
+        return ResponseEntity.ok(carService.updateCar(id, request));
     }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Delete car (Admin only)")
     public ResponseEntity<Void> deleteCar(@PathVariable Long id) {
-        vehicleService.deleteVehicle(id);
+        carService.deleteCar(id);
         return ResponseEntity.ok().build();
     }
 
-    private VehicleResponse convertToResponse(com.driverental.onlinecarrental.model.entity.Vehicle vehicle) {
-        // Delegate to existing conversion logic if available.
-        // For now return a placeholder using VehicleResponse DTO from service layer.
-        return vehicleService.getVehicleById(vehicle.getId());
-    }
 }

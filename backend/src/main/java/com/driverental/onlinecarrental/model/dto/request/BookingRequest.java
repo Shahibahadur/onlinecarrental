@@ -14,9 +14,9 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BookingRequest {
-    
+
     @NotNull
-    private Long vehicleId;
+    private Long carId;
 
     @NotNull
     @Future

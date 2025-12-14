@@ -1,0 +1,55 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ------------------< com.driverental:onlinecarrental >-------------------
+[INFO] Building onlinecarrental 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.3.2:clean (default-clean) @ onlinecarrental ---
+[INFO] Deleting C:\Users\gurur\OneDrive\Desktop\6thsemproject\onlinecarrental\backend\target
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ onlinecarrental ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] Copying 0 resource from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.11.0:compile (default-compile) @ onlinecarrental ---
+[INFO] Changes detected - recompiling the module! :source
+[INFO] Compiling 82 source files with javac [debug release 21] to target\classes
+[INFO] -------------------------------------------------------------
+[WARNING] COMPILATION WARNING : 
+[INFO] -------------------------------------------------------------
+[WARNING] /C:/Users/gurur/OneDrive/Desktop/6thsemproject/onlinecarrental/backend/src/main/java/com/driverental/onlinecarrental/model/entity/Booking.java:[49,27] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+[WARNING] /C:/Users/gurur/OneDrive/Desktop/6thsemproject/onlinecarrental/backend/src/main/java/com/driverental/onlinecarrental/model/entity/User.java:[52,22] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+[WARNING] /C:/Users/gurur/OneDrive/Desktop/6thsemproject/onlinecarrental/backend/src/main/java/com/driverental/onlinecarrental/model/entity/User.java:[61,27] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+[WARNING] /C:/Users/gurur/OneDrive/Desktop/6thsemproject/onlinecarrental/backend/src/main/java/com/driverental/onlinecarrental/model/entity/User.java:[64,26] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+[WARNING] /C:/Users/gurur/OneDrive/Desktop/6thsemproject/onlinecarrental/backend/src/main/java/com/driverental/onlinecarrental/model/entity/Car.java:[63,26] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+[WARNING] /C:/Users/gurur/OneDrive/Desktop/6thsemproject/onlinecarrental/backend/src/main/java/com/driverental/onlinecarrental/model/entity/Car.java:[80,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+[WARNING] /C:/Users/gurur/OneDrive/Desktop/6thsemproject/onlinecarrental/backend/src/main/java/com/driverental/onlinecarrental/model/entity/Car.java:[82,20] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+[WARNING] /C:/Users/gurur/OneDrive/Desktop/6thsemproject/onlinecarrental/backend/src/main/java/com/driverental/onlinecarrental/model/entity/Car.java:[84,21] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+[WARNING] /C:/Users/gurur/OneDrive/Desktop/6thsemproject/onlinecarrental/backend/src/main/java/com/driverental/onlinecarrental/model/entity/Car.java:[93,27] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+[WARNING] /C:/Users/gurur/OneDrive/Desktop/6thsemproject/onlinecarrental/backend/src/main/java/com/driverental/onlinecarrental/model/entity/Car.java:[96,26] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+[INFO] 10 warnings 
+[INFO] -------------------------------------------------------------
+[INFO] -------------------------------------------------------------
+[ERROR] COMPILATION ERROR : 
+[INFO] -------------------------------------------------------------
+[ERROR] /C:/Users/gurur/OneDrive/Desktop/6thsemproject/onlinecarrental/backend/src/main/java/com/driverental/onlinecarrental/service/impl/RecommendationServiceImpl.java:[134,57] local variables referenced from a lambda expression must be final or effectively final
+[ERROR] /C:/Users/gurur/OneDrive/Desktop/6thsemproject/onlinecarrental/backend/src/main/java/com/driverental/onlinecarrental/service/impl/RecommendationServiceImpl.java:[167,69] local variables referenced from a lambda expression must be final or effectively final
+[INFO] 2 errors 
+[INFO] -------------------------------------------------------------
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  7.560 s
+[INFO] Finished at: 2025-12-14T11:22:38+05:45
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.11.0:compile (default-compile) on project onlinecarrental: Compilation failure: Compilation failure: 
+[ERROR] /C:/Users/gurur/OneDrive/Desktop/6thsemproject/onlinecarrental/backend/src/main/java/com/driverental/onlinecarrental/service/impl/RecommendationServiceImpl.java:[134,57] local variables referenced from a lambda expression must be final or effectively final
+[ERROR] /C:/Users/gurur/OneDrive/Desktop/6thsemproject/onlinecarrental/backend/src/main/java/com/driverental/onlinecarrental/service/impl/RecommendationServiceImpl.java:[167,69] local variables referenced from a lambda expression must be final or effectively final
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException

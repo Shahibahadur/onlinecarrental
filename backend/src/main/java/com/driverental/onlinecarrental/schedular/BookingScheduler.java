@@ -1,4 +1,4 @@
-package com.driverental.onlinecarrental.scheduler;
+package com.driverental.onlinecarrental.schedular;
 
 import com.driverental.onlinecarrental.service.impl.BookingServiceImpl;
 import lombok.RequiredArgsConstructor;

@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 public class BookingResponse {
     private Long id;
     private Long userId;
-    private Long vehicleId;
+    private Long carId;
     private String startDate;
     private String endDate;
     private BigDecimal totalPrice;
@@ -26,6 +26,6 @@ public class BookingResponse {
     private LocalDateTime createdAt;
     private LocalDateTime confirmedAt;
     private LocalDateTime cancelledAt;
-    private VehicleResponse vehicle; // Optional: include vehicle details
+    private CarResponse car; // Optional: include car details
     private UserResponse user; // Optional: include user details
 }

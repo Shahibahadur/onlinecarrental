@@ -14,10 +14,10 @@ import java.time.LocalDateTime;
 public class ReviewResponse {
     private Long id;
     private Long userId;
-    private Long vehicleId;
+    private Long carId;
     private String userName;
     private Integer rating;
     private String comment;
     private LocalDateTime createdAt;
-    private VehicleResponse vehicle; // Optional: include vehicle details
+    private CarResponse car; // Optional: include car details
 }

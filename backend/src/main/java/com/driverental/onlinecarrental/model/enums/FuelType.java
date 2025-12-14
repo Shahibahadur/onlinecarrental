@@ -14,160 +14,149 @@ import java.util.stream.Collectors;
  */
 @Getter
 public enum FuelType {
-    
+
     /**
      * Petrol/Gasoline - Most common fuel for internal combustion engines
      */
     PETROL(
-        "Petrol", 
-        "Gasoline", 
-        "petrol",
-        "L",
-        "#FF6B35",
-        0.12, // Relative cost factor
-        0.08, // Environmental impact factor (higher is worse)
-        "Internal Combustion Engine"
-    ),
-    
+            "Petrol",
+            "Gasoline",
+            "petrol",
+            "L",
+            "#FF6B35",
+            0.12, // Relative cost factor
+            0.08, // Environmental impact factor (higher is worse)
+            "Internal Combustion Engine"),
+
     /**
      * Diesel - Higher efficiency fuel for compression ignition engines
      */
     DIESEL(
-        "Diesel", 
-        "Diesel", 
-        "diesel",
-        "L",
-        "#004E89",
-        0.10, // Relative cost factor
-        0.09, // Environmental impact factor
-        "Compression Ignition Engine"
-    ),
-    
+            "Diesel",
+            "Diesel",
+            "diesel",
+            "L",
+            "#004E89",
+            0.10, // Relative cost factor
+            0.09, // Environmental impact factor
+            "Compression Ignition Engine"),
+
     /**
      * Electric - Battery electric vehicles
      */
     ELECTRIC(
-        "Electric", 
-        "Electric", 
-        "electric",
-        "kWh",
-        "#00A896",
-        0.05, // Relative cost factor
-        0.01, // Environmental impact factor
-        "Electric Motor"
-    ),
-    
+            "Electric",
+            "Electric",
+            "electric",
+            "kWh",
+            "#00A896",
+            0.05, // Relative cost factor
+            0.01, // Environmental impact factor
+            "Electric Motor"),
+
     /**
      * Hybrid - Combination of petrol engine and electric motor
      */
     HYBRID(
-        "Hybrid", 
-        "Hybrid", 
-        "hybrid",
-        "L/kWh",
-        "#6A8EAE",
-        0.08, // Relative cost factor
-        0.04, // Environmental impact factor
-        "Hybrid System"
-    ),
-    
+            "Hybrid",
+            "Hybrid",
+            "hybrid",
+            "L/kWh",
+            "#6A8EAE",
+            0.08, // Relative cost factor
+            0.04, // Environmental impact factor
+            "Hybrid System"),
+
     /**
      * Plug-in Hybrid - Hybrid with larger battery that can be plugged in
      */
     PLUGIN_HYBRID(
-        "Plug-in Hybrid", 
-        "PHEV", 
-        "plugin_hybrid",
-        "L/kWh",
-        "#3D5A80",
-        0.07, // Relative cost factor
-        0.03, // Environmental impact factor
-        "Plug-in Hybrid System"
-    ),
-    
+            "Plug-in Hybrid",
+            "PHEV",
+            "plugin_hybrid",
+            "L/kWh",
+            "#3D5A80",
+            0.07, // Relative cost factor
+            0.03, // Environmental impact factor
+            "Plug-in Hybrid System"),
+
     /**
      * Compressed Natural Gas - Alternative gaseous fuel
      */
     CNG(
-        "Compressed Natural Gas", 
-        "CNG", 
-        "cng",
-        "kg",
-        "#7DCFB6",
-        0.06, // Relative cost factor
-        0.05, // Environmental impact factor
-        "Natural Gas Engine"
-    ),
-    
+            "Compressed Natural Gas",
+            "CNG",
+            "cng",
+            "kg",
+            "#7DCFB6",
+            0.06, // Relative cost factor
+            0.05, // Environmental impact factor
+            "Natural Gas Engine"),
+
     /**
      * Liquefied Petroleum Gas - Propane/butane mixture
      */
     LPG(
-        "Liquefied Petroleum Gas", 
-        "LPG", 
-        "lpg",
-        "L",
-        "#F79256",
-        0.05, // Relative cost factor
-        0.06, // Environmental impact factor
-        "LPG Engine"
-    ),
-    
+            "Liquefied Petroleum Gas",
+            "LPG",
+            "lpg",
+            "L",
+            "#F79256",
+            0.05, // Relative cost factor
+            0.06, // Environmental impact factor
+            "LPG Engine"),
+
     /**
      * Hydrogen Fuel Cell - Electric vehicle powered by hydrogen
      */
     HYDROGEN(
-        "Hydrogen Fuel Cell", 
-        "Hydrogen", 
-        "hydrogen",
-        "kg",
-        "#9C89B8",
-        0.15, // Relative cost factor
-        0.02, // Environmental impact factor
-        "Fuel Cell System"
-    ),
-    
+            "Hydrogen Fuel Cell",
+            "Hydrogen",
+            "hydrogen",
+            "kg",
+            "#9C89B8",
+            0.15, // Relative cost factor
+            0.02, // Environmental impact factor
+            "Fuel Cell System"),
+
     /**
      * Bio-diesel - Renewable diesel alternative
      */
     BIODIESEL(
-        "Bio-diesel", 
-        "Bio-diesel", 
-        "biodiesel",
-        "L",
-        "#90BE6D",
-        0.11, // Relative cost factor
-        0.04, // Environmental impact factor
-        "Bio-fuel Engine"
-    ),
-    
+            "Bio-diesel",
+            "Bio-diesel",
+            "biodiesel",
+            "L",
+            "#90BE6D",
+            0.11, // Relative cost factor
+            0.04, // Environmental impact factor
+            "Bio-fuel Engine"),
+
     /**
      * Ethanol - Alcohol-based biofuel
      */
     ETHANOL(
-        "Ethanol", 
-        "Ethanol", 
-        "ethanol",
-        "L",
-        "#F9C74F",
-        0.09, // Relative cost factor
-        0.05, // Environmental impact factor
-        "Flex-fuel Engine"
-    ),
-    
+            "Ethanol",
+            "Ethanol",
+            "ethanol",
+            "L",
+            "#F9C74F",
+            0.09, // Relative cost factor
+            0.05, // Environmental impact factor
+            "Flex-fuel Engine"),
+
     /**
      * Synthetic Fuel - Artificially produced fuel
      */
     SYNTHETIC(
-        "Synthetic Fuel", 
-        "Synthetic", 
-        "synthetic",
-        "L",
-        "#577590",
-        0.20, // Relative cost factor
-        0.07, // Environmental impact factor
-        "Synthetic Fuel Engine"
-    );
+            "Synthetic Fuel",
+            "Synthetic",
+            "synthetic",
+            "L",
+            "#577590",
+            0.20, // Relative cost factor
+            0.07, // Environmental impact factor
+            "Synthetic Fuel Engine");
 
     // Instance fields
     private final String displayName;
@@ -180,22 +169,19 @@ public enum FuelType {
     private final String engineType;
 
     // Cache for faster lookups
-    private static final Map<String, FuelType> DISPLAY_NAME_MAP = 
-        Arrays.stream(values())
-              .collect(Collectors.toMap(FuelType::getDisplayName, Function.identity()));
-    
-    private static final Map<String, FuelType> CODE_MAP = 
-        Arrays.stream(values())
-              .collect(Collectors.toMap(FuelType::getCode, Function.identity()));
-    
-    private static final Map<String, FuelType> ABBREVIATION_MAP = 
-        Arrays.stream(values())
-              .collect(Collectors.toMap(FuelType::getAbbreviation, Function.identity()));
+    private static final Map<String, FuelType> DISPLAY_NAME_MAP = Arrays.stream(values())
+            .collect(Collectors.toMap(FuelType::getDisplayName, Function.identity()));
+
+    private static final Map<String, FuelType> CODE_MAP = Arrays.stream(values())
+            .collect(Collectors.toMap(FuelType::getCode, Function.identity()));
+
+    private static final Map<String, FuelType> ABBREVIATION_MAP = Arrays.stream(values())
+            .collect(Collectors.toMap(FuelType::getAbbreviation, Function.identity()));
 
     /**
      * Constructor
      */
-    FuelType(String displayName, String abbreviation, String code, String unit, 
+    FuelType(String displayName, String abbreviation, String code, String unit,
             String colorCode, double costFactor, double environmentalImpact, String engineType) {
         this.displayName = displayName;
         this.abbreviation = abbreviation;
@@ -247,7 +233,7 @@ public enum FuelType {
         if (value == null || value.trim().isEmpty()) {
             return defaultValue;
         }
-        
+
         try {
             // Try by enum name first
             return FuelType.valueOf(value.toUpperCase());
@@ -296,8 +282,8 @@ public enum FuelType {
      * Check if this fuel type is alternative fuel
      */
     public boolean isAlternativeFuel() {
-        return this == CNG || this == LPG || this == HYDROGEN || 
-               this == BIODIESEL || this == ETHANOL || this == SYNTHETIC;
+        return this == CNG || this == LPG || this == HYDROGEN ||
+                this == BIODIESEL || this == ETHANOL || this == SYNTHETIC;
     }
 
     /**
@@ -365,26 +351,26 @@ public enum FuelType {
     /**
      * Get recommended vehicle types for this fuel type
      */
-    public VehicleType[] getRecommendedVehicleTypes() {
+    public CarCategory[] getRecommendedVehicleTypes() {
         return switch (this) {
-            case ELECTRIC, HYDROGEN -> new VehicleType[]{
-                VehicleType.SEDAN, VehicleType.HATCHBACK, VehicleType.SUV, VehicleType.LUXURY
+            case ELECTRIC, HYDROGEN -> new CarCategory[] {
+                    CarCategory.SEDAN, CarCategory.HATCHBACK, CarCategory.SUV, CarCategory.LUXURY
             };
-            case HYBRID, PLUGIN_HYBRID -> new VehicleType[]{
-                VehicleType.SEDAN, VehicleType.SUV, VehicleType.HATCHBACK
+            case HYBRID, PLUGIN_HYBRID -> new CarCategory[] {
+                    CarCategory.SEDAN, CarCategory.SUV, CarCategory.HATCHBACK
             };
-            case DIESEL -> new VehicleType[]{
-                VehicleType.SUV, VehicleType.LUXURY, VehicleType.SPORTS
+            case DIESEL -> new CarCategory[] {
+                    CarCategory.SUV, CarCategory.LUXURY, CarCategory.SPORTS
             };
-            case PETROL -> VehicleType.values(); // All types
-            case CNG, LPG -> new VehicleType[]{
-                VehicleType.SEDAN, VehicleType.HATCHBACK
+            case PETROL -> CarCategory.values(); // All types
+            case CNG, LPG -> new CarCategory[] {
+                    CarCategory.SEDAN, CarCategory.HATCHBACK
             };
-            case BIODIESEL, ETHANOL -> new VehicleType[]{
-                VehicleType.SEDAN, VehicleType.SUV
+            case BIODIESEL, ETHANOL -> new CarCategory[] {
+                    CarCategory.SEDAN, CarCategory.SUV
             };
-            case SYNTHETIC -> new VehicleType[]{
-                VehicleType.LUXURY, VehicleType.SPORTS
+            case SYNTHETIC -> new CarCategory[] {
+                    CarCategory.LUXURY, CarCategory.SPORTS
             };
         };
     }
@@ -394,16 +380,16 @@ public enum FuelType {
      */
     public double getTypicalRangePerUnit() {
         return switch (this) {
-            case PETROL -> 12.5;    // km/L
-            case DIESEL -> 15.0;    // km/L
-            case ELECTRIC -> 6.0;   // km/kWh
-            case HYBRID -> 20.0;    // km/L equivalent
+            case PETROL -> 12.5; // km/L
+            case DIESEL -> 15.0; // km/L
+            case ELECTRIC -> 6.0; // km/kWh
+            case HYBRID -> 20.0; // km/L equivalent
             case PLUGIN_HYBRID -> 25.0; // km/L equivalent
-            case CNG -> 20.0;       // km/kg
-            case LPG -> 10.0;       // km/L
-            case HYDROGEN -> 80.0;  // km/kg
+            case CNG -> 20.0; // km/kg
+            case LPG -> 10.0; // km/L
+            case HYDROGEN -> 80.0; // km/kg
             case BIODIESEL -> 14.0; // km/L
-            case ETHANOL -> 8.0;    // km/L
+            case ETHANOL -> 8.0; // km/L
             case SYNTHETIC -> 11.0; // km/L
         };
     }
@@ -413,11 +399,11 @@ public enum FuelType {
      */
     public int getTypicalRefuelingTime() {
         return switch (this) {
-            case PETROL, DIESEL, LPG, BIODIESEL, ETHANOL, SYNTHETIC -> 5;    // minutes
-            case CNG -> 10;    // minutes
+            case PETROL, DIESEL, LPG, BIODIESEL, ETHANOL, SYNTHETIC -> 5; // minutes
+            case CNG -> 10; // minutes
             case HYDROGEN -> 5; // minutes
             case ELECTRIC -> 30; // minutes for fast charging
-            case HYBRID -> 5;   // minutes
+            case HYBRID -> 5; // minutes
             case PLUGIN_HYBRID -> 120; // minutes for full charge
         };
     }
@@ -443,12 +429,12 @@ public enum FuelType {
      */
     public double getMaintenanceCostFactor() {
         return switch (this) {
-            case ELECTRIC -> 0.7;  // Lower maintenance
-            case HYDROGEN -> 0.8;  // Lower maintenance
-            case HYBRID, PLUGIN_HYBRID -> 0.9;  // Slightly lower
-            case PETROL, DIESEL -> 1.0;  // Standard
-            case CNG, LPG -> 1.1;  // Slightly higher
-            case BIODIESEL, ETHANOL -> 1.2;  // Higher
+            case ELECTRIC -> 0.7; // Lower maintenance
+            case HYDROGEN -> 0.8; // Lower maintenance
+            case HYBRID, PLUGIN_HYBRID -> 0.9; // Slightly lower
+            case PETROL, DIESEL -> 1.0; // Standard
+            case CNG, LPG -> 1.1; // Slightly higher
+            case BIODIESEL, ETHANOL -> 1.2; // Higher
             case SYNTHETIC -> 1.3; // Highest
         };
     }
@@ -458,10 +444,9 @@ public enum FuelType {
      */
     public static Map<String, List<FuelType>> getFuelTypesByCategory() {
         return Map.of(
-            "Traditional", Arrays.asList(PETROL, DIESEL),
-            "Electric & Hybrid", Arrays.asList(ELECTRIC, HYBRID, PLUGIN_HYBRID, HYDROGEN),
-            "Alternative Fuels", Arrays.asList(CNG, LPG, BIODIESEL, ETHANOL, SYNTHETIC)
-        );
+                "Traditional", Arrays.asList(PETROL, DIESEL),
+                "Electric & Hybrid", Arrays.asList(ELECTRIC, HYBRID, PLUGIN_HYBRID, HYDROGEN),
+                "Alternative Fuels", Arrays.asList(CNG, LPG, BIODIESEL, ETHANOL, SYNTHETIC));
     }
 
     /**

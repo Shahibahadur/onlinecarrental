@@ -14,9 +14,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReviewRequest {
-    
+
     @NotNull
-    private Long vehicleId;
+    private Long carId;
 
     @NotNull
     @Min(1)
