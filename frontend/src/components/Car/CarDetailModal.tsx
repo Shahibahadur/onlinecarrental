@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { X, Users, Luggage, Fuel, MapPin, Star, ChevronLeft, ChevronRight } from 'lucide-react';
 import { type Car } from '../../types';
 import { formatPricePerDay } from '../../constants/locale';
+import type { RootState } from '../../store';
 
 interface CarDetailModalProps {
   car: Car;
@@ -16,7 +19,23 @@ const CarDetailModal: React.FC<CarDetailModalProps> = ({
   onClose,
   onBook,
 }) => {
+  const navigate = useNavigate();
+  const { isAuthenticated } = useSelector((state: RootState) => state.auth);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  const handleBookClick = () => {
+    if (!isAuthenticated) {
+      const confirmLogin = window.confirm(
+        'You need to login or register to book this car. Do you want to go to the login page?'
+      );
+      if (confirmLogin) {
+        navigate('/login', { state: { returnTo: `/cars/${car.id}` } });
+        onClose();
+      }
+      return;
+    }
+    onBook();
+  };
 
   if (!isOpen) return null;
 
@@ -36,14 +55,14 @@ const CarDetailModal: React.FC<CarDetailModalProps> = ({
     <div className="fixed inset-0 z-50 overflow-y-auto">
       <div className="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
         {/* Background overlay */}
-        <div className="fixed inset-0 bg-black bg-opacity-50 transition-opacity" onClick={onClose} />
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-[1px] transition-opacity" onClick={onClose} />
 
         {/* Modal panel */}
-        <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full">
-          <div className="absolute top-4 right-4">
+        <div className="inline-block align-bottom bg-white rounded-xl text-left overflow-hidden shadow-xl border border-neutral-200 transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full">
+          <div className="absolute top-4 right-4 z-10">
             <button
               onClick={onClose}
-              className="bg-white rounded-full p-2 hover:bg-neutral-100 transition-colors"
+              className="bg-white rounded-full p-2 hover:bg-neutral-100 transition-colors shadow-sm border border-neutral-200"
             >
               <X className="h-5 w-5 text-neutral-600" />
             </button>
@@ -105,7 +124,9 @@ const CarDetailModal: React.FC<CarDetailModalProps> = ({
                   </div>
                 </div>
                 <div className="mt-4 sm:mt-0 text-right">
-                  <div className="text-3xl font-bold text-primary-600">{formatPricePerDay(car.pricePerDay)}</div>
+                  <div className="inline-flex items-center px-4 py-2 rounded-full bg-primary-50 text-primary-700 border border-primary-100 text-2xl font-bold">
+                    {formatPricePerDay(car.pricePerDay)}
+                  </div>
                 </div>
               </div>
 
@@ -160,14 +181,14 @@ const CarDetailModal: React.FC<CarDetailModalProps> = ({
               <div className="flex space-x-4">
                 <button
                   onClick={onClose}
-                  className="flex-1 px-6 py-3 border border-neutral-300 text-neutral-700 rounded-md hover:bg-neutral-50 transition-colors font-medium"
+                  className="flex-1 px-6 py-3 border border-neutral-300 text-neutral-700 rounded-lg hover:bg-neutral-50 transition-colors font-semibold"
                 >
                   Close
                 </button>
                 <button
-                  onClick={onBook}
+                  onClick={handleBookClick}
                   disabled={!car.available}
-                  className={`flex-1 px-6 py-3 text-white rounded-md font-medium transition-colors ${
+                  className={`flex-1 px-6 py-3 text-white rounded-lg font-semibold transition-colors ${
                     car.available
                       ? 'bg-primary-600 hover:bg-primary-700'
                       : 'bg-neutral-400 cursor-not-allowed'

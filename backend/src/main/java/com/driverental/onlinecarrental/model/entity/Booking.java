@@ -32,8 +32,8 @@ public class Booking {
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "car_id")
-    private Car car;
+    @JoinColumn(name = "vehicle_id")
+    private Vehicle vehicle;
 
     @NotNull
     private LocalDate startDate;

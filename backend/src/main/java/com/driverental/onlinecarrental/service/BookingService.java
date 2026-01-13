@@ -16,7 +16,9 @@ public interface BookingService {
 
     BookingResponse confirmBooking(Long id);
 
-    boolean isCarAvailable(Long carId, String startDate, String endDate);
+    boolean isVehicleAvailable(Long vehicleId, String startDate, String endDate);
 
     Page<BookingResponse> getAllBookings(Pageable pageable);
+
+    BookingResponse returnCar(Long bookingId);
 }

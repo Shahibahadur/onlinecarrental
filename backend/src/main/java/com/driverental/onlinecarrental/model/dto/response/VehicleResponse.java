@@ -1,68 +1,40 @@
-package com.driverental.onlinecarrental.model.dto.request;
+package com.driverental.onlinecarrental.model.dto.response;
 
 import com.driverental.onlinecarrental.model.enums.FuelType;
-import com.driverental.onlinecarrental.model.enums.CarCategory;
-import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import com.driverental.onlinecarrental.model.enums.VehicleType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CarRequest {
-
-    @NotBlank
-    @Size(max = 50)
+public class VehicleResponse {
+    private Long id;
     private String make;
-
-    @NotBlank
-    @Size(max = 50)
     private String model;
-
-    @NotNull
     private Integer year;
-
-    @NotNull
-    private CarCategory type;
-
-    @NotNull
+    private VehicleType type;
     private FuelType fuelType;
-
-    @NotBlank
-    @Size(max = 100)
     private String transmission;
-
-    @NotNull
     private Integer seats;
-
-    @NotNull
     private Integer luggageCapacity;
-
     private List<String> features;
-
-    @NotNull
-    @DecimalMin("0.0")
     private BigDecimal basePrice;
-
-    @NotNull
-    @DecimalMin("0.0")
     private BigDecimal dailyPrice;
-
-    @NotBlank
-    @Size(max = 100)
     private String location;
-
     private String imageUrl;
-
-    @NotNull
+    private String description;
+    private String licensePlate;
+    private Double engineCapacity;
     private Boolean isAvailable;
+    private Double rating;
+    private Integer reviewCount;
+    private LocalDateTime createdAt;
 }

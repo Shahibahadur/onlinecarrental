@@ -3,8 +3,8 @@ package com.driverental.onlinecarrental.algorithm.recommendation;
 import com.driverental.onlinecarrental.model.entity.User;
 import com.driverental.onlinecarrental.model.entity.Booking;
 import com.driverental.onlinecarrental.model.entity.Review;
-import com.driverental.onlinecarrental.model.entity.Car;
-import com.driverental.onlinecarrental.model.enums.CarCategory;
+import com.driverental.onlinecarrental.model.entity.Vehicle;
+import com.driverental.onlinecarrental.model.enums.VehicleType;
 import lombok.extern.slf4j.Slf4j;
 import lombok.Data;
 import lombok.Builder;
@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 /**
  * Calculates similarity between users based on various factors:
  * - Booking history and preferences
- * - Car ratings and reviews
+ * - Vehicle ratings and reviews
  * - Demographic information
  * - Behavioral patterns
  */
@@ -77,15 +77,15 @@ public class UserSimilarity {
             return 0.0; // No similarity if one has no bookings
         }
 
-        // Extract car types from bookings
-        Set<CarCategory> types1 = bookings1.stream()
-                .map(booking -> booking.getCar().getType())
+        // Extract vehicle types from bookings
+        Set<VehicleType> types1 = bookings1.stream()
+                .map(booking -> booking.getVehicle().getType())
                 .collect(Collectors.toSet());
-        Set<CarCategory> types2 = bookings2.stream()
-                .map(booking -> booking.getCar().getType())
+        Set<VehicleType> types2 = bookings2.stream()
+                .map(booking -> booking.getVehicle().getType())
                 .collect(Collectors.toSet());
 
-        // Calculate Jaccard similarity for car types
+        // Calculate Jaccard similarity for vehicle types
         double typeSimilarity = calculateJaccardSimilarity(types1, types2);
 
         // Calculate similarity based on booking frequency and patterns
@@ -115,25 +115,25 @@ public class UserSimilarity {
             return 0.0;
         }
 
-        // Find common cars that both users have reviewed
+        // Find common vehicles that both users have reviewed
         Map<Long, Integer> ratings1 = reviews1.stream()
                 .collect(Collectors.toMap(
-                        review -> review.getCar().getId(),
+                        review -> review.getVehicle().getId(),
                         Review::getRating));
         Map<Long, Integer> ratings2 = reviews2.stream()
                 .collect(Collectors.toMap(
-                        review -> review.getCar().getId(),
+                        review -> review.getVehicle().getId(),
                         Review::getRating));
 
-        Set<Long> commonCars = new HashSet<>(ratings1.keySet());
-        commonCars.retainAll(ratings2.keySet());
+        Set<Long> commonVehicles = new HashSet<>(ratings1.keySet());
+        commonVehicles.retainAll(ratings2.keySet());
 
-        if (commonCars.isEmpty()) {
+        if (commonVehicles.isEmpty()) {
             return 0.0;
         }
 
         // Calculate Pearson correlation for common ratings
-        double correlation = calculatePearsonCorrelation(ratings1, ratings2, commonCars);
+        double correlation = calculatePearsonCorrelation(ratings1, ratings2, commonVehicles);
 
         // Normalize correlation to 0-1 range
         return Math.max(0.0, (correlation + 1) / 2);
@@ -210,9 +210,9 @@ public class UserSimilarity {
     }
 
     /**
-     * Find users with similar car preferences
+     * Find users with similar vehicle preferences
      */
-    public List<UserSimilarityScore> findUsersWithSimilarCarPreferences(User targetUser, List<User> allUsers,
+    public List<UserSimilarityScore> findUsersWithSimilarVehiclePreferences(User targetUser, List<User> allUsers,
             int topN) {
         return allUsers.stream()
                 .filter(user -> !user.getId().equals(targetUser.getId()))

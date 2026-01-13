@@ -11,18 +11,20 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, Long> {
 
-    Page<Review> findByCarId(Long carId, Pageable pageable);
+    @Query("SELECT r FROM Review r WHERE r.vehicle.id = :vehicleId")
+    Page<Review> findByVehicleId(@Param("vehicleId") Long vehicleId, Pageable pageable);
 
-    Page<Review> findByUserId(Long userId, Pageable pageable);
+    @Query("SELECT r FROM Review r WHERE r.user.id = :userId")
+    Page<Review> findByUserId(@Param("userId") Long userId, Pageable pageable);
 
-    Boolean existsByUserIdAndCarId(Long userId, Long carId);
+    Boolean existsByUserIdAndVehicleId(Long userId, Long vehicleId);
 
-    @Query("SELECT AVG(r.rating) FROM Review r WHERE r.car.id = :carId")
-    Double findAverageRatingByCarId(@Param("carId") Long carId);
+    @Query("SELECT AVG(r.rating) FROM Review r WHERE r.vehicle.id = :vehicleId")
+    Double findAverageRatingByVehicleId(@Param("vehicleId") Long vehicleId);
 
-    @Query("SELECT COUNT(r) FROM Review r WHERE r.car.id = :carId")
-    Long countByCarId(@Param("carId") Long carId);
+    @Query("SELECT COUNT(r) FROM Review r WHERE r.vehicle.id = :vehicleId")
+    Long countByVehicleId(@Param("vehicleId") Long vehicleId);
 
-    @Query("SELECT r FROM Review r WHERE r.car.id = :carId ORDER BY r.createdAt DESC")
-    Page<Review> findLatestByCarId(@Param("carId") Long carId, Pageable pageable);
+    @Query("SELECT r FROM Review r WHERE r.vehicle.id = :vehicleId ORDER BY r.createdAt DESC")
+    Page<Review> findLatestByVehicleId(@Param("vehicleId") Long vehicleId, Pageable pageable);
 }

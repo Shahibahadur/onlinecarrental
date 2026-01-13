@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import com.driverental.onlinecarrental.model.enums.VehicleType;
 
 /**
  * Enum representing different types of vehicle fuel/energy sources
@@ -181,6 +182,9 @@ public enum FuelType {
     /**
      * Constructor
      */
+    /**
+     * Constructor
+     */
     FuelType(String displayName, String abbreviation, String code, String unit,
             String colorCode, double costFactor, double environmentalImpact, String engineType) {
         this.displayName = displayName;
@@ -351,26 +355,26 @@ public enum FuelType {
     /**
      * Get recommended vehicle types for this fuel type
      */
-    public CarCategory[] getRecommendedVehicleTypes() {
+    public VehicleType[] getRecommendedVehicleTypes() {
         return switch (this) {
-            case ELECTRIC, HYDROGEN -> new CarCategory[] {
-                    CarCategory.SEDAN, CarCategory.HATCHBACK, CarCategory.SUV, CarCategory.LUXURY
+            case ELECTRIC, HYDROGEN -> new VehicleType[] {
+                    VehicleType.SEDAN, VehicleType.HATCHBACK, VehicleType.SUV, VehicleType.LUXURY
             };
-            case HYBRID, PLUGIN_HYBRID -> new CarCategory[] {
-                    CarCategory.SEDAN, CarCategory.SUV, CarCategory.HATCHBACK
+            case HYBRID, PLUGIN_HYBRID -> new VehicleType[] {
+                    VehicleType.SEDAN, VehicleType.SUV, VehicleType.HATCHBACK
             };
-            case DIESEL -> new CarCategory[] {
-                    CarCategory.SUV, CarCategory.LUXURY, CarCategory.SPORTS
+            case DIESEL -> new VehicleType[] {
+                    VehicleType.SUV, VehicleType.LUXURY, VehicleType.SPORTS
             };
-            case PETROL -> CarCategory.values(); // All types
-            case CNG, LPG -> new CarCategory[] {
-                    CarCategory.SEDAN, CarCategory.HATCHBACK
+            case PETROL -> VehicleType.values(); // All types
+            case CNG, LPG -> new VehicleType[] {
+                    VehicleType.SEDAN, VehicleType.HATCHBACK
             };
-            case BIODIESEL, ETHANOL -> new CarCategory[] {
-                    CarCategory.SEDAN, CarCategory.SUV
+            case BIODIESEL, ETHANOL -> new VehicleType[] {
+                    VehicleType.SEDAN, VehicleType.SUV
             };
-            case SYNTHETIC -> new CarCategory[] {
-                    CarCategory.LUXURY, CarCategory.SPORTS
+            case SYNTHETIC -> new VehicleType[] {
+                    VehicleType.LUXURY, VehicleType.SPORTS
             };
         };
     }

@@ -1,0 +1,147 @@
+﻿[INFO] Scanning for projects...
+[INFO] 
+[INFO] ------------------< com.driverental:onlinecarrental >-------------------
+[INFO] Building onlinecarrental 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.3.2:clean (default-clean) @ onlinecarrental ---
+[INFO] Deleting C:\Users\gurur\OneDrive\Desktop\6thsemproject\onlinecarrental\backend\target
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ onlinecarrental ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] Copying 0 resource from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.11.0:compile (default-compile) @ onlinecarrental ---
+[INFO] Changes detected - recompiling the module! :source
+[INFO] Compiling 82 source files with javac [debug release 21] to target\classes
+[INFO] -------------------------------------------------------------
+[WARNING] COMPILATION WARNING : 
+[INFO] -------------------------------------------------------------
+[WARNING] /C:/Users/gurur/OneDrive/Desktop/6thsemproject/onlinecarrental/backend/src/main/java/com/driverental/onlinecarrental/model/entity/User.java:[52,22] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+[WARNING] /C:/Users/gurur/OneDrive/Desktop/6thsemproject/onlinecarrental/backend/src/main/java/com/driverental/onlinecarrental/model/entity/User.java:[61,27] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+[WARNING] /C:/Users/gurur/OneDrive/Desktop/6thsemproject/onlinecarrental/backend/src/main/java/com/driverental/onlinecarrental/model/entity/User.java:[64,26] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+[WARNING] /C:/Users/gurur/OneDrive/Desktop/6thsemproject/onlinecarrental/backend/src/main/java/com/driverental/onlinecarrental/model/entity/Booking.java:[49,27] @Builder will ignore the initializing expression entirely. If you want the initializing expression to serve as default, add @Builder.Default. If it is not supposed to be settable during building, make the field final.
+[INFO] 4 warnings 
+[INFO] -------------------------------------------------------------
+[INFO] -------------------------------------------------------------
+[ERROR] COMPILATION ERROR : 
+[INFO] -------------------------------------------------------------
+[ERROR] /C:/Users/gurur/OneDrive/Desktop/6thsemproject/onlinecarrental/backend/src/main/java/com/driverental/onlinecarrental/algorithm/pricing/DynamicPricingEngine.java:[3,52] cannot find symbol
+  symbol:   class Car
+  location: package com.driverental.onlinecarrental.model.entity
+[ERROR] /C:/Users/gurur/OneDrive/Desktop/6thsemproject/onlinecarrental/backend/src/main/java/com/driverental/onlinecarrental/algorithm/pricing/DynamicPricingEngine.java:[4,51] cannot find symbol
+  symbol:   class CarCategory
+  location: package com.driverental.onlinecarrental.model.enums
+[ERROR] /C:/Users/gurur/OneDrive/Desktop/6thsemproject/onlinecarrental/backend/src/main/java/com/driverental/onlinecarrental/algorithm/pricing/DynamicPricingEngine.java:[20,45] cannot find symbol
+  symbol:   class Car
+  location: class com.driverental.onlinecarrental.algorithm.pricing.DynamicPricingEngine
+[ERROR] /C:/Users/gurur/OneDrive/Desktop/6thsemproject/onlinecarrental/backend/src/main/java/com/driverental/onlinecarrental/algorithm/pricing/DynamicPricingEngine.java:[75,43] cannot find symbol
+  symbol:   class Car
+  location: class com.driverental.onlinecarrental.algorithm.pricing.DynamicPricingEngine
+[ERROR] /C:/Users/gurur/OneDrive/Desktop/6thsemproject/onlinecarrental/backend/src/main/java/com/driverental/onlinecarrental/controller/RecommendationController.java:[28,32] cannot find symbol
+  symbol:   class CarResponse
+  location: class com.driverental.onlinecarrental.controller.RecommendationController
+[ERROR] /C:/Users/gurur/OneDrive/Desktop/6thsemproject/onlinecarrental/backend/src/main/java/com/driverental/onlinecarrental/model/dto/response/RecommendationResponse.java:[4,52] cannot find symbol
+  symbol:   class Car
+  location: package com.driverental.onlinecarrental.model.entity
+[ERROR] /C:/Users/gurur/OneDrive/Desktop/6thsemproject/onlinecarrental/backend/src/main/java/com/driverental/onlinecarrental/model/dto/response/RecommendationResponse.java:[19,18] cannot find symbol
+  symbol:   class Car
+  location: class com.driverental.onlinecarrental.model.dto.response.RecommendationResponse
+[ERROR] /C:/Users/gurur/OneDrive/Desktop/6thsemproject/onlinecarrental/backend/src/main/java/com/driverental/onlinecarrental/model/dto/response/RecommendationResponse.java:[19,23] cannot find symbol
+  symbol:   class Car
+  location: class com.driverental.onlinecarrental.model.dto.response.RecommendationResponse
+[ERROR] /C:/Users/gurur/OneDrive/Desktop/6thsemproject/onlinecarrental/backend/src/main/java/com/driverental/onlinecarrental/model/dto/response/RecommendationResponse.java:[13,1] cannot find symbol
+  symbol:   class Car
+  location: class com.driverental.onlinecarrental.model.dto.response.RecommendationResponse
+[ERROR] /C:/Users/gurur/OneDrive/Desktop/6thsemproject/onlinecarrental/backend/src/main/java/com/driverental/onlinecarrental/model/dto/response/RecommendationResponse.java:[16,1] cannot find symbol
+  symbol:   class Car
+  location: class com.driverental.onlinecarrental.model.dto.response.RecommendationResponse
+[ERROR] /C:/Users/gurur/OneDrive/Desktop/6thsemproject/onlinecarrental/backend/src/main/java/com/driverental/onlinecarrental/model/dto/response/RecommendationResponse.java:[14,1] cannot find symbol
+  symbol:   class Car
+  location: class com.driverental.onlinecarrental.model.dto.response.RecommendationResponse.RecommendationResponseBuilder
+[ERROR] /C:/Users/gurur/OneDrive/Desktop/6thsemproject/onlinecarrental/backend/src/main/java/com/driverental/onlinecarrental/controller/AdminController.java:[5,58] cannot find symbol
+  symbol:   class CarResponse
+  location: package com.driverental.onlinecarrental.model.dto.response
+[ERROR] /C:/Users/gurur/OneDrive/Desktop/6thsemproject/onlinecarrental/backend/src/main/java/com/driverental/onlinecarrental/controller/AdminController.java:[8,47] cannot find symbol
+  symbol:   class CarService
+  location: package com.driverental.onlinecarrental.service
+[ERROR] /C:/Users/gurur/OneDrive/Desktop/6thsemproject/onlinecarrental/backend/src/main/java/com/driverental/onlinecarrental/controller/AdminController.java:[29,19] cannot find symbol
+  symbol:   class CarService
+  location: class com.driverental.onlinecarrental.controller.AdminController
+[ERROR] /C:/Users/gurur/OneDrive/Desktop/6thsemproject/onlinecarrental/backend/src/main/java/com/driverental/onlinecarrental/controller/AdminController.java:[43,32] cannot find symbol
+  symbol:   class CarResponse
+  location: class com.driverental.onlinecarrental.controller.AdminController
+[ERROR] /C:/Users/gurur/OneDrive/Desktop/6thsemproject/onlinecarrental/backend/src/main/java/com/driverental/onlinecarrental/controller/AdminController.java:[74,27] cannot find symbol
+  symbol:   class CarResponse
+  location: class com.driverental.onlinecarrental.controller.AdminController
+[ERROR] /C:/Users/gurur/OneDrive/Desktop/6thsemproject/onlinecarrental/backend/src/main/java/com/driverental/onlinecarrental/controller/AdminController.java:[24,1] cannot find symbol
+  symbol:   class CarService
+  location: class com.driverental.onlinecarrental.controller.AdminController
+[INFO] 17 errors 
+[INFO] -------------------------------------------------------------
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  10.743 s
+[INFO] Finished at: 2026-01-08T09:31:59+05:45
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.11.0:compile (default-compile) on project onlinecarrental: Compilation failure: Compilation failure: 
+[ERROR] /C:/Users/gurur/OneDrive/Desktop/6thsemproject/onlinecarrental/backend/src/main/java/com/driverental/onlinecarrental/algorithm/pricing/DynamicPricingEngine.java:[3,52] cannot find symbol
+[ERROR]   symbol:   class Car
+[ERROR]   location: package com.driverental.onlinecarrental.model.entity
+[ERROR] /C:/Users/gurur/OneDrive/Desktop/6thsemproject/onlinecarrental/backend/src/main/java/com/driverental/onlinecarrental/algorithm/pricing/DynamicPricingEngine.java:[4,51] cannot find symbol
+[ERROR]   symbol:   class CarCategory
+[ERROR]   location: package com.driverental.onlinecarrental.model.enums
+[ERROR] /C:/Users/gurur/OneDrive/Desktop/6thsemproject/onlinecarrental/backend/src/main/java/com/driverental/onlinecarrental/algorithm/pricing/DynamicPricingEngine.java:[20,45] cannot find symbol
+[ERROR]   symbol:   class Car
+[ERROR]   location: class com.driverental.onlinecarrental.algorithm.pricing.DynamicPricingEngine
+[ERROR] /C:/Users/gurur/OneDrive/Desktop/6thsemproject/onlinecarrental/backend/src/main/java/com/driverental/onlinecarrental/algorithm/pricing/DynamicPricingEngine.java:[75,43] cannot find symbol
+[ERROR]   symbol:   class Car
+[ERROR]   location: class com.driverental.onlinecarrental.algorithm.pricing.DynamicPricingEngine
+[ERROR] /C:/Users/gurur/OneDrive/Desktop/6thsemproject/onlinecarrental/backend/src/main/java/com/driverental/onlinecarrental/controller/RecommendationController.java:[28,32] cannot find symbol
+[ERROR]   symbol:   class CarResponse
+[ERROR]   location: class com.driverental.onlinecarrental.controller.RecommendationController
+[ERROR] /C:/Users/gurur/OneDrive/Desktop/6thsemproject/onlinecarrental/backend/src/main/java/com/driverental/onlinecarrental/model/dto/response/RecommendationResponse.java:[4,52] cannot find symbol
+[ERROR]   symbol:   class Car
+[ERROR]   location: package com.driverental.onlinecarrental.model.entity
+[ERROR] /C:/Users/gurur/OneDrive/Desktop/6thsemproject/onlinecarrental/backend/src/main/java/com/driverental/onlinecarrental/model/dto/response/RecommendationResponse.java:[19,18] cannot find symbol
+[ERROR]   symbol:   class Car
+[ERROR]   location: class com.driverental.onlinecarrental.model.dto.response.RecommendationResponse
+[ERROR] /C:/Users/gurur/OneDrive/Desktop/6thsemproject/onlinecarrental/backend/src/main/java/com/driverental/onlinecarrental/model/dto/response/RecommendationResponse.java:[19,23] cannot find symbol
+[ERROR]   symbol:   class Car
+[ERROR]   location: class com.driverental.onlinecarrental.model.dto.response.RecommendationResponse
+[ERROR] /C:/Users/gurur/OneDrive/Desktop/6thsemproject/onlinecarrental/backend/src/main/java/com/driverental/onlinecarrental/model/dto/response/RecommendationResponse.java:[13,1] cannot find symbol
+[ERROR]   symbol:   class Car
+[ERROR]   location: class com.driverental.onlinecarrental.model.dto.response.RecommendationResponse
+[ERROR] /C:/Users/gurur/OneDrive/Desktop/6thsemproject/onlinecarrental/backend/src/main/java/com/driverental/onlinecarrental/model/dto/response/RecommendationResponse.java:[16,1] cannot find symbol
+[ERROR]   symbol:   class Car
+[ERROR]   location: class com.driverental.onlinecarrental.model.dto.response.RecommendationResponse
+[ERROR] /C:/Users/gurur/OneDrive/Desktop/6thsemproject/onlinecarrental/backend/src/main/java/com/driverental/onlinecarrental/model/dto/response/RecommendationResponse.java:[14,1] cannot find symbol
+[ERROR]   symbol:   class Car
+[ERROR]   location: class com.driverental.onlinecarrental.model.dto.response.RecommendationResponse.RecommendationResponseBuilder
+[ERROR] /C:/Users/gurur/OneDrive/Desktop/6thsemproject/onlinecarrental/backend/src/main/java/com/driverental/onlinecarrental/controller/AdminController.java:[5,58] cannot find symbol
+[ERROR]   symbol:   class CarResponse
+[ERROR]   location: package com.driverental.onlinecarrental.model.dto.response
+[ERROR] /C:/Users/gurur/OneDrive/Desktop/6thsemproject/onlinecarrental/backend/src/main/java/com/driverental/onlinecarrental/controller/AdminController.java:[8,47] cannot find symbol
+[ERROR]   symbol:   class CarService
+[ERROR]   location: package com.driverental.onlinecarrental.service
+[ERROR] /C:/Users/gurur/OneDrive/Desktop/6thsemproject/onlinecarrental/backend/src/main/java/com/driverental/onlinecarrental/controller/AdminController.java:[29,19] cannot find symbol
+[ERROR]   symbol:   class CarService
+[ERROR]   location: class com.driverental.onlinecarrental.controller.AdminController
+[ERROR] /C:/Users/gurur/OneDrive/Desktop/6thsemproject/onlinecarrental/backend/src/main/java/com/driverental/onlinecarrental/controller/AdminController.java:[43,32] cannot find symbol
+[ERROR]   symbol:   class CarResponse
+[ERROR]   location: class com.driverental.onlinecarrental.controller.AdminController
+[ERROR] /C:/Users/gurur/OneDrive/Desktop/6thsemproject/onlinecarrental/backend/src/main/java/com/driverental/onlinecarrental/controller/AdminController.java:[74,27] cannot find symbol
+[ERROR]   symbol:   class CarResponse
+[ERROR]   location: class com.driverental.onlinecarrental.controller.AdminController
+[ERROR] /C:/Users/gurur/OneDrive/Desktop/6thsemproject/onlinecarrental/backend/src/main/java/com/driverental/onlinecarrental/controller/AdminController.java:[24,1] cannot find symbol
+[ERROR]   symbol:   class CarService
+[ERROR]   location: class com.driverental.onlinecarrental.controller.AdminController
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException

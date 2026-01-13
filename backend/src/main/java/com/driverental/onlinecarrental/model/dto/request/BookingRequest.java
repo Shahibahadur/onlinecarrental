@@ -16,7 +16,7 @@ import java.time.LocalDate;
 public class BookingRequest {
 
     @NotNull
-    private Long carId;
+    private Long vehicleId;
 
     @NotNull
     @Future

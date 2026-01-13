@@ -1,6 +1,9 @@
 package com.driverental.onlinecarrental.service;
 
+import com.driverental.onlinecarrental.model.entity.Vehicle;
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
 public interface PricingService {
-    java.math.BigDecimal calculateBookingPrice(com.driverental.onlinecarrental.model.entity.Car car,
-            java.time.LocalDate startDate, java.time.LocalDate endDate);
+    BigDecimal calculateBookingPrice(Vehicle vehicle, LocalDate startDate, LocalDate endDate);
 }

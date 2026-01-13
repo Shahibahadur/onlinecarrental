@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -6,6 +6,7 @@ import { z } from 'zod';
 import { useDispatch } from 'react-redux';
 import { Car } from 'lucide-react';
 import { setUser } from '../store/slices/authSlice';
+import { authAPI } from '../api/auth';
 
 const loginSchema = z.object({
   email: z.string().email('Invalid email address'),
@@ -17,6 +18,7 @@ type LoginForm = z.infer<typeof loginSchema>;
 const Login: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [error, setError] = useState<string | null>(null);
   const {
     register,
     handleSubmit,
@@ -26,20 +28,37 @@ const Login: React.FC = () => {
   });
 
   const onSubmit = async (data: LoginForm) => {
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    // Mock user data - in real app, this would come from your API
-    const mockUser = {
-      id: '1',
-      email: data.email,
-      firstName: 'John',
-      lastName: 'Doe',
-      phone: '+1234567890',
-    };
-    
-    dispatch(setUser(mockUser));
-    navigate('/dashboard');
+    try {
+      setError(null);
+      
+      // Call the actual API
+      const response = await authAPI.login({
+        email: data.email,
+        password: data.password,
+      });
+      
+      // Store the token
+      localStorage.setItem('authToken', response.data.token);
+      
+      // Store user data in Redux
+      const user = {
+        id: response.data.email, // Using email as ID temporarily
+        email: response.data.email,
+        firstName: response.data.firstName,
+        lastName: response.data.lastName,
+        phone: '',
+      };
+      
+      dispatch(setUser(user));
+      navigate('/dashboard');
+    } catch (err: any) {
+      console.error('Login error:', err);
+      setError(
+        err.response?.data?.message || 
+        err.message || 
+        'Login failed. Please check your credentials.'
+      );
+    }
   };
 
   return (
@@ -99,6 +118,12 @@ const Login: React.FC = () => {
                 )}
               </div>
             </div>
+
+            {error && (
+              <div className="rounded-md bg-red-50 p-4">
+                <div className="text-sm text-red-800">{error}</div>
+              </div>
+            )}
 
             <div>
               <button

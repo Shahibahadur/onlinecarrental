@@ -3,11 +3,11 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary-50: #eff6ff;
-  --color-primary-100: #dbeafe;
-  --color-primary-500: #3b82f6;
-  --color-primary-600: #2563eb;
-  --color-primary-700: #1d4ed8;
+  --color-primary-50: #fff7ed;
+  --color-primary-100: #ffedd5;
+  --color-primary-500: #f97316;
+  --color-primary-600: #ea580c;
+  --color-primary-700: #c2410c;
   
   --color-neutral-50: #f9fafb;
   --color-neutral-100: #f3f4f6;
@@ -66,4 +66,25 @@ body {
 
 .animate-pulse {
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Ensure select dropdown options are always visible */
+select option {
+  color: #111827 !important;
+  background-color: #ffffff !important;
+  padding: 0.5rem;
+}
+
+select option:hover {
+  background-color: #fff7ed !important;
+}
+
+select:focus option {
+  color: #111827 !important;
+  background-color: #ffffff !important;
+}
+
+select:focus option:checked {
+  background-color: #ea580c !important;
+  color: #ffffff !important;
 }

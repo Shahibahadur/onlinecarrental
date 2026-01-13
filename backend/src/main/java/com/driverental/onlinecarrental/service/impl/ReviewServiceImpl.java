@@ -4,10 +4,10 @@ import com.driverental.onlinecarrental.model.dto.request.ReviewRequest;
 import com.driverental.onlinecarrental.model.dto.response.ReviewResponse;
 import com.driverental.onlinecarrental.model.entity.Review;
 import com.driverental.onlinecarrental.model.entity.User;
-import com.driverental.onlinecarrental.model.entity.Car;
+import com.driverental.onlinecarrental.model.entity.Vehicle;
 import com.driverental.onlinecarrental.repository.ReviewRepository;
 import com.driverental.onlinecarrental.repository.UserRepository;
-import com.driverental.onlinecarrental.repository.CarRepository;
+import com.driverental.onlinecarrental.repository.VehicleRepository;
 import com.driverental.onlinecarrental.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -21,7 +21,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     private final ReviewRepository reviewRepository;
     private final UserRepository userRepository;
-    private final CarRepository carRepository;
+    private final VehicleRepository vehicleRepository;
 
     @Override
     @Transactional
@@ -29,25 +29,25 @@ public class ReviewServiceImpl implements ReviewService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        Car car = carRepository.findById(request.getCarId())
-                .orElseThrow(() -> new RuntimeException("Car not found"));
+        Vehicle vehicle = vehicleRepository.findById(request.getVehicleId())
+                .orElseThrow(() -> new RuntimeException("Vehicle not found"));
 
-        // Check if user has already reviewed this car
-        if (reviewRepository.existsByUserIdAndCarId(userId, request.getCarId())) {
-            throw new RuntimeException("User has already reviewed this car");
+        // Check if user has already reviewed this vehicle
+        if (reviewRepository.existsByUserIdAndVehicleId(userId, request.getVehicleId())) {
+            throw new RuntimeException("User has already reviewed this vehicle");
         }
 
         Review review = Review.builder()
                 .user(user)
-                .car(car)
-                .rating(request.getRating())
+                .vehicle(vehicle)
+                .rating(request.getRating().intValue())
                 .comment(request.getComment())
                 .build();
 
         Review savedReview = reviewRepository.save(review);
 
-        // Update car rating
-        updateCarRating(car);
+        // Update vehicle rating
+        updateVehicleRating(vehicle);
 
         return convertToResponse(savedReview);
     }
@@ -60,8 +60,8 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public Page<ReviewResponse> getCarReviews(Long carId, Pageable pageable) {
-        Page<Review> reviews = reviewRepository.findByCarId(carId, pageable);
+    public Page<ReviewResponse> getVehicleReviews(Long vehicleId, Pageable pageable) {
+        Page<Review> reviews = reviewRepository.findByVehicleId(vehicleId, pageable);
         return reviews.map(this::convertToResponse);
     }
 
@@ -73,58 +73,66 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     @Transactional
-    public ReviewResponse updateReview(Long id, ReviewRequest request) {
-        Review review = reviewRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Review not found"));
-
-        review.setRating(request.getRating());
-        review.setComment(request.getComment());
-
-        Review updatedReview = reviewRepository.save(review);
-
-        // Update car rating
-        updateCarRating(review.getCar());
-
-        return convertToResponse(updatedReview);
-    }
-
-    @Override
-    @Transactional
     public void deleteReview(Long id) {
         Review review = reviewRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Review not found"));
 
-        Car car = review.getCar();
+        Vehicle vehicle = review.getVehicle();
         reviewRepository.delete(review);
 
-        // Update car rating
-        updateCarRating(car);
+        // Update vehicle rating
+        updateVehicleRating(vehicle);
     }
 
     @Override
-    public Double getAverageRatingForCar(Long carId) {
-        return reviewRepository.findAverageRatingByCarId(carId);
+    public Double getAverageRatingForVehicle(Long vehicleId) {
+        return reviewRepository.findAverageRatingByVehicleId(vehicleId);
     }
 
-    private void updateCarRating(Car car) {
-        Double averageRating = reviewRepository.findAverageRatingByCarId(car.getId());
-        Long reviewCount = reviewRepository.countByCarId(car.getId());
+    private void updateVehicleRating(Vehicle vehicle) {
+        Double averageRating = reviewRepository.findAverageRatingByVehicleId(vehicle.getId());
+        Long reviewCount = reviewRepository.countByVehicleId(vehicle.getId());
 
-        car.setRating(averageRating != null ? averageRating : 0.0);
-        car.setReviewCount(reviewCount.intValue());
+        vehicle.setRating(averageRating != null ? averageRating : 0.0);
+        vehicle.setReviewCount(reviewCount.intValue());
 
-        carRepository.save(car);
+        vehicleRepository.save(vehicle);
     }
 
     private ReviewResponse convertToResponse(Review review) {
         return ReviewResponse.builder()
                 .id(review.getId())
                 .userId(review.getUser().getId())
-                .carId(review.getCar().getId())
+                .vehicleId(review.getVehicle().getId())
                 .userName(review.getUser().getFirstName() + " " + review.getUser().getLastName())
                 .rating(review.getRating())
                 .comment(review.getComment())
                 .createdAt(review.getCreatedAt())
                 .build();
+    }
+
+    @Override
+    @Transactional
+    public ReviewResponse updateReview(Long id, ReviewRequest request) {
+        Review review = reviewRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Review not found"));
+
+        if (!review.getVehicle().getId().equals(request.getVehicleId())) {
+            throw new RuntimeException("Cannot change vehicle for a review");
+        }
+
+        review.setRating(request.getRating().intValue());
+        review.setComment(request.getComment());
+
+        Review updatedReview = reviewRepository.save(review);
+        updateVehicleRating(review.getVehicle());
+
+        return convertToResponse(updatedReview);
+    }
+
+    @Override
+    public Page<ReviewResponse> getAllReviews(Pageable pageable) {
+        Page<Review> reviews = reviewRepository.findAll(pageable);
+        return reviews.map(this::convertToResponse);
     }
 }

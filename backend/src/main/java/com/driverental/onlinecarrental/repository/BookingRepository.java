@@ -18,14 +18,14 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
 
         Page<Booking> findByUserId(Long userId, Pageable pageable);
 
-        Page<Booking> findByCarId(Long carId, Pageable pageable);
+        Page<Booking> findByVehicleId(Long vehicleId, Pageable pageable);
 
-        @Query("SELECT b FROM Booking b WHERE b.car.id = :carId AND " +
+        @Query("SELECT b FROM Booking b WHERE b.vehicle.id = :vehicleId AND " +
                         "b.status != 'CANCELLED' AND " +
                         "((b.startDate BETWEEN :startDate AND :endDate) OR " +
                         "(b.endDate BETWEEN :startDate AND :endDate) OR " +
                         "(b.startDate <= :startDate AND b.endDate >= :endDate))")
-        List<Booking> findConflictingBookings(@Param("carId") Long carId,
+        List<Booking> findConflictingBookings(@Param("vehicleId") Long vehicleId,
                         @Param("startDate") LocalDate startDate,
                         @Param("endDate") LocalDate endDate);
 
@@ -35,7 +35,12 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
 
         List<Booking> findByStatusAndCreatedAtBefore(BookingStatus status, LocalDateTime createdAt);
 
-        @Query("SELECT COUNT(b) FROM Booking b WHERE b.car.id = :carId AND b.startDate >= :startDate")
-        Long countByCarIdAndStartDateAfter(@Param("carId") Long carId,
+        @Query("SELECT COUNT(b) FROM Booking b WHERE b.vehicle.id = :vehicleId AND b.startDate >= :startDate")
+        Long countByVehicleIdAndStartDateAfter(@Param("vehicleId") Long vehicleId,
                         @Param("startDate") LocalDate startDate);
+
+        Long countByStatus(BookingStatus status);
+
+        @Query("SELECT COUNT(b) FROM Booking b WHERE b.status IN :statuses")
+        Long countByStatusIn(@Param("statuses") List<BookingStatus> statuses);
 }

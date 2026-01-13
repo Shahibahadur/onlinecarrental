@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { CreditCard } from 'lucide-react';
 import type { BookingRequest } from '../../types/api';
+import { formatCurrency } from '../../constants/locale';
 
 interface CheckoutFormProps {
   booking: BookingRequest;
@@ -29,8 +30,8 @@ const CheckoutForm: React.FC<CheckoutFormProps> = ({ totalPrice, onSubmit, isLoa
       <div className="bg-neutral-50 p-4 rounded-lg">
         <h3 className="font-semibold text-neutral-900 mb-2">Order Summary</h3>
         <div className="space-y-1 text-sm text-neutral-600">
-          <p>Subtotal: ${totalPrice.toFixed(2)}</p>
-          <p className="font-semibold text-neutral-900 text-lg mt-2">Total: ${totalPrice.toFixed(2)}</p>
+          <p>Subtotal: {formatCurrency(totalPrice)}</p>
+          <p className="font-semibold text-neutral-900 text-lg mt-2">Total: {formatCurrency(totalPrice)}</p>
         </div>
       </div>
 

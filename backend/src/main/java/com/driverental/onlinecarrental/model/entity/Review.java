@@ -27,8 +27,8 @@ public class Review {
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "car_id")
-    private Car car;
+    @JoinColumn(name = "vehicle_id")
+    private Vehicle vehicle;
 
     private Integer rating;
 

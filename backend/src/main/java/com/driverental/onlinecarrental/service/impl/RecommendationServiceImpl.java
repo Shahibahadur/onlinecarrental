@@ -6,11 +6,11 @@ import com.driverental.onlinecarrental.algorithm.recommendation.MatrixFactorizat
 import com.driverental.onlinecarrental.model.dto.response.RecommendationResponse;
 import com.driverental.onlinecarrental.model.entity.Booking;
 import com.driverental.onlinecarrental.model.entity.User;
-import com.driverental.onlinecarrental.model.entity.Car;
-import com.driverental.onlinecarrental.model.enums.CarCategory;
+import com.driverental.onlinecarrental.model.entity.Vehicle;
+import com.driverental.onlinecarrental.model.enums.VehicleType;
 import com.driverental.onlinecarrental.repository.BookingRepository;
 import com.driverental.onlinecarrental.repository.UserRepository;
-import com.driverental.onlinecarrental.repository.CarRepository;
+import com.driverental.onlinecarrental.repository.VehicleRepository;
 import com.driverental.onlinecarrental.service.RecommendationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,7 +36,7 @@ public class RecommendationServiceImpl implements RecommendationService {
     private final CollaborativeFiltering collaborativeFiltering;
     private final MatrixFactorization matrixFactorization;
     private final UserRepository userRepository;
-    private final CarRepository carRepository;
+    private final VehicleRepository vehicleRepository;
     private final BookingRepository bookingRepository;
 
     // In-memory cache for user interactions (in production, use Redis)
@@ -44,56 +44,59 @@ public class RecommendationServiceImpl implements RecommendationService {
 
     @Override
     @Cacheable(value = "userRecommendations", key = "#userId")
-    public List<Car> getRecommendationsForUser(Long userId) {
+    public List<Vehicle> getRecommendationsForUser(Long userId) {
         log.info("Generating personalized recommendations for user: {}", userId);
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
 
         // Check if user has sufficient data for personalization
-        if (!hasSufficientDataForPersonalization(userId)) {
+        if (!Boolean.TRUE.equals(hasSufficientDataForPersonalization(userId))) {
             log.info("Insufficient data for user {}, returning cold start recommendations", userId);
             return getColdStartRecommendations();
         }
 
         List<User> allUsers = userRepository.findAll();
-        List<Car> allCars = carRepository.findByIsAvailableTrue();
+        List<Vehicle> allVehicles = vehicleRepository.findByIsAvailableTrue();
 
-        List<Car> recommendations = hybridRecommender.getHybridRecommendations(
-                user, allUsers, allCars, 10);
+        // Needed for matrix factorization / item-similarity signals
+        List<Booking> allBookings = bookingRepository.findAll();
+
+        List<Vehicle> recommendations = hybridRecommender.getHybridRecommendations(
+                user, allUsers, allVehicles, allBookings, 10);
 
         log.info("Generated {} personalized recommendations for user {}", recommendations.size(), userId);
         return recommendations;
     }
 
     @Override
-    @Cacheable(value = "popularCars", key = "'popular'")
-    public List<Car> getPopularCars() {
-        log.info("Fetching popular cars");
-        return carRepository.findTop10ByOrderByRatingDescReviewCountDesc();
+    @Cacheable(value = "popularVehicles", key = "'popular'")
+    public List<Vehicle> getPopularVehicles() {
+        log.info("Fetching popular vehicles");
+        return vehicleRepository.findTop10ByIsAvailableTrueOrderByRatingDescReviewCountDesc();
     }
 
     @Override
-    @Cacheable(value = "similarCars", key = "#carId")
-    public List<Car> getSimilarCars(Long carId) {
-        log.info("Finding similar cars for car: {}", carId);
+    @Cacheable(value = "similarVehicles", key = "#vehicleId")
+    public List<Vehicle> getSimilarVehicles(Long vehicleId) {
+        log.info("Finding similar vehicles for vehicle: {}", vehicleId);
 
-        Car targetCar = carRepository.findById(carId)
-                .orElseThrow(() -> new RuntimeException("Car not found with id: " + carId));
+        Vehicle targetVehicle = vehicleRepository.findById(vehicleId)
+                .orElseThrow(() -> new RuntimeException("Vehicle not found with id: " + vehicleId));
 
-        List<Car> allCars = carRepository.findByIsAvailableTrue();
+        List<Vehicle> allVehicles = vehicleRepository.findByIsAvailableTrue();
 
-        return allCars.stream()
-                .filter(car -> !car.getId().equals(carId))
-                .filter(car -> car.getIsAvailable())
-                .sorted((v1, v2) -> calculateSimilarityScore(targetCar, v1)
-                        .compareTo(calculateSimilarityScore(targetCar, v2)))
+        return allVehicles.stream()
+                .filter(vehicle -> !vehicle.getId().equals(vehicleId))
+                .filter(vehicle -> vehicle.getIsAvailable())
+                .sorted((v1, v2) -> calculateSimilarityScore(targetVehicle, v1)
+                        .compareTo(calculateSimilarityScore(targetVehicle, v2)))
                 .limit(5)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<Car> getSearchBasedRecommendations(Long userId) {
+    public List<Vehicle> getSearchBasedRecommendations(Long userId) {
         log.info("Generating search-based recommendations for user: {}", userId);
 
         // Get user's recent search interactions
@@ -104,23 +107,23 @@ public class RecommendationServiceImpl implements RecommendationService {
                 .collect(Collectors.toList());
 
         if (searches.isEmpty()) {
-            return getPopularCars();
+            return getPopularVehicles();
         }
 
-        // Extract keywords from searches and find similar cars
+        // Extract keywords from searches and find similar vehicles
         Set<String> searchKeywords = searches.stream()
                 .map(UserInteraction::getDetails)
                 .collect(Collectors.toSet());
 
-        return carRepository.findByIsAvailableTrue().stream()
-                .filter(car -> matchesSearchKeywords(car, searchKeywords))
-                .sorted(Comparator.comparing(Car::getRating).reversed())
+        return vehicleRepository.findByIsAvailableTrue().stream()
+                .filter(vehicle -> matchesSearchKeywords(vehicle, searchKeywords))
+                .sorted(Comparator.comparing(Vehicle::getRating).reversed())
                 .limit(10)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<Car> getFeatureBasedRecommendations(Long userId, List<String> preferredFeatures) {
+    public List<Vehicle> getFeatureBasedRecommendations(Long userId, List<String> preferredFeatures) {
         log.info("Generating feature-based recommendations for user: {}", userId);
 
         List<String> effectiveFeatures;
@@ -131,34 +134,31 @@ public class RecommendationServiceImpl implements RecommendationService {
             effectiveFeatures = preferredFeatures;
         }
 
-        List<Car> allCars = carRepository.findByIsAvailableTrue();
+        List<Vehicle> allVehicles = vehicleRepository.findByIsAvailableTrue();
 
-        return allCars.stream()
-                .filter(car -> hasMatchingFeatures(car, effectiveFeatures))
-                .sorted(Comparator.comparing(Car::getRating).reversed())
+        return allVehicles.stream()
+                .filter(vehicle -> hasMatchingFeatures(vehicle, effectiveFeatures))
+                .sorted(Comparator.comparing(Vehicle::getRating).reversed())
                 .limit(10)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<Car> getLocationBasedRecommendations(Long userId, String location) {
+    public List<Vehicle> getLocationBasedRecommendations(Long userId, String location) {
         log.info("Generating location-based recommendations for user: {}", userId);
-
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
 
         // Use provided location or user's common location from bookings
         String targetLocation = (location != null) ? location : getUserCommonLocation(userId);
 
-        return carRepository.findByLocationContainingIgnoreCaseAndIsAvailableTrue(targetLocation,
+        return vehicleRepository.findByLocationContainingIgnoreCaseAndIsAvailableTrue(targetLocation,
                 org.springframework.data.domain.PageRequest.of(0, 10))
                 .stream()
-                .sorted(Comparator.comparing(Car::getRating).reversed())
+                .sorted(Comparator.comparing(Vehicle::getRating).reversed())
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<Car> getBudgetBasedRecommendations(Long userId, Double maxDailyPrice) {
+    public List<Vehicle> getBudgetBasedRecommendations(Long userId, Double maxDailyPrice) {
         log.info("Generating budget-based recommendations for user: {}", userId);
 
         Double effectiveMaxPrice;
@@ -169,9 +169,9 @@ public class RecommendationServiceImpl implements RecommendationService {
             effectiveMaxPrice = maxDailyPrice;
         }
 
-        return carRepository.findByIsAvailableTrue().stream()
-                .filter(car -> car.getDailyPrice().doubleValue() <= effectiveMaxPrice)
-                .sorted(Comparator.comparing(Car::getRating).reversed())
+        return vehicleRepository.findByIsAvailableTrue().stream()
+                .filter(vehicle -> vehicle.getDailyPrice().doubleValue() <= effectiveMaxPrice)
+                .sorted(Comparator.comparing(Vehicle::getRating).reversed())
                 .limit(10)
                 .collect(Collectors.toList());
     }
@@ -180,19 +180,19 @@ public class RecommendationServiceImpl implements RecommendationService {
     public RecommendationResponse getHybridRecommendations(Long userId) {
         log.info("Generating comprehensive hybrid recommendations for user: {}", userId);
 
-        List<Car> personalized = getRecommendationsForUser(userId);
-        List<Car> popular = getPopularCars();
-        List<Car> trending = getTrendingCars();
-        List<Car> diverse = getDiverseRecommendations(userId, 3);
+        List<Vehicle> personalized = getRecommendationsForUser(userId);
+        List<Vehicle> popular = getPopularVehicles();
+        List<Vehicle> trending = getTrendingVehicles();
+        List<Vehicle> diverse = getDiverseRecommendations(userId, 3);
 
         // Combine and deduplicate recommendations
-        Set<Car> allRecommendations = new LinkedHashSet<>();
+        Set<Vehicle> allRecommendations = new LinkedHashSet<>();
         allRecommendations.addAll(personalized);
         allRecommendations.addAll(popular);
         allRecommendations.addAll(trending);
         allRecommendations.addAll(diverse);
 
-        List<Car> finalRecommendations = new ArrayList<>(allRecommendations)
+        List<Vehicle> finalRecommendations = new ArrayList<>(allRecommendations)
                 .stream()
                 .limit(15)
                 .collect(Collectors.toList());
@@ -209,14 +209,14 @@ public class RecommendationServiceImpl implements RecommendationService {
     }
 
     @Override
-    public Map<String, Object> getRecommendationExplanations(Long userId, Long carId) {
-        log.info("Generating explanation for recommendation: user={}, car={}", userId, carId);
+    public Map<String, Object> getRecommendationExplanations(Long userId, Long vehicleId) {
+        log.info("Generating explanation for recommendation: user={}, vehicle={}", userId, vehicleId);
 
         Map<String, Object> explanations = new HashMap<>();
         User user = userRepository.findById(userId).orElse(null);
-        Car car = carRepository.findById(carId).orElse(null);
+        Vehicle vehicle = vehicleRepository.findById(vehicleId).orElse(null);
 
-        if (user == null || car == null) {
+        if (user == null || vehicle == null) {
             return explanations;
         }
 
@@ -231,7 +231,7 @@ public class RecommendationServiceImpl implements RecommendationService {
 
         // Features matching user preferences
         List<String> userPreferences = inferPreferredFeatures(userId);
-        List<String> matchingFeatures = car.getFeatures().stream()
+        List<String> matchingFeatures = vehicle.getFeatures().stream()
                 .filter(userPreferences::contains)
                 .collect(Collectors.toList());
         if (!matchingFeatures.isEmpty()) {
@@ -240,18 +240,18 @@ public class RecommendationServiceImpl implements RecommendationService {
 
         // Price justification
         Double userAvgSpent = getUserAverageSpending(userId);
-        if (userAvgSpent != null && car.getDailyPrice().doubleValue() <= userAvgSpent * 1.2) {
+        if (userAvgSpent != null && vehicle.getDailyPrice().doubleValue() <= userAvgSpent * 1.2) {
             explanations.put("priceReason", "Within your typical budget");
         }
 
         // Location convenience
         String userCommonLocation = getUserCommonLocation(userId);
-        if (userCommonLocation != null && car.getLocation().contains(userCommonLocation)) {
+        if (userCommonLocation != null && vehicle.getLocation().contains(userCommonLocation)) {
             explanations.put("locationReason", "Convenient location based on your history");
         }
 
         // High rating
-        if (car.getRating() >= 4.0) {
+        if (vehicle.getRating() >= 4.0) {
             explanations.put("ratingReason", "Highly rated by other users");
         }
 
@@ -259,8 +259,8 @@ public class RecommendationServiceImpl implements RecommendationService {
     }
 
     @Override
-    @CacheEvict(value = { "userRecommendations", "popularCars", "similarCars",
-            "trendingCars" }, allEntries = true)
+    @CacheEvict(value = { "userRecommendations", "popularVehicles", "similarVehicles",
+            "trendingVehicles" }, allEntries = true)
     public void refreshRecommendationModel() {
         log.info("Refreshing recommendation models");
         // In a real implementation, this would retrain ML models
@@ -311,12 +311,12 @@ public class RecommendationServiceImpl implements RecommendationService {
     }
 
     @Override
-    public void trackUserInteraction(Long userId, Long carId, String interactionType) {
-        log.debug("Tracking user interaction: user={}, car={}, type={}", userId, carId, interactionType);
+    public void trackUserInteraction(Long userId, Long vehicleId, String interactionType) {
+        log.debug("Tracking user interaction: user={}, vehicle={}, type={}", userId, vehicleId, interactionType);
 
         UserInteraction interaction = UserInteraction.builder()
                 .userId(userId)
-                .carId(carId)
+                .vehicleId(vehicleId)
                 .type(interactionType)
                 .timestamp(LocalDateTime.now())
                 .build();
@@ -333,14 +333,14 @@ public class RecommendationServiceImpl implements RecommendationService {
     }
 
     @Override
-    @Cacheable(value = "trendingCars", key = "'trending'")
-    public List<Car> getTrendingCars() {
-        log.info("Fetching trending cars");
+    @Cacheable(value = "trendingVehicles", key = "'trending'")
+    public List<Vehicle> getTrendingVehicles() {
+        log.info("Fetching trending vehicles");
 
         LocalDate oneWeekAgo = LocalDate.now().minusWeeks(1);
 
-        // Get cars with recent bookings and high engagement
-        return carRepository.findByIsAvailableTrue().stream()
+        // Get vehicles with recent bookings and high engagement
+        return vehicleRepository.findByIsAvailableTrue().stream()
                 .sorted((v1, v2) -> {
                     double score1 = calculateTrendingScore(v1, oneWeekAgo);
                     double score2 = calculateTrendingScore(v2, oneWeekAgo);
@@ -351,18 +351,18 @@ public class RecommendationServiceImpl implements RecommendationService {
     }
 
     @Override
-    public List<Car> getColdStartRecommendations() {
+    public List<Vehicle> getColdStartRecommendations() {
         log.info("Generating cold start recommendations for new users");
 
-        // Combine popular, highly-rated, and diverse cars
-        List<Car> popular = getPopularCars();
-        List<Car> highlyRated = carRepository.findByIsAvailableTrue().stream()
+        // Combine popular, highly-rated, and diverse vehicles
+        List<Vehicle> popular = getPopularVehicles();
+        List<Vehicle> highlyRated = vehicleRepository.findByIsAvailableTrue().stream()
                 .filter(v -> v.getRating() >= 4.5)
-                .sorted(Comparator.comparing(Car::getReviewCount).reversed())
+                .sorted(Comparator.comparing(Vehicle::getReviewCount).reversed())
                 .limit(5)
                 .collect(Collectors.toList());
 
-        Set<Car> recommendations = new LinkedHashSet<>();
+        Set<Vehicle> recommendations = new LinkedHashSet<>();
         recommendations.addAll(popular);
         recommendations.addAll(highlyRated);
 
@@ -372,29 +372,29 @@ public class RecommendationServiceImpl implements RecommendationService {
     }
 
     @Override
-    public List<Car> getDiverseRecommendations(Long userId, Integer diversityFactor) {
+    public List<Vehicle> getDiverseRecommendations(Long userId, Integer diversityFactor) {
         log.info("Generating diverse recommendations for user: {}", userId);
 
         int factor = (diversityFactor != null) ? diversityFactor : 3;
-        List<Car> baseRecommendations = getRecommendationsForUser(userId);
+        List<Vehicle> baseRecommendations = getRecommendationsForUser(userId);
 
         if (baseRecommendations.isEmpty()) {
             return getColdStartRecommendations();
         }
 
-        // Group by car type and select top from each group
-        Map<CarCategory, List<Car>> byType = baseRecommendations.stream()
-                .collect(Collectors.groupingBy(Car::getType));
+        // Group by vehicle type and select top from each group
+        Map<VehicleType, List<Vehicle>> byType = baseRecommendations.stream()
+                .collect(Collectors.groupingBy(Vehicle::getType));
 
-        List<Car> diverse = new ArrayList<>();
-        for (List<Car> cars : byType.values()) {
-            diverse.addAll(cars.stream().limit(factor).collect(Collectors.toList()));
+        List<Vehicle> diverse = new ArrayList<>();
+        for (List<Vehicle> vehicles : byType.values()) {
+            diverse.addAll(vehicles.stream().limit(factor).collect(Collectors.toList()));
         }
 
-        // Add some random cars for extra diversity
-        List<Car> allCars = carRepository.findByIsAvailableTrue();
-        Collections.shuffle(allCars);
-        diverse.addAll(allCars.stream()
+        // Add some random vehicles for extra diversity
+        List<Vehicle> allVehicles = vehicleRepository.findByIsAvailableTrue();
+        Collections.shuffle(allVehicles);
+        diverse.addAll(allVehicles.stream()
                 .filter(v -> !baseRecommendations.contains(v))
                 .limit(2)
                 .collect(Collectors.toList()));
@@ -403,15 +403,15 @@ public class RecommendationServiceImpl implements RecommendationService {
     }
 
     @Override
-    public List<Car> getSeasonalRecommendations() {
+    public List<Vehicle> getSeasonalRecommendations() {
         log.info("Generating seasonal recommendations");
 
         Month currentMonth = LocalDate.now().getMonth();
-        CarCategory seasonalType = getSeasonalCarCategory(currentMonth);
+        VehicleType seasonalType = getSeasonalVehicleType(currentMonth);
 
-        return carRepository.findByIsAvailableTrue().stream()
-                .filter(car -> car.getType() == seasonalType)
-                .sorted(Comparator.comparing(Car::getRating).reversed())
+        return vehicleRepository.findByIsAvailableTrue().stream()
+                .filter(vehicle -> vehicle.getType() == seasonalType)
+                .sorted(Comparator.comparing(Vehicle::getRating).reversed())
                 .limit(10)
                 .collect(Collectors.toList());
     }
@@ -432,7 +432,7 @@ public class RecommendationServiceImpl implements RecommendationService {
 
     // Helper methods
 
-    private Double calculateSimilarityScore(Car v1, Car v2) {
+    private Double calculateSimilarityScore(Vehicle v1, Vehicle v2) {
         double score = 0.0;
 
         // Type similarity
@@ -458,13 +458,13 @@ public class RecommendationServiceImpl implements RecommendationService {
         return score;
     }
 
-    private boolean matchesSearchKeywords(Car car, Set<String> keywords) {
-        String carText = (car.getMake() + " " + car.getModel() + " " +
-                car.getType() + " " + String.join(" ", car.getFeatures()))
+    private boolean matchesSearchKeywords(Vehicle vehicle, Set<String> keywords) {
+        String vehicleText = (vehicle.getMake() + " " + vehicle.getModel() + " " +
+                vehicle.getType() + " " + String.join(" ", vehicle.getFeatures()))
                 .toLowerCase();
 
         return keywords.stream()
-                .anyMatch(keyword -> carText.contains(keyword.toLowerCase()));
+                .anyMatch(keyword -> vehicleText.contains(keyword.toLowerCase()));
     }
 
     private List<String> inferPreferredFeatures(Long userId) {
@@ -473,10 +473,10 @@ public class RecommendationServiceImpl implements RecommendationService {
             return Arrays.asList("Air Conditioning", "Bluetooth", "GPS");
         }
 
-        // Extract features from user's booked cars
+        // Extract features from user's booked vehicles
         return user.getBookings().stream()
-                .map(Booking::getCar)
-                .flatMap(car -> car.getFeatures().stream())
+                .map(Booking::getVehicle)
+                .flatMap(vehicle -> vehicle.getFeatures().stream())
                 .collect(Collectors.groupingBy(f -> f, Collectors.counting()))
                 .entrySet().stream()
                 .sorted(Map.Entry.<String, Long>comparingByValue().reversed())
@@ -485,8 +485,8 @@ public class RecommendationServiceImpl implements RecommendationService {
                 .collect(Collectors.toList());
     }
 
-    private boolean hasMatchingFeatures(Car car, List<String> preferredFeatures) {
-        return car.getFeatures().stream()
+    private boolean hasMatchingFeatures(Vehicle vehicle, List<String> preferredFeatures) {
+        return vehicle.getFeatures().stream()
                 .anyMatch(preferredFeatures::contains);
     }
 
@@ -534,17 +534,17 @@ public class RecommendationServiceImpl implements RecommendationService {
     }
 
     private Double calculateUserSimilarity(User u1, User u2) {
-        // Simple similarity based on booked car types
-        Set<CarCategory> types1 = u1.getBookings().stream()
-                .map(booking -> booking.getCar().getType())
+        // Simple similarity based on booked vehicle types
+        Set<VehicleType> types1 = u1.getBookings().stream()
+                .map(booking -> booking.getVehicle().getType())
                 .collect(Collectors.toSet());
-        Set<CarCategory> types2 = u2.getBookings().stream()
-                .map(booking -> booking.getCar().getType())
+        Set<VehicleType> types2 = u2.getBookings().stream()
+                .map(booking -> booking.getVehicle().getType())
                 .collect(Collectors.toSet());
 
-        Set<CarCategory> intersection = new HashSet<>(types1);
+        Set<VehicleType> intersection = new HashSet<>(types1);
         intersection.retainAll(types2);
-        Set<CarCategory> union = new HashSet<>(types1);
+        Set<VehicleType> union = new HashSet<>(types1);
         union.addAll(types2);
 
         return union.isEmpty() ? 0.0 : (double) intersection.size() / union.size();
@@ -566,17 +566,17 @@ public class RecommendationServiceImpl implements RecommendationService {
                 .orElse(null);
     }
 
-    private Double calculateTrendingScore(Car car, LocalDate sinceDate) {
-        long recentBookings = bookingRepository.countByCarIdAndStartDateAfter(car.getId(), sinceDate);
-        long recentInteractions = getUserInteractionsForCar(car.getId(), sinceDate);
+    private Double calculateTrendingScore(Vehicle vehicle, LocalDate sinceDate) {
+        long recentBookings = bookingRepository.countByVehicleIdAndStartDateAfter(vehicle.getId(), sinceDate);
+        long recentInteractions = getUserInteractionsForVehicle(vehicle.getId(), sinceDate);
 
-        return (recentBookings * 2.0) + (recentInteractions * 0.5) + (car.getRating() * 10);
+        return (recentBookings * 2.0) + (recentInteractions * 0.5) + (vehicle.getRating() * 10);
     }
 
-    private long getUserInteractionsForCar(Long carId, LocalDate sinceDate) {
+    private long getUserInteractionsForVehicle(Long vehicleId, LocalDate sinceDate) {
         return userInteractions.values().stream()
                 .flatMap(List::stream)
-                .filter(interaction -> interaction.getCarId().equals(carId))
+                .filter(interaction -> interaction.getVehicleId().equals(vehicleId))
                 .filter(interaction -> interaction.getTimestamp().toLocalDate().isAfter(sinceDate))
                 .count();
     }
@@ -586,21 +586,24 @@ public class RecommendationServiceImpl implements RecommendationService {
     }
 
     private Double calculateDiversityScore() {
-        // Calculate how diverse recommendations are across different car types
-        List<Car> sampleRecommendations = getPopularCars();
+        // Calculate how diverse recommendations are across different vehicle types
+        List<Vehicle> sampleRecommendations = getPopularVehicles();
+        if (sampleRecommendations.isEmpty())
+            return 0.0;
+
         long distinctTypes = sampleRecommendations.stream()
-                .map(Car::getType)
+                .map(Vehicle::getType)
                 .distinct()
                 .count();
 
-        return (double) distinctTypes / CarCategory.values().length;
+        return (double) distinctTypes / VehicleType.values().length;
     }
 
-    private CarCategory getSeasonalCarCategory(Month month) {
+    private VehicleType getSeasonalVehicleType(Month month) {
         return switch (month) {
-            case DECEMBER, JANUARY, FEBRUARY -> CarCategory.SUV; // Winter - SUVs for snow
-            case JUNE, JULY, AUGUST -> CarCategory.CONVERTIBLE; // Summer - Convertibles
-            case MARCH, APRIL, MAY, SEPTEMBER, OCTOBER, NOVEMBER -> CarCategory.SEDAN; // Other seasons
+            case DECEMBER, JANUARY, FEBRUARY -> VehicleType.SUV; // Winter - SUVs for snow
+            case JUNE, JULY, AUGUST -> VehicleType.CONVERTIBLE; // Summer - Convertibles
+            case MARCH, APRIL, MAY, SEPTEMBER, OCTOBER, NOVEMBER -> VehicleType.SEDAN; // Other seasons
         };
     }
 
@@ -622,7 +625,7 @@ public class RecommendationServiceImpl implements RecommendationService {
     @Builder
     private static class UserInteraction {
         private Long userId;
-        private Long carId;
+        private Long vehicleId;
         private String type; // CLICK, IMPRESSION, BOOKING, SEARCH, etc.
         private String details;
         private LocalDateTime timestamp;

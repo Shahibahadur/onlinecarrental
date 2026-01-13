@@ -14,8 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/bookings")
 @RequiredArgsConstructor
@@ -40,6 +38,17 @@ public class BookingController {
             @PathVariable Long userId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return ResponseEntity.ok(bookingService.getUserBookings(userId, pageable));
+    }
+
+    @GetMapping("/my")
+    @Operation(summary = "Get my bookings (authenticated user)")
+    public ResponseEntity<Page<BookingResponse>> getMyBookings(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            Authentication authentication) {
+        Long userId = extractUserIdFromAuth(authentication);
         Pageable pageable = PageRequest.of(page, size);
         return ResponseEntity.ok(bookingService.getUserBookings(userId, pageable));
     }
@@ -69,12 +78,22 @@ public class BookingController {
             @PathVariable Long carId,
             @RequestParam String startDate,
             @RequestParam String endDate) {
-        return ResponseEntity.ok(bookingService.isCarAvailable(carId, startDate, endDate));
+        return ResponseEntity.ok(bookingService.isVehicleAvailable(carId, startDate, endDate));
+    }
+
+    @PutMapping("/{id}/return")
+    @Operation(summary = "Return a car")
+    public ResponseEntity<BookingResponse> returnCar(@PathVariable Long id) {
+        return ResponseEntity.ok(bookingService.returnCar(id));
     }
 
     private Long extractUserIdFromAuth(Authentication authentication) {
-        // Implementation to extract user ID from authentication
-        // This would typically come from JWT token
-        return 1L; // Placeholder
+        if (authentication != null
+                && authentication.getPrincipal() instanceof com.driverental.onlinecarrental.security.UserPrincipal) {
+            com.driverental.onlinecarrental.security.UserPrincipal userPrincipal = (com.driverental.onlinecarrental.security.UserPrincipal) authentication
+                    .getPrincipal();
+            return userPrincipal.getId();
+        }
+        throw new com.driverental.onlinecarrental.model.exception.BusinessException("User not authenticated");
     }
 }

@@ -4,13 +4,13 @@ import com.driverental.onlinecarrental.model.dto.request.BookingRequest;
 import com.driverental.onlinecarrental.model.dto.response.BookingResponse;
 import com.driverental.onlinecarrental.model.entity.Booking;
 import com.driverental.onlinecarrental.model.entity.User;
-import com.driverental.onlinecarrental.model.entity.Car;
+import com.driverental.onlinecarrental.model.entity.Vehicle;
 import com.driverental.onlinecarrental.model.enums.BookingStatus;
 import com.driverental.onlinecarrental.model.exception.BusinessException;
 import com.driverental.onlinecarrental.model.exception.ResourceNotFoundException;
 import com.driverental.onlinecarrental.repository.BookingRepository;
 import com.driverental.onlinecarrental.repository.UserRepository;
-import com.driverental.onlinecarrental.repository.CarRepository;
+import com.driverental.onlinecarrental.repository.VehicleRepository;
 import com.driverental.onlinecarrental.service.BookingService;
 import com.driverental.onlinecarrental.service.PricingService;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +32,7 @@ public class BookingServiceImpl implements BookingService {
 
     private final BookingRepository bookingRepository;
     private final UserRepository userRepository;
-    private final CarRepository carRepository;
+    private final VehicleRepository vehicleRepository;
     private final PricingService pricingService;
 
     @Override
@@ -41,16 +41,16 @@ public class BookingServiceImpl implements BookingService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
 
-        Car car = carRepository.findById(request.getCarId())
-                .orElseThrow(() -> new ResourceNotFoundException("Car", "id", request.getCarId()));
+        Vehicle vehicle = vehicleRepository.findById(request.getVehicleId())
+                .orElseThrow(() -> new ResourceNotFoundException("Vehicle", "id", request.getVehicleId()));
 
-        if (!car.getIsAvailable()) {
-            throw new BusinessException("Car is not available for booking");
+        if (!vehicle.getIsAvailable()) {
+            throw new BusinessException("Vehicle is not available for booking");
         }
 
-        // Check car availability
-        if (!isCarAvailable(request.getCarId(), request.getStartDate(), request.getEndDate())) {
-            throw new BusinessException("Car not available for selected dates");
+        // Check vehicle availability
+        if (!isVehicleAvailable(request.getVehicleId(), request.getStartDate(), request.getEndDate())) {
+            throw new BusinessException("Vehicle not available for selected dates");
         }
 
         // Calculate price using dynamic pricing
@@ -65,12 +65,12 @@ public class BookingServiceImpl implements BookingService {
             throw new BusinessException("Start date cannot be in the past");
         }
 
-        BigDecimal totalPrice = pricingService.calculateBookingPrice(car, startDate, endDate);
+        BigDecimal totalPrice = pricingService.calculateBookingPrice(vehicle, startDate, endDate);
 
         // Create booking
         Booking booking = Booking.builder()
                 .user(user)
-                .car(car)
+                .vehicle(vehicle)
                 .startDate(startDate)
                 .endDate(endDate)
                 .totalPrice(totalPrice)
@@ -142,11 +142,11 @@ public class BookingServiceImpl implements BookingService {
             throw new BusinessException("Booking cannot be confirmed in current status: " + booking.getStatus());
         }
 
-        // Double-check car availability
-        if (!isCarAvailable(booking.getCar().getId(),
+        // Double-check vehicle availability
+        if (!isVehicleAvailable(booking.getVehicle().getId(),
                 booking.getStartDate().toString(),
                 booking.getEndDate().toString())) {
-            throw new BusinessException("Car no longer available for booking dates");
+            throw new BusinessException("Vehicle no longer available for booking dates");
         }
 
         booking.setStatus(BookingStatus.CONFIRMED);
@@ -159,12 +159,12 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public boolean isCarAvailable(Long carId, String startDate, String endDate) {
+    public boolean isVehicleAvailable(Long vehicleId, String startDate, String endDate) {
         LocalDate start = LocalDate.parse(startDate);
         LocalDate end = LocalDate.parse(endDate);
 
         List<Booking> conflictingBookings = bookingRepository.findConflictingBookings(
-                carId, start, end);
+                vehicleId, start, end);
 
         return conflictingBookings.isEmpty();
     }
@@ -184,11 +184,34 @@ public class BookingServiceImpl implements BookingService {
         bookingRepository.saveAll(expiredBookings);
     }
 
+    @Override
+    @Transactional
+    public BookingResponse returnCar(Long bookingId) {
+        Booking booking = bookingRepository.findById(bookingId)
+                .orElseThrow(() -> new ResourceNotFoundException("Booking", "id", bookingId));
+
+        if (booking.getStatus() != BookingStatus.ACTIVE && booking.getStatus() != BookingStatus.CONFIRMED) {
+            throw new BusinessException("Cannot return car. Booking must be ACTIVE or CONFIRMED. Current status: " + booking.getStatus());
+        }
+
+        // Mark vehicle as available
+        Vehicle vehicle = booking.getVehicle();
+        vehicle.setIsAvailable(true);
+        vehicleRepository.save(vehicle);
+
+        // Update booking status to COMPLETED
+        booking.setStatus(BookingStatus.COMPLETED);
+        Booking updatedBooking = bookingRepository.save(booking);
+
+        log.info("Car returned successfully for booking: {}", bookingId);
+        return convertToResponse(updatedBooking);
+    }
+
     private BookingResponse convertToResponse(Booking booking) {
         return BookingResponse.builder()
                 .id(booking.getId())
                 .userId(booking.getUser().getId())
-                .carId(booking.getCar().getId())
+                .vehicleId(booking.getVehicle().getId())
                 .startDate(booking.getStartDate().toString())
                 .endDate(booking.getEndDate().toString())
                 .totalPrice(booking.getTotalPrice())

@@ -3,9 +3,9 @@ package com.driverental.onlinecarrental.service.impl;
 import com.driverental.onlinecarrental.algorithm.aho_corasick.AhoCorasick;
 import com.driverental.onlinecarrental.algorithm.aho_corasick.SearchResult;
 import com.driverental.onlinecarrental.model.dto.SearchCriteria;
-import com.driverental.onlinecarrental.model.dto.response.CarResponse;
-import com.driverental.onlinecarrental.model.entity.Car;
-import com.driverental.onlinecarrental.repository.CarRepository;
+import com.driverental.onlinecarrental.model.dto.response.VehicleResponse;
+import com.driverental.onlinecarrental.model.entity.Vehicle;
+import com.driverental.onlinecarrental.repository.VehicleRepository;
 import com.driverental.onlinecarrental.service.SearchService;
 import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class SearchServiceImpl implements SearchService {
 
-    private final CarRepository carRepository;
+    private final VehicleRepository vehicleRepository;
     private final AhoCorasick ahoCorasick;
     private List<String> searchKeywords;
 
@@ -39,22 +39,22 @@ public class SearchServiceImpl implements SearchService {
     @Scheduled(fixedRate = 3600000) // Rebuild every hour
     public void rebuildSearchIndex() {
         log.info("Rebuilding search index...");
-        List<Car> allCars = carRepository.findAll();
-        searchKeywords = extractKeywords(allCars);
+        List<Vehicle> allVehicles = vehicleRepository.findAll();
+        searchKeywords = extractKeywords(allVehicles);
         ahoCorasick.buildTrie(searchKeywords);
         log.info("Search index rebuilt with {} keywords", searchKeywords.size());
     }
 
-    private List<String> extractKeywords(List<Car> cars) {
+    private List<String> extractKeywords(List<Vehicle> vehicles) {
         Set<String> keywords = new HashSet<>();
-        for (Car car : cars) {
-            keywords.add(car.getMake().toLowerCase());
-            keywords.add(car.getModel().toLowerCase());
-            keywords.add(car.getType().name().toLowerCase());
-            keywords.add(car.getFuelType().name().toLowerCase());
-            keywords.add(car.getTransmission().toLowerCase());
-            keywords.add(car.getLocation().toLowerCase());
-            keywords.addAll(car.getFeatures().stream()
+        for (Vehicle vehicle : vehicles) {
+            keywords.add(vehicle.getMake().toLowerCase());
+            keywords.add(vehicle.getModel().toLowerCase());
+            keywords.add(vehicle.getType().name().toLowerCase());
+            keywords.add(vehicle.getFuelType().name().toLowerCase());
+            keywords.add(vehicle.getTransmission().toLowerCase());
+            keywords.add(vehicle.getLocation().toLowerCase());
+            keywords.addAll(vehicle.getFeatures().stream()
                     .map(String::toLowerCase)
                     .collect(Collectors.toSet()));
         }
@@ -63,21 +63,21 @@ public class SearchServiceImpl implements SearchService {
 
     @Override
     @Cacheable(value = "searchResults", key = "#criteria.hashCode() + '-' + #pageable.pageNumber")
-    public Page<CarResponse> searchCars(SearchCriteria criteria, Pageable pageable) {
-        Specification<Car> spec = buildSpecification(criteria);
-        Page<Car> cars = carRepository.findAll(spec, pageable);
-        return cars.map(this::convertToResponse);
+    public Page<VehicleResponse> searchVehicles(SearchCriteria criteria, Pageable pageable) {
+        Specification<Vehicle> spec = buildSpecification(criteria);
+        Page<Vehicle> vehicles = vehicleRepository.findAll(spec, pageable);
+        return vehicles.map(this::convertToResponse);
     }
 
     @Override
     @Cacheable(value = "intelligentSearch", key = "#query + '-' + #location + '-' + #pageable.pageNumber")
-    public List<CarResponse> intelligentSearch(String query, String location, Pageable pageable) {
+    public List<VehicleResponse> intelligentSearch(String query, String location, Pageable pageable) {
         if (query == null || query.trim().isEmpty()) {
             // Fall back to regular search if no query provided
             SearchCriteria criteria = SearchCriteria.builder()
                     .location(location)
                     .build();
-            return searchCars(criteria, pageable).getContent();
+            return searchVehicles(criteria, pageable).getContent();
         }
 
         List<SearchResult> matches = ahoCorasick.search(query);
@@ -85,13 +85,13 @@ public class SearchServiceImpl implements SearchService {
                 .map(SearchResult::getKeyword)
                 .collect(Collectors.toSet());
 
-        List<Car> cars = carRepository.findByIntelligentSearch(matchedKeywords, location, pageable);
-        return cars.stream()
+        List<Vehicle> vehicles = vehicleRepository.findByIntelligentSearch(matchedKeywords, location, pageable);
+        return vehicles.stream()
                 .map(this::convertToResponse)
                 .collect(Collectors.toList());
     }
 
-    private Specification<Car> buildSpecification(SearchCriteria criteria) {
+    private Specification<Vehicle> buildSpecification(SearchCriteria criteria) {
         return (root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
 
@@ -137,26 +137,26 @@ public class SearchServiceImpl implements SearchService {
         };
     }
 
-    private CarResponse convertToResponse(Car car) {
-        return CarResponse.builder()
-                .id(car.getId())
-                .make(car.getMake())
-                .model(car.getModel())
-                .year(car.getYear())
-                .type(car.getType())
-                .fuelType(car.getFuelType())
-                .transmission(car.getTransmission())
-                .seats(car.getSeats())
-                .luggageCapacity(car.getLuggageCapacity())
-                .features(car.getFeatures())
-                .basePrice(car.getBasePrice())
-                .dailyPrice(car.getDailyPrice())
-                .location(car.getLocation())
-                .imageUrl(car.getImageUrl())
-                .isAvailable(car.getIsAvailable())
-                .rating(car.getRating())
-                .reviewCount(car.getReviewCount())
-                .createdAt(car.getCreatedAt())
+    private VehicleResponse convertToResponse(Vehicle vehicle) {
+        return VehicleResponse.builder()
+                .id(vehicle.getId())
+                .make(vehicle.getMake())
+                .model(vehicle.getModel())
+                .year(vehicle.getYear())
+                .type(vehicle.getType())
+                .fuelType(vehicle.getFuelType())
+                .transmission(vehicle.getTransmission())
+                .seats(vehicle.getSeats())
+                .luggageCapacity(vehicle.getLuggageCapacity())
+                .features(vehicle.getFeatures())
+                .basePrice(vehicle.getBasePrice())
+                .dailyPrice(vehicle.getDailyPrice())
+                .location(vehicle.getLocation())
+                .imageUrl(vehicle.getImageUrl())
+                .isAvailable(vehicle.getIsAvailable())
+                .rating(vehicle.getRating())
+                .reviewCount(vehicle.getReviewCount())
+                .createdAt(vehicle.getCreatedAt())
                 .build();
     }
 }

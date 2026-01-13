@@ -1,7 +1,7 @@
 package com.driverental.onlinecarrental.model.entity;
 
 import com.driverental.onlinecarrental.model.enums.FuelType;
-import com.driverental.onlinecarrental.model.enums.CarCategory;
+import com.driverental.onlinecarrental.model.enums.VehicleType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
@@ -20,12 +20,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "cars")
+@Table(name = "vehicles")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Car {
+public class Vehicle {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -42,7 +42,7 @@ public class Car {
     private Integer year;
 
     @Enumerated(EnumType.STRING)
-    private CarCategory type;
+    private VehicleType type;
 
     @Enumerated(EnumType.STRING)
     private FuelType fuelType;
@@ -57,8 +57,9 @@ public class Car {
     @NotNull
     private Integer luggageCapacity;
 
+    @Builder.Default
     @ElementCollection
-    @CollectionTable(name = "car_features", joinColumns = @JoinColumn(name = "car_id"))
+    @CollectionTable(name = "vehicle_features", joinColumns = @JoinColumn(name = "vehicle_id"))
     @Column(name = "feature")
     private List<String> features = new ArrayList<>();
 
@@ -76,11 +77,22 @@ public class Car {
 
     private String imageUrl;
 
+    private String imageName;
+
+    private String description;
+
+    private String licensePlate;
+
+    private Double engineCapacity;
+
     @NotNull
+    @Builder.Default
     private Boolean isAvailable = true;
 
+    @Builder.Default
     private Double rating = 0.0;
 
+    @Builder.Default
     private Integer reviewCount = 0;
 
     @CreationTimestamp
@@ -89,9 +101,11 @@ public class Car {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    @OneToMany(mappedBy = "car", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @Builder.Default
+    @OneToMany(mappedBy = "vehicle", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Booking> bookings = new ArrayList<>();
 
-    @OneToMany(mappedBy = "car", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @Builder.Default
+    @OneToMany(mappedBy = "vehicle", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Review> reviews = new ArrayList<>();
 }

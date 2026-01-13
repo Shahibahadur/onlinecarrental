@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Plus, Edit, Trash2, Car, Users, DollarSign, TrendingUp } from 'lucide-react';
+import { Plus, Edit, Trash2, Car, Users, Wallet, TrendingUp } from 'lucide-react';
 import type { RootState } from '../store';
 import type { Car as CarType } from '../types';
 import { mockCars } from '../constants/mockData';
@@ -14,14 +14,14 @@ const Admin: React.FC = () => {
   const stats = [
     { name: 'Total Cars', value: '24', icon: Car, change: '+12%', changeType: 'increase' },
     { name: 'Total Users', value: '1,234', icon: Users, change: '+8%', changeType: 'increase' },
-    { name: 'Revenue', value: '$45,231', icon: DollarSign, change: '+23%', changeType: 'increase' },
+    { name: 'Revenue', value: 'रू 45,231', icon: Wallet, change: '+23%', changeType: 'increase' },
     { name: 'Bookings', value: '89', icon: TrendingUp, change: '+5%', changeType: 'increase' },
   ];
 
   const recentBookings = [
-    { id: '1', user: 'John Doe', car: 'Toyota Camry', date: '2024-12-01', status: 'Confirmed', amount: '$225' },
-    { id: '2', user: 'Jane Smith', car: 'Tesla Model 3', date: '2024-12-02', status: 'Pending', amount: '$150' },
-    { id: '3', user: 'Mike Johnson', car: 'BMW X5', date: '2024-12-01', status: 'Completed', amount: '$356' },
+    { id: '1', user: 'John Doe', car: 'Toyota Camry', date: '2024-12-01', status: 'Confirmed', amount: 'रू 225' },
+    { id: '2', user: 'Jane Smith', car: 'Tesla Model 3', date: '2024-12-02', status: 'Pending', amount: 'रू 150' },
+    { id: '3', user: 'Mike Johnson', car: 'BMW X5', date: '2024-12-01', status: 'Completed', amount: 'रू 356' },
   ];
 
   if (!user || user.email !== 'admin@rental.com') {
@@ -236,7 +236,7 @@ const Admin: React.FC = () => {
                             {car.location}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-900">
-                            ${car.pricePerDay}
+                            रू {car.pricePerDay.toLocaleString('en-NP')}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <button

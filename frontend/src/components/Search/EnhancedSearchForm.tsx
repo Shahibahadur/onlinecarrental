@@ -73,11 +73,22 @@ const EnhancedSearchForm: React.FC = () => {
           <select
             value={filters.pickupLocation || ''}
             onChange={(e) => handleInputChange('pickupLocation', e.target.value)}
-            className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+            className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white text-neutral-900 cursor-pointer"
+            style={{
+              backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3E%3C/svg%3E")`,
+              backgroundPosition: 'right 0.5rem center',
+              backgroundRepeat: 'no-repeat',
+              backgroundSize: '1.5em 1.5em',
+              paddingRight: '2.5rem'
+            }}
           >
-            <option value="">Please enter from location</option>
+            <option value="" style={{ color: '#374151', backgroundColor: '#ffffff' }}>Please enter from location</option>
             {LOCATIONS.map((location) => (
-              <option key={location} value={location}>
+              <option 
+                key={location} 
+                value={location}
+                style={{ color: '#111827', backgroundColor: '#ffffff' }}
+              >
                 {location}
               </option>
             ))}
@@ -93,11 +104,22 @@ const EnhancedSearchForm: React.FC = () => {
           <select
             value={filters.dropoffLocation || ''}
             onChange={(e) => handleInputChange('dropoffLocation', e.target.value)}
-            className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+            className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent bg-white text-neutral-900 cursor-pointer"
+            style={{
+              backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3E%3C/svg%3E")`,
+              backgroundPosition: 'right 0.5rem center',
+              backgroundRepeat: 'no-repeat',
+              backgroundSize: '1.5em 1.5em',
+              paddingRight: '2.5rem'
+            }}
           >
-            <option value="">Please enter to location</option>
+            <option value="" style={{ color: '#374151', backgroundColor: '#ffffff' }}>Please enter to location</option>
             {LOCATIONS.map((location) => (
-              <option key={location} value={location}>
+              <option 
+                key={location} 
+                value={location}
+                style={{ color: '#111827', backgroundColor: '#ffffff' }}
+              >
                 {location}
               </option>
             ))}

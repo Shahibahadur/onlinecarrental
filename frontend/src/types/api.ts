@@ -1,18 +1,40 @@
 export interface Booking {
-  id: string;
-  carId: string;
-  userId: string;
+  id: string | number;
+  carId?: string;
+  vehicleId?: string | number;
+  userId: string | number;
   startDate: string;
   endDate: string;
   totalPrice: number;
-  status: 'pending' | 'confirmed' | 'completed' | 'cancelled';
+  status:
+    | 'pending'
+    | 'confirmed'
+    | 'completed'
+    | 'cancelled'
+    | 'PENDING'
+    | 'CONFIRMED'
+    | 'ACTIVE'
+    | 'COMPLETED'
+    | 'CANCELLED';
   pickupLocation: string;
   dropoffLocation: string;
   createdAt: string;
+
+  vehicle?: {
+    id?: string | number;
+    make?: string;
+    model?: string;
+    type?: string;
+    location?: string;
+    dailyPrice?: number;
+    imageUrl?: string;
+    isAvailable?: boolean;
+  };
 }
 
 export interface BookingRequest {
-  carId: string;
+  vehicleId?: string | number;
+  carId?: string;
   startDate: string;
   endDate: string;
   pickupLocation: string;

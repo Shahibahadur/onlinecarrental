@@ -1,7 +1,7 @@
 package com.driverental.onlinecarrental.model.dto.response;
 
 import java.util.Map;
-import com.driverental.onlinecarrental.model.entity.Car;
+import com.driverental.onlinecarrental.model.entity.Vehicle;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 public class RecommendationResponse {
     private Long userId;
-    private List<Car> recommendations;
+    private List<Vehicle> recommendations;
     private Integer personalizedCount;
     private Integer popularCount;
     private Integer trendingCount;

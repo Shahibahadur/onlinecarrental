@@ -12,10 +12,13 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import java.time.Duration;
 
-@Configuration
-@EnableCaching
+// Commented out to allow app to run without Redis
+// @Configuration
+// @EnableCaching
 public class RedisConfig {
     
+    // Redis configuration - uncomment if Redis is running
+    /*
     @Bean
     public RedisCacheManager cacheManager(RedisConnectionFactory connectionFactory) {
         RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig()
@@ -27,4 +30,5 @@ public class RedisConfig {
                 .cacheDefaults(config)
                 .build();
     }
+    */
 }

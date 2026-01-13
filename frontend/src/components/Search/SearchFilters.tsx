@@ -14,13 +14,13 @@ const SearchFilters: React.FC = () => {
   };
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-sm border border-neutral-200">
-      <div className="flex items-center mb-4">
+    <div className="bg-white p-6 rounded-xl shadow-sm border border-neutral-200 lg:sticky lg:top-24">
+      <div className="flex items-center mb-6">
         <Filter className="h-5 w-5 text-neutral-600 mr-2" />
         <h3 className="text-lg font-semibold text-neutral-900">Search Filters</h3>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 gap-4">
         {/* Location */}
         <div>
           <label className="block text-sm font-medium text-neutral-700 mb-1">
@@ -29,7 +29,7 @@ const SearchFilters: React.FC = () => {
           <select
             value={filters.location}
             onChange={(e) => handleFilterChange('location', e.target.value)}
-            className="w-full px-3 py-2 border border-neutral-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+            className="w-full px-3 py-2 border border-neutral-300 rounded-lg bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
           >
             <option value="">All Locations</option>
             {LOCATIONS.map((location) => (
@@ -48,7 +48,7 @@ const SearchFilters: React.FC = () => {
           <select
             value={filters.carType}
             onChange={(e) => handleFilterChange('carType', e.target.value)}
-            className="w-full px-3 py-2 border border-neutral-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+            className="w-full px-3 py-2 border border-neutral-300 rounded-lg bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
           >
             <option value="">All Types</option>
             {CAR_TYPES.map((type) => (
@@ -67,7 +67,7 @@ const SearchFilters: React.FC = () => {
           <select
             value={filters.transmission}
             onChange={(e) => handleFilterChange('transmission', e.target.value)}
-            className="w-full px-3 py-2 border border-neutral-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+            className="w-full px-3 py-2 border border-neutral-300 rounded-lg bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
           >
             <option value="">All</option>
             {TRANSMISSION_TYPES.map((type) => (
@@ -86,7 +86,7 @@ const SearchFilters: React.FC = () => {
           <select
             value={filters.fuelType}
             onChange={(e) => handleFilterChange('fuelType', e.target.value)}
-            className="w-full px-3 py-2 border border-neutral-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+            className="w-full px-3 py-2 border border-neutral-300 rounded-lg bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
           >
             <option value="">All</option>
             {FUEL_TYPES.map((type) => (
@@ -111,7 +111,7 @@ const SearchFilters: React.FC = () => {
             step="500"
             value={filters.minPrice}
             onChange={(e) => handleFilterChange('minPrice', Number(e.target.value))}
-            className="w-full"
+            className="w-full accent-primary-600"
           />
           <input
             type="range"
@@ -120,7 +120,7 @@ const SearchFilters: React.FC = () => {
             step="500"
             value={filters.maxPrice}
             onChange={(e) => handleFilterChange('maxPrice', Number(e.target.value))}
-            className="w-full"
+            className="w-full accent-primary-600"
           />
         </div>
       </div>

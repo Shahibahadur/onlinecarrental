@@ -28,7 +28,7 @@ public class AuthServiceImpl implements AuthService {
         public AuthResponse register(RegisterRequest request) {
                 // Check if user already exists
                 if (userRepository.existsByEmail(request.getEmail())) {
-                        throw new RuntimeException("Email already registered");
+                        throw new com.driverental.onlinecarrental.model.exception.DuplicateResourceException("Email already registered");
                 }
 
                 // Create new user
@@ -62,7 +62,7 @@ public class AuthServiceImpl implements AuthService {
                                                 request.getPassword()));
 
                 User user = userRepository.findByEmail(request.getEmail())
-                                .orElseThrow(() -> new RuntimeException("User not found"));
+                                .orElseThrow(() -> new com.driverental.onlinecarrental.model.exception.BusinessException("Invalid credentials"));
 
                 String jwtToken = jwtService.generateToken(new UserPrincipal(user));
 

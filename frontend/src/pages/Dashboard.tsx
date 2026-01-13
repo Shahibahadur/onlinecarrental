@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Calendar, Car, MapPin, DollarSign, Clock } from 'lucide-react';
+import { Calendar, Car, MapPin, Wallet, Clock } from 'lucide-react';
 import type{ RootState } from '../store';
 import type { Booking } from '../types';
 
@@ -88,12 +88,12 @@ const Dashboard: React.FC = () => {
           <div className="bg-white p-6 rounded-lg shadow-sm border border-neutral-200">
             <div className="flex items-center">
               <div className="bg-green-100 p-3 rounded-full">
-                <DollarSign className="h-6 w-6 text-green-600" />
+                <Wallet className="h-6 w-6 text-green-600" />
               </div>
               <div className="ml-4">
                 <p className="text-sm font-medium text-neutral-600">Total Spent</p>
                 <p className="text-2xl font-bold text-neutral-900">
-                  ${mockBookings.reduce((sum, booking) => sum + booking.totalPrice, 0)}
+                  रू {mockBookings.reduce((sum, booking) => sum + booking.totalPrice, 0).toLocaleString('en-NP')}
                 </p>
               </div>
             </div>
@@ -148,8 +148,8 @@ const Dashboard: React.FC = () => {
                           <span>{booking.pickupLocation}</span>
                         </div>
                         <div className="flex items-center">
-                          <DollarSign className="h-4 w-4 mr-2" />
-                          <span className="font-semibold">${booking.totalPrice}</span>
+                          <Wallet className="h-4 w-4 mr-2" />
+                          <span className="font-semibold">रू {booking.totalPrice.toLocaleString('en-NP')}</span>
                         </div>
                       </div>
                     </div>

@@ -1,7 +1,9 @@
 package com.driverental.onlinecarrental.controller;
 
 import com.driverental.onlinecarrental.model.dto.response.RecommendationResponse;
-import com.driverental.onlinecarrental.model.dto.response.CarResponse;
+import com.driverental.onlinecarrental.model.dto.response.VehicleResponse;
+import com.driverental.onlinecarrental.model.entity.Vehicle;
+import com.driverental.onlinecarrental.security.UserPrincipal;
 import com.driverental.onlinecarrental.service.RecommendationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -24,7 +26,7 @@ public class RecommendationController {
 
     @GetMapping("/personalized")
     @Operation(summary = "Get personalized recommendations for authenticated user")
-    public ResponseEntity<List<CarResponse>> getPersonalizedRecommendations(Authentication authentication) {
+    public ResponseEntity<List<VehicleResponse>> getPersonalizedRecommendations(Authentication authentication) {
         Long userId = extractUserIdFromAuth(authentication);
 
         var recommendations = recommendationService.getRecommendationsForUser(userId)
@@ -54,35 +56,35 @@ public class RecommendationController {
 
     @GetMapping("/popular")
     @Operation(summary = "Get popular cars")
-    public ResponseEntity<List<CarResponse>> getPopularCars() {
-        var popularCars = recommendationService.getPopularCars()
+    public ResponseEntity<List<VehicleResponse>> getPopularVehicles() {
+        var popularVehicles = recommendationService.getPopularVehicles()
                 .stream()
                 .map(this::convertToResponse)
                 .collect(Collectors.toList());
 
-        return ResponseEntity.ok(popularCars);
+        return ResponseEntity.ok(popularVehicles);
     }
 
-    @GetMapping("/similar/{carId}")
+    @GetMapping("/similar/{vehicleId}")
     @Operation(summary = "Get cars similar to a specific car")
-    public ResponseEntity<List<CarResponse>> getSimilarCars(@PathVariable Long carId) {
-        var similarCars = recommendationService.getSimilarCars(carId)
+    public ResponseEntity<List<VehicleResponse>> getSimilarVehicles(@PathVariable Long vehicleId) {
+        var similarVehicles = recommendationService.getSimilarVehicles(vehicleId)
                 .stream()
                 .map(this::convertToResponse)
                 .collect(Collectors.toList());
 
-        return ResponseEntity.ok(similarCars);
+        return ResponseEntity.ok(similarVehicles);
     }
 
     @GetMapping("/trending")
     @Operation(summary = "Get currently trending cars")
-    public ResponseEntity<List<CarResponse>> getTrendingCars() {
-        var trendingCars = recommendationService.getTrendingCars()
+    public ResponseEntity<List<VehicleResponse>> getTrendingVehicles() {
+        var trendingVehicles = recommendationService.getTrendingVehicles()
                 .stream()
                 .map(this::convertToResponse)
                 .collect(Collectors.toList());
 
-        return ResponseEntity.ok(trendingCars);
+        return ResponseEntity.ok(trendingVehicles);
     }
 
     @GetMapping("/explanations/{carId}")
@@ -122,32 +124,34 @@ public class RecommendationController {
         return ResponseEntity.ok().build();
     }
 
-    private CarResponse convertToResponse(com.driverental.onlinecarrental.model.entity.Car car) {
-        return CarResponse.builder()
-                .id(car.getId())
-                .make(car.getMake())
-                .model(car.getModel())
-                .year(car.getYear())
-                .type(car.getType())
-                .fuelType(car.getFuelType())
-                .transmission(car.getTransmission())
-                .seats(car.getSeats())
-                .luggageCapacity(car.getLuggageCapacity())
-                .features(car.getFeatures())
-                .basePrice(car.getBasePrice())
-                .dailyPrice(car.getDailyPrice())
-                .location(car.getLocation())
-                .imageUrl(car.getImageUrl())
-                .isAvailable(car.getIsAvailable())
-                .rating(car.getRating())
-                .reviewCount(car.getReviewCount())
-                .createdAt(car.getCreatedAt())
+    private VehicleResponse convertToResponse(Vehicle vehicle) {
+        return VehicleResponse.builder()
+                .id(vehicle.getId())
+                .make(vehicle.getMake())
+                .model(vehicle.getModel())
+                .year(vehicle.getYear())
+                .type(vehicle.getType())
+                .dailyPrice(vehicle.getDailyPrice())
+                .imageUrl(vehicle.getImageUrl())
+                .isAvailable(vehicle.getIsAvailable())
+                .rating(vehicle.getRating())
+                .reviewCount(vehicle.getReviewCount())
+                .features(vehicle.getFeatures())
+                .location(vehicle.getLocation())
+                .transmission(vehicle.getTransmission())
+                .fuelType(vehicle.getFuelType())
+                .engineCapacity(vehicle.getEngineCapacity())
+                .seats(vehicle.getSeats())
+                .description(vehicle.getDescription())
+                .licensePlate(vehicle.getLicensePlate())
+                // .mileage(vehicle.getMileage()) // Add if available in Vehicle entity
                 .build();
     }
 
     private Long extractUserIdFromAuth(Authentication authentication) {
-        // Implementation to extract user ID from authentication
-        // This would typically come from JWT token
-        return 1L; // Placeholder - in real implementation, extract from SecurityContext
+        if (authentication != null && authentication.getPrincipal() instanceof UserPrincipal userPrincipal) {
+            return userPrincipal.getId();
+        }
+        throw new com.driverental.onlinecarrental.model.exception.BusinessException("User not authenticated");
     }
 }

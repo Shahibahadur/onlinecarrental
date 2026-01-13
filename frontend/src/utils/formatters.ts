@@ -1,13 +1,8 @@
 /**
- * Format price for display
+ * Format price for display in Nepali Rupees (NRS)
  */
-export const formatPrice = (price: number, currency: string = 'NPR'): string => {
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency,
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(price);
+export const formatPrice = (price: number): string => {
+  return `रू ${price.toLocaleString('en-NP')}`;
 };
 
 /**

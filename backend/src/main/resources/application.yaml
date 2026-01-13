@@ -2,7 +2,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/car_rental_db
     username: root
-    password: password
+    password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
   
   jpa:
@@ -18,24 +18,23 @@ spring:
         order_inserts: true
         order_updates: true
   
-  data:
-    redis:
-      host: localhost
-      port: 6379
-      password:
-      timeout: 60000
-      lettuce:
-        pool:
-          max-active: 8
-          max-idle: 8
-          min-idle: 2
-          max-wait: -1ms
+  # Redis configuration (optional - comment out if Redis is not running)
+  # data:
+  #   redis:
+  #     host: localhost
+  #     port: 6379
+  #     password:
+  #     timeout: 60000
+  #     lettuce:
+  #       pool:
+  #         max-active: 8
+  #         max-idle: 8
+  #         min-idle: 2
+  #         max-wait: -1ms
 
   cache:
-    type: redis
-    redis:
-      time-to-live: 3600000
-      cache-null-values: false
+    type: simple
+    cache-names: userRecommendations,popularVehicles,similarVehicles
 
   servlet:
     multipart:
@@ -44,13 +43,18 @@ spring:
 
 server:
   port: 8080
-  servlet:
-    context-path: /api
 
 app:
   jwt:
     secret: your-super-secure-jwt-secret-key-that-is-at-least-256-bits-long
-    expiration: 86400000 # 24 hours
+    expiration: 86400000 
+  esewa:
+    product-code: EPAYTEST
+    secret-key: 8gBm/:&EnhH.1/q
+    form-url: https://rc-epay.esewa.com.np/api/epay/main/v2/form
+    status-url: https://rc.esewa.com.np/api/epay/transaction/status
+    success-url: http://localhost:5173/esewa/success
+    failure-url: http://localhost:5173/esewa/failure
   
   cors:
     allowed-origins: "http://localhost:3000,http://localhost:5173"

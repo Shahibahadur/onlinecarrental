@@ -1,7 +1,7 @@
 package com.driverental.onlinecarrental.algorithm.pricing;
 
-import com.driverental.onlinecarrental.model.entity.Car;
-import com.driverental.onlinecarrental.model.enums.CarCategory;
+import com.driverental.onlinecarrental.model.entity.Vehicle;
+import com.driverental.onlinecarrental.model.enums.VehicleType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -17,15 +17,15 @@ public class DynamicPricingEngine {
 
     private final DemandCalculator demandCalculator;
 
-    public BigDecimal calculateDynamicPrice(Car car, LocalDate startDate,
+    public BigDecimal calculateDynamicPrice(Vehicle vehicle, LocalDate startDate,
             LocalDate endDate, long totalBookings) {
-        BigDecimal basePrice = car.getBasePrice();
+        BigDecimal basePrice = vehicle.getBasePrice();
 
         // Calculate various factors
         double demandFactor = demandCalculator.calculateDemandFactor(startDate, endDate, totalBookings);
         double durationFactor = calculateDurationFactor(startDate, endDate);
         double leadTimeFactor = calculateLeadTimeFactor(startDate);
-        double vehicleFactor = calculateVehicleFactor(car);
+        double vehicleFactor = calculateVehicleFactor(vehicle);
 
         // Apply pricing formula
         double finalMultiplier = demandFactor * durationFactor * leadTimeFactor * vehicleFactor;
@@ -72,18 +72,18 @@ public class DynamicPricingEngine {
         return 1.0;
     }
 
-    private double calculateVehicleFactor(Car car) {
+    private double calculateVehicleFactor(Vehicle vehicle) {
         double factor = 1.0;
 
-        // Adjust based on car rating
-        if (car.getRating() >= 4.5) {
+        // Adjust based on vehicle rating
+        if (vehicle.getRating() >= 4.5) {
             factor *= 1.15; // 15% premium for highly rated cars
-        } else if (car.getRating() >= 4.0) {
+        } else if (vehicle.getRating() >= 4.0) {
             factor *= 1.08; // 8% premium for well-rated cars
         }
 
-        // Adjust based on car type
-        switch (car.getType()) {
+        // Adjust based on vehicle type
+        switch (vehicle.getType()) {
             case LUXURY:
             case SPORTS:
                 factor *= 1.25; // 25% premium for luxury/sports
@@ -91,12 +91,22 @@ public class DynamicPricingEngine {
             case SUV:
                 factor *= 1.10; // 10% premium for SUVs
                 break;
-            case ELECTRIC:
-                factor *= 1.15; // 15% premium for electric cars
-                break;
+            // VehicleType might not have ELECTRIC as a TYPE (it's often a fuel type),
+            // checking assumption
+            // Assuming VehicleType correlates to body type mostly.
+            // If ELECTRIC is FuelType, we should check fuel type.
+            // For now, mapping known types.
+            // Adjust loop as needed.
             case CONVERTIBLE:
                 factor *= 1.20; // 20% premium for convertibles
                 break;
+            default:
+                break;
+        }
+
+        // Check fuel type if possible for ELECTRIC premium
+        if (vehicle.getFuelType().toString().equalsIgnoreCase("ELECTRIC")) { // Assuming FuelType enum name
+            factor *= 1.15;
         }
 
         return factor;

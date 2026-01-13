@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { Car, Menu, X } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import type  { RootState } from '../../store';
 import { clearUser } from '../../store/slices/authSlice';
 
@@ -10,6 +10,7 @@ const Header: React.FC = () => {
   const { isAuthenticated, user } = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch();
   const location = useLocation();
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     dispatch(clearUser());
@@ -17,24 +18,23 @@ const Header: React.FC = () => {
   };
 
   const navigation = [
-    { name: 'Home', href: '/' },
-    { name: 'Cars', href: '/cars' },
-    ...(isAuthenticated
-      ? [
-          { name: 'Dashboard', href: '/dashboard' },
-          ...(user?.email === 'admin@rental.com' ? [{ name: 'Admin', href: '/admin' }] : []),
-        ]
-      : []),
+    { name: 'HOME', href: '/' },
+    { name: 'CARS', href: '/cars-grid' },
+    { name: 'ABOUT', href: '/about' },
+    { name: 'SERVICES', href: '/services' },
+    { name: 'CONTACT', href: '/contact' },
   ];
 
   return (
-    <header className="bg-white shadow-sm border-b border-neutral-200">
+    <header className="sticky top-0 z-40 bg-white/90 backdrop-blur border-b border-neutral-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
-          {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2">
-            <Car className="h-8 w-8 text-primary-600" />
-            <span className="text-xl font-bold text-neutral-900">DriveRental Nepal</span>
+          {/* Logo - CaRs */}
+          <Link to="/" className="flex items-center">
+            <span className="text-2xl font-bold">
+              <span className="text-primary-600">Ca</span>
+              <span className="text-neutral-900">Rs</span>
+            </span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -43,10 +43,10 @@ const Header: React.FC = () => {
               <Link
                 key={item.name}
                 to={item.href}
-                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                className={`text-sm font-medium uppercase transition-colors ${
                   location.pathname === item.href
-                    ? 'text-primary-600 bg-primary-50'
-                    : 'text-neutral-600 hover:text-primary-600'
+                    ? 'text-primary-600'
+                    : 'text-neutral-900 hover:text-primary-600'
                 }`}
               >
                 {item.name}
@@ -54,35 +54,54 @@ const Header: React.FC = () => {
             ))}
           </nav>
 
-          {/* Auth Buttons */}
-          <div className="hidden md:flex items-center space-x-4">
+          <div className="hidden md:flex items-center">
             {isAuthenticated ? (
-              <div className="flex items-center space-x-4">
-                <span className="text-sm text-neutral-600">
-                  Welcome, {user?.firstName}
-                </span>
+              <div className="flex items-center space-x-3">
+                {user?.email === 'admin@rental.com' ? (
+                  <Link
+                    to="/admin"
+                    className="px-4 py-2 text-sm font-medium text-neutral-900 hover:text-primary-600 transition-colors"
+                  >
+                    Admin Panel
+                  </Link>
+                ) : (
+                  <>
+                    <Link
+                      to="/dashboard"
+                      className="px-4 py-2 text-sm font-medium text-neutral-900 hover:text-primary-600 transition-colors"
+                    >
+                      Dashboard
+                    </Link>
+                    <Link
+                      to="/my-reservations"
+                      className="px-4 py-2 text-sm font-medium text-neutral-900 hover:text-primary-600 transition-colors"
+                    >
+                      My Reservations
+                    </Link>
+                  </>
+                )}
                 <button
                   onClick={handleLogout}
-                  className="px-4 py-2 text-sm font-medium text-neutral-600 hover:text-primary-600 transition-colors"
+                  className="px-4 py-2 text-sm font-medium text-neutral-900 hover:text-primary-600 transition-colors"
                 >
                   Logout
                 </button>
               </div>
             ) : (
-              <>
-                <Link
-                  to="/login"
-                  className="px-4 py-2 text-sm font-medium text-neutral-600 hover:text-primary-600 transition-colors"
+              <div className="flex items-center space-x-2">
+                <button
+                  onClick={() => navigate('/login')}
+                  className="px-4 py-2 text-sm font-medium text-neutral-900 hover:text-primary-600 transition-colors uppercase"
                 >
                   Login
-                </Link>
-                <Link
-                  to="/register"
-                  className="px-4 py-2 text-sm font-medium text-white bg-primary-600 rounded-md hover:bg-primary-700 transition-colors"
+                </button>
+                <button
+                  onClick={() => navigate('/register')}
+                  className="px-4 py-2 text-sm font-medium text-white bg-primary-600 rounded hover:bg-primary-700 transition-colors uppercase"
                 >
-                  Sign Up
-                </Link>
-              </>
+                  Register
+                </button>
+              </div>
             )}
           </div>
 
@@ -103,35 +122,67 @@ const Header: React.FC = () => {
                 <Link
                   key={item.name}
                   to={item.href}
-                  className="px-3 py-2 rounded-md text-base font-medium text-neutral-600 hover:text-primary-600 hover:bg-primary-50"
+                  className="px-3 py-2 text-base font-medium uppercase text-neutral-900 hover:text-primary-600"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {item.name}
                 </Link>
               ))}
               {isAuthenticated ? (
-                <button
-                  onClick={handleLogout}
-                  className="px-3 py-2 text-left text-base font-medium text-neutral-600 hover:text-primary-600 hover:bg-primary-50"
-                >
-                  Logout
-                </button>
+                <>
+                  {user?.email === 'admin@rental.com' ? (
+                    <Link
+                      to="/admin"
+                      className="px-3 py-2 text-base font-medium text-neutral-900 hover:text-primary-600"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      Admin Panel
+                    </Link>
+                  ) : (
+                    <>
+                      <Link
+                        to="/dashboard"
+                        className="px-3 py-2 text-base font-medium text-neutral-900 hover:text-primary-600"
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        Dashboard
+                      </Link>
+                      <Link
+                        to="/my-reservations"
+                        className="px-3 py-2 text-base font-medium text-neutral-900 hover:text-primary-600"
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        My Reservations
+                      </Link>
+                    </>
+                  )}
+                  <button
+                    onClick={handleLogout}
+                    className="px-3 py-2 text-left text-base font-medium text-neutral-900 hover:text-primary-600"
+                  >
+                    Logout
+                  </button>
+                </>
               ) : (
                 <>
-                  <Link
-                    to="/login"
-                    className="px-3 py-2 rounded-md text-base font-medium text-neutral-600 hover:text-primary-600 hover:bg-primary-50"
-                    onClick={() => setIsMenuOpen(false)}
+                  <button
+                    onClick={() => {
+                      navigate('/login');
+                      setIsMenuOpen(false);
+                    }}
+                    className="px-3 py-2 text-left text-base font-medium text-neutral-900 hover:text-primary-600"
                   >
                     Login
-                  </Link>
-                  <Link
-                    to="/register"
-                    className="px-3 py-2 rounded-md text-base font-medium text-white bg-primary-600 hover:bg-primary-700"
-                    onClick={() => setIsMenuOpen(false)}
+                  </button>
+                  <button
+                    onClick={() => {
+                      navigate('/register');
+                      setIsMenuOpen(false);
+                    }}
+                    className="px-3 py-2 text-base font-medium text-white bg-primary-600 rounded hover:bg-primary-700 uppercase"
                   >
-                    Sign Up
-                  </Link>
+                    Register
+                  </button>
                 </>
               )}
             </div>

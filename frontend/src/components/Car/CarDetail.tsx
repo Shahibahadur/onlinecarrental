@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Car } from '../../types/car';
-import { formatPrice } from '../../utils/formatters';
+import { formatPricePerDay } from '../../constants/locale';
 import { Users, Luggage, Fuel, Zap } from 'lucide-react';
 
 interface CarDetailProps {
@@ -24,7 +24,7 @@ const CarDetail: React.FC<CarDetailProps> = ({ car, onBook }) => {
         <div className="flex items-center justify-between py-4 border-t border-b border-neutral-200">
           <div>
             <p className="text-neutral-600 text-sm">Price per Day</p>
-            <p className="text-2xl font-bold text-primary-600">{formatPrice(car.pricePerDay)}</p>
+            <p className="text-2xl font-bold text-primary-600">{formatPricePerDay(car.pricePerDay)}</p>
           </div>
           <div>
             <p className="text-neutral-600 text-sm">Rating</p>

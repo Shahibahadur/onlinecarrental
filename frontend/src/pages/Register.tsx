@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -6,6 +6,7 @@ import { z } from 'zod';
 import { useDispatch } from 'react-redux';
 import { Car } from 'lucide-react';
 import { setUser } from '../store/slices/authSlice';
+import { authAPI } from '../api/auth';
 
 const registerSchema = z.object({
   firstName: z.string().min(2, 'First name must be at least 2 characters'),
@@ -24,6 +25,7 @@ type RegisterForm = z.infer<typeof registerSchema>;
 const Register: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [error, setError] = useState<string | null>(null);
   const {
     register,
     handleSubmit,
@@ -33,20 +35,68 @@ const Register: React.FC = () => {
   });
 
   const onSubmit = async (data: RegisterForm) => {
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    // Mock user data
-    const mockUser = {
-      id: '1',
-      email: data.email,
-      firstName: data.firstName,
-      lastName: data.lastName,
-      phone: data.phone,
-    };
-    
-    dispatch(setUser(mockUser));
-    navigate('/dashboard');
+    try {
+      setError(null);
+
+      console.log('Attempting registration with:', { email: data.email });
+
+      // Call the actual API
+      const response = await authAPI.register({
+        firstName: data.firstName,
+        lastName: data.lastName,
+        email: data.email,
+        password: data.password,
+        phone: data.phone,
+      });
+
+      console.log('Registration response:', response.data);
+
+      // Store the token
+      localStorage.setItem('authToken', response.data.token);
+
+      // Store user data in Redux
+      const user = {
+        id: response.data.email, // Using email as ID temporarily
+        email: response.data.email,
+        firstName: response.data.firstName,
+        lastName: response.data.lastName,
+        phone: data.phone,
+      };
+
+      dispatch(setUser(user));
+      navigate('/dashboard');
+    } catch (err: any) {
+      console.error('Registration error:', err);
+      console.error('Error response:', err.response);
+      console.error('Error data:', err.response?.data);
+
+      // Extract error message from different possible locations
+      let errorMessage = 'Registration failed. Please try again.';
+
+      if (err.response?.data) {
+        // Backend ErrorResponse format: { message, error, status }
+        if (err.response.data.message) {
+          errorMessage = err.response.data.message;
+        } else if (err.response.data.error) {
+          errorMessage = err.response.data.error;
+        } else if (typeof err.response.data === 'string') {
+          errorMessage = err.response.data;
+        }
+      } else if (err.message) {
+        if (err.message.includes('Network Error') || err.message.includes('ERR_CONNECTION_REFUSED') || err.message.includes('Failed to fetch')) {
+          errorMessage = 'Cannot connect to server. Please make sure the backend is running on http://localhost:8080';
+        } else if (err.message.includes('CORS')) {
+          errorMessage = 'CORS error. Please check backend CORS configuration.';
+        } else {
+          errorMessage = err.message;
+        }
+      } else if (err.code === 'ERR_NETWORK') {
+        errorMessage = 'Network error. Please check if the backend server is running.';
+      }
+
+      console.error('Final error message:', errorMessage);
+      setError(errorMessage);
+    }
   };
 
   return (
@@ -82,7 +132,7 @@ const Register: React.FC = () => {
                   <input
                     {...register('firstName')}
                     type="text"
-                    className="appearance-none block w-full px-3 py-2 border border-neutral-300 rounded-md placeholder-neutral-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                    className="appearance-none block w-full px-3 py-2 border border-neutral-300 rounded-md placeholder-neutral-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500 text-neutral-900"
                     placeholder="John"
                   />
                   {errors.firstName && (
@@ -99,7 +149,7 @@ const Register: React.FC = () => {
                   <input
                     {...register('lastName')}
                     type="text"
-                    className="appearance-none block w-full px-3 py-2 border border-neutral-300 rounded-md placeholder-neutral-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                    className="appearance-none block w-full px-3 py-2 border border-neutral-300 rounded-md placeholder-neutral-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500 text-neutral-900"
                     placeholder="Doe"
                   />
                   {errors.lastName && (
@@ -117,7 +167,7 @@ const Register: React.FC = () => {
                 <input
                   {...register('email')}
                   type="email"
-                  className="appearance-none block w-full px-3 py-2 border border-neutral-300 rounded-md placeholder-neutral-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                  className="appearance-none block w-full px-3 py-2 border border-neutral-300 rounded-md placeholder-neutral-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500 text-neutral-900"
                   placeholder="john@example.com"
                 />
                 {errors.email && (
@@ -134,7 +184,7 @@ const Register: React.FC = () => {
                 <input
                   {...register('phone')}
                   type="tel"
-                  className="appearance-none block w-full px-3 py-2 border border-neutral-300 rounded-md placeholder-neutral-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                  className="appearance-none block w-full px-3 py-2 border border-neutral-300 rounded-md placeholder-neutral-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500 text-neutral-900"
                   placeholder="+1 (555) 123-4567"
                 />
                 {errors.phone && (
@@ -151,7 +201,7 @@ const Register: React.FC = () => {
                 <input
                   {...register('password')}
                   type="password"
-                  className="appearance-none block w-full px-3 py-2 border border-neutral-300 rounded-md placeholder-neutral-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                  className="appearance-none block w-full px-3 py-2 border border-neutral-300 rounded-md placeholder-neutral-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500 text-neutral-900"
                   placeholder="Enter your password"
                 />
                 {errors.password && (
@@ -168,7 +218,7 @@ const Register: React.FC = () => {
                 <input
                   {...register('confirmPassword')}
                   type="password"
-                  className="appearance-none block w-full px-3 py-2 border border-neutral-300 rounded-md placeholder-neutral-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+                  className="appearance-none block w-full px-3 py-2 border border-neutral-300 rounded-md placeholder-neutral-400 focus:outline-none focus:ring-primary-500 focus:border-primary-500 text-neutral-900"
                   placeholder="Confirm your password"
                 />
                 {errors.confirmPassword && (
@@ -176,6 +226,12 @@ const Register: React.FC = () => {
                 )}
               </div>
             </div>
+
+            {error && (
+              <div className="rounded-md bg-red-50 p-4">
+                <div className="text-sm text-red-800">{error}</div>
+              </div>
+            )}
 
             <div>
               <button

@@ -10,7 +10,7 @@ public interface ReviewService {
 
     ReviewResponse getReviewById(Long id);
 
-    Page<ReviewResponse> getCarReviews(Long carId, Pageable pageable);
+    Page<ReviewResponse> getVehicleReviews(Long vehicleId, Pageable pageable);
 
     Page<ReviewResponse> getUserReviews(Long userId, Pageable pageable);
 
@@ -18,5 +18,7 @@ public interface ReviewService {
 
     void deleteReview(Long id);
 
-    Double getAverageRatingForCar(Long carId);
+    Double getAverageRatingForVehicle(Long vehicleId);
+
+    Page<ReviewResponse> getAllReviews(Pageable pageable);
 }
