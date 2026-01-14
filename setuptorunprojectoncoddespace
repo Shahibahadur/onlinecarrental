@@ -1,0 +1,4 @@
+sudo apt update
+sudo apt install -y openjdk-21-jdk
+sdk list java | grep installed
+ sdk default  java 21.0.9-ms
