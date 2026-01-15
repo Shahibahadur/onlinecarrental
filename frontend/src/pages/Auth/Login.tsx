@@ -37,7 +37,7 @@ const Login: React.FC = () => {
       // Store the token
       localStorage.setItem('authToken', response.data.token);
       
-      // Store user data in Redux
+      // Store user data
       const user = {
         id: response.data.email, // Using email as ID temporarily
         email: response.data.email,
@@ -46,6 +46,7 @@ const Login: React.FC = () => {
         phone: '',
       };
       
+      localStorage.setItem('user', JSON.stringify(user));
       dispatch(setUser(user));
       
       // Redirect to return URL or dashboard
@@ -70,7 +71,7 @@ const Login: React.FC = () => {
         }
       } else if (err.message) {
         if (err.message.includes('Network Error') || err.message.includes('ERR_CONNECTION_REFUSED') || err.message.includes('Failed to fetch')) {
-          errorMessage = 'Cannot connect to server. Please make sure the backend is running on http://localhost:8080';
+          errorMessage = `Cannot connect to server. Please make sure the backend is running on ${import.meta.env.VITE_API_BASE || 'http://localhost:8080'}`;
         } else if (err.message.includes('CORS')) {
           errorMessage = 'CORS error. Please check backend CORS configuration.';
         } else {

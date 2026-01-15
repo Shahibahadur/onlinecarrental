@@ -9,25 +9,35 @@ import com.driverental.onlinecarrental.repository.UserRepository;
 import com.driverental.onlinecarrental.security.JwtService;
 import com.driverental.onlinecarrental.service.AuthService;
 import com.driverental.onlinecarrental.security.UserPrincipal;
+import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AuthServiceImpl implements AuthService {
 
         private final UserRepository userRepository;
         private final PasswordEncoder passwordEncoder;
         private final JwtService jwtService;
         private final AuthenticationManager authenticationManager;
+        private final EntityManager entityManager;
 
         @Override
+        @Transactional(propagation = Propagation.REQUIRED)
         public AuthResponse register(RegisterRequest request) {
+                log.info("Starting registration for email: {}", request.getEmail());
+                
                 // Check if user already exists
                 if (userRepository.existsByEmail(request.getEmail())) {
+                        log.warn("Email already registered: {}", request.getEmail());
                         throw new com.driverental.onlinecarrental.model.exception.DuplicateResourceException("Email already registered");
                 }
 
@@ -41,9 +51,16 @@ public class AuthServiceImpl implements AuthService {
                                 .role(UserRole.USER)
                                 .build();
 
+                log.info("Saving user: {}", user.getEmail());
                 User savedUser = userRepository.save(user);
+                log.info("User saved with ID: {}", savedUser.getId());
+                
+                // Ensure the user is persisted to database immediately
+                entityManager.flush();
+                log.info("EntityManager flushed for email: {}", savedUser.getEmail());
 
                 String jwtToken = jwtService.generateToken(new UserPrincipal(savedUser));
+                log.info("JWT token generated for email: {}", savedUser.getEmail());
 
                 return AuthResponse.builder()
                                 .token(jwtToken)
@@ -55,6 +72,7 @@ public class AuthServiceImpl implements AuthService {
         }
 
         @Override
+        @Transactional
         public AuthResponse login(LoginRequest request) {
                 authenticationManager.authenticate(
                                 new UsernamePasswordAuthenticationToken(

@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { store } from './store';
 import Layout from './components/Layout/Layout';
 import ProtectedRoute from './components/Layout/ProtectedRoute';
+import AuthProvider from './components/Layout/AuthProvider';
 
 // Pages
 import Home from './pages/Home';
@@ -49,9 +50,10 @@ function App() {
   return (
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>
-        <Router>
-          <Layout>
-            <Routes>
+        <AuthProvider>
+          <Router>
+            <Layout>
+              <Routes>
               {/* Public Routes */}
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<About />} />
@@ -128,6 +130,7 @@ function App() {
             </Routes>
           </Layout>
         </Router>
+        </AuthProvider>
       </QueryClientProvider>
     </Provider>
   );

@@ -15,11 +15,14 @@ public class CorsConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        // Allow common frontend ports for development
-        configuration.addAllowedOriginPattern("*"); // Allow all origins for development
+
+        // Explicitly allow your Codespaces frontend URL
+        configuration.setAllowedOrigins(
+            List.of("https://organic-space-bassoon-jjwpjvw6797vhwx4-5173.app.github.dev")
+        );
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         configuration.setAllowedHeaders(List.of("*"));
-        configuration.setAllowCredentials(true);
+        configuration.setAllowCredentials(true); // needed if you send cookies or auth headers
         configuration.setMaxAge(3600L);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

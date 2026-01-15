@@ -24,8 +24,8 @@ interface VehicleResponse {
 
 // Transform backend VehicleResponse to frontend Car interface
 const transformVehicleToCar = (vehicle: VehicleResponse): Car => {
-  const apiBaseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080/api';
-  const backendOrigin = apiBaseUrl.replace(/\/api\/?$/, '');
+  const apiBaseUrl = `${import.meta.env.VITE_API_BASE || 'http://localhost:8080'}/api`;
+  const backendOrigin = import.meta.env.VITE_API_BASE || 'http://localhost:8080';
 
   const normalizeImageUrl = (url?: string | null) => {
     if (!url) return '';

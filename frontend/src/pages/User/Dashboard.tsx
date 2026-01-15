@@ -12,14 +12,18 @@ const Dashboard: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'all' | 'pending' | 'confirmed' | 'active' | 'completed' | 'cancelled'>('all');
   const queryClient = useQueryClient();
 
-  const { data: bookings, isLoading, error } = useQuery({
+  const { data: bookingsData, isLoading, error } = useQuery({
     queryKey: ['userBookings'],
     queryFn: async () => {
       const response = await bookingAPI.getByUser();
-      return response.data;
+      // Handle both array and paginated response
+      return Array.isArray(response.data) ? response.data : response.data?.content || [];
     },
     enabled: !!user,
   });
+
+  // Ensure bookings is always an array
+  const bookings = Array.isArray(bookingsData) ? bookingsData : bookingsData?.content || [];
 
   const returnCarMutation = useMutation({
     mutationFn: (bookingId: string) => bookingAPI.returnCar(bookingId),
