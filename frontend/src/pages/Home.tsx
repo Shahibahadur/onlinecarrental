@@ -14,11 +14,8 @@ const Home: React.FC = () => {
       {/* Hero Section with Background */}
       <section className="relative min-h-screen flex items-center">
         {/* Background Image */}
-        <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{
-            backgroundImage: 'url(https://images.unsplash.com/photo-1449824913935-59a10b8d2000?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80)',
-          }}
+        <div
+          className="absolute inset-0 bg-gradient-to-br from-neutral-950 via-neutral-900 to-primary-900"
         >
           {/* Dark overlay for better text readability */}
           <div className="absolute inset-0 bg-black/40" />

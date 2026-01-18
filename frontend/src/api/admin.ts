@@ -48,6 +48,27 @@ const normalizeImageUrl = (url?: string | null) => {
   return url;
 };
 
+const normalizeVehicleType = (type?: string): Car['type'] => {
+  const t = String(type || '').toUpperCase();
+  if (t === 'SUV') return 'SUV';
+  if (t === 'SEDAN') return 'Sedan';
+  if (t === 'HATCHBACK') return 'Hatchback';
+  if (t === 'LUXURY') return 'Luxury';
+  if (t === 'SPORTS') return 'Sports';
+  if (t === 'ELECTRIC') return 'Electric';
+  if (t === 'HYBRID') return 'Electric';
+  return 'SUV';
+};
+
+const normalizeFuelType = (fuelType?: string): Car['fuelType'] => {
+  const f = String(fuelType || '').toUpperCase();
+  if (f === 'PETROL') return 'Petrol';
+  if (f === 'DIESEL') return 'Diesel';
+  if (f === 'ELECTRIC') return 'Electric';
+  if (f === 'HYBRID') return 'Hybrid';
+  return 'Petrol';
+};
+
 const transformVehicleToCar = (vehicle: VehicleResponse): Car => {
   const image = normalizeImageUrl(vehicle.imageUrl);
   return {
@@ -55,11 +76,11 @@ const transformVehicleToCar = (vehicle: VehicleResponse): Car => {
     name: `${vehicle.make} ${vehicle.model}`,
     brand: vehicle.make,
     model: vehicle.model,
-    type: vehicle.type as Car['type'],
+    type: normalizeVehicleType(vehicle.type),
     pricePerDay: vehicle.dailyPrice ? Number(vehicle.dailyPrice) : 0,
     location: vehicle.location,
     transmission: vehicle.transmission as Car['transmission'],
-    fuelType: vehicle.fuelType as Car['fuelType'],
+    fuelType: normalizeFuelType(vehicle.fuelType),
     seats: vehicle.seats,
     luggage: vehicle.luggageCapacity,
     image,
@@ -161,10 +182,11 @@ export const adminAPI = {
   updateVehicle: (id: string, data: Partial<Car>) =>
     axiosInstance.put(`/vehicles/${id}`, toVehicleRequest(data)),
 
-  uploadVehicleImage: (file: File) => {
+  uploadVehicleImage: (file: File, category?: string) => {
     const formData = new FormData();
     formData.append('file', file);
     return axiosInstance.post<string>('/images/vehicles/upload', formData, {
+      params: { category: category || 'general' },
       headers: { 'Content-Type': 'multipart/form-data' },
     });
   },

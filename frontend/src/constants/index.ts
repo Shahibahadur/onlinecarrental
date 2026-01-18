@@ -1,4 +1,4 @@
-export const CARS_CDN_BASE_URL = 'https://images.unsplash.com';
+export const CARS_CDN_BASE_URL = '';
 
 export const CAR_TYPES = [
   'SUV', 'Sedan', 'Hatchback', 'Luxury', 'Sports', 'Electric'

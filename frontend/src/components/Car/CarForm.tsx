@@ -249,7 +249,7 @@ const CarForm: React.FC<CarFormProps> = ({ car, onSubmit, onSuccess, onCancel, i
 
             try {
               setIsUploading(true);
-              const resp = await adminAPI.uploadVehicleImage(file);
+              const resp = await adminAPI.uploadVehicleImage(file, String(formData.type || 'general'));
               handleChange('image', resp.data);
               setErrors((prev) => {
                 const next = { ...prev };

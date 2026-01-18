@@ -3,11 +3,10 @@ import { useSelector } from 'react-redux';
 import { Plus, Edit, Trash2, Car, Users, Wallet, TrendingUp } from 'lucide-react';
 import type { RootState } from '../store';
 import type { Car as CarType } from '../types';
-import { mockCars } from '../constants/mockData';
 
 const Admin: React.FC = () => {
   const { user } = useSelector((state: RootState) => state.auth);
-  const [cars, setCars] = useState<CarType[]>(mockCars);
+  const [cars, setCars] = useState<CarType[]>([]);
   const [activeTab, setActiveTab] = useState('overview');
 
   // Mock data for admin dashboard

@@ -12,6 +12,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 @RequiredArgsConstructor
@@ -20,28 +23,42 @@ public class VehicleServiceImpl implements VehicleService {
     private final VehicleRepository vehicleRepository;
     private final ImageStorageService imageStorageService;
 
+    private static final Pattern VEHICLE_IMAGE_WITH_CATEGORY = Pattern.compile("^/api/images/vehicles/([^/]+)/([^/]+)$");
+
     @Override
     public Page<VehicleResponse> getAllVehicles(Pageable pageable) {
         Page<Vehicle> vehicles = vehicleRepository.findAll(pageable);
-        return vehicles.map(this::convertToResponse);
+        return vehicles.map(v -> convertToResponse(v, false));
     }
 
     @Override
     public VehicleResponse getVehicleById(Long id) {
         Vehicle vehicle = vehicleRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Vehicle not found with id: " + id));
-        return convertToResponse(vehicle);
+        return convertToResponse(vehicle, true);
     }
 
     @Override
     public VehicleResponse createVehicle(VehicleRequest request) {
         String imageName = null;
+        String imageCategory = request.getType() != null ? request.getType().name().toLowerCase(Locale.ROOT) : "general";
         if (request.getImageUrl() != null && !request.getImageUrl().isBlank()) {
-            if (request.getImageUrl().startsWith("/api/images/vehicles/")) {
-                imageName = request.getImageUrl().substring("/api/images/vehicles/".length());
+            String imageUrl = request.getImageUrl();
+            int idx = imageUrl.indexOf("/api/images/vehicles/");
+            if (idx > 0) {
+                imageUrl = imageUrl.substring(idx);
+            }
+
+            Matcher m = VEHICLE_IMAGE_WITH_CATEGORY.matcher(imageUrl);
+            if (m.matches()) {
+                imageCategory = m.group(1);
+                imageName = m.group(2);
+            } else if (imageUrl.startsWith("/api/images/vehicles/")) {
+                imageName = imageUrl.substring("/api/images/vehicles/".length());
+                imageCategory = "general";
             } else if (request.getImageUrl().startsWith("http://") || request.getImageUrl().startsWith("https://")) {
                 try {
-                    imageName = imageStorageService.downloadVehicleImage(request.getImageUrl());
+                    imageName = imageStorageService.downloadVehicleImage(request.getImageUrl(), imageCategory);
                 } catch (Exception e) {
                     imageName = null;
                 }
@@ -61,15 +78,15 @@ public class VehicleServiceImpl implements VehicleService {
                 .basePrice(request.getBasePrice())
                 .dailyPrice(request.getDailyPrice())
                 .location(request.getLocation())
-                .imageUrl(imageName == null ? request.getImageUrl() : null)
                 .imageName(imageName)
+                .imageCategory(imageName != null ? imageCategory : null)
                 .isAvailable(request.getIsAvailable())
                 .rating(0.0)
                 .reviewCount(0)
                 .build();
 
         Vehicle savedVehicle = vehicleRepository.save(vehicle);
-        return convertToResponse(savedVehicle);
+        return convertToResponse(savedVehicle, false);
     }
 
     @Override
@@ -91,27 +108,40 @@ public class VehicleServiceImpl implements VehicleService {
         vehicle.setLocation(request.getLocation());
 
         if (request.getImageUrl() != null && !request.getImageUrl().isBlank()) {
-            if (request.getImageUrl().startsWith("/api/images/vehicles/")) {
-                String imageName = request.getImageUrl().substring("/api/images/vehicles/".length());
+            String imageCategory = request.getType() != null ? request.getType().name().toLowerCase(Locale.ROOT) : "general";
+            String imageUrl = request.getImageUrl();
+            int idx = imageUrl.indexOf("/api/images/vehicles/");
+            if (idx > 0) {
+                imageUrl = imageUrl.substring(idx);
+            }
+
+            Matcher m = VEHICLE_IMAGE_WITH_CATEGORY.matcher(imageUrl);
+            if (m.matches()) {
+                String imageName = m.group(2);
                 vehicle.setImageName(imageName);
+                vehicle.setImageCategory(m.group(1));
+                vehicle.setImageUrl(null);
+            } else if (imageUrl.startsWith("/api/images/vehicles/")) {
+                String imageName = imageUrl.substring("/api/images/vehicles/".length());
+                vehicle.setImageName(imageName);
+                vehicle.setImageCategory("general");
                 vehicle.setImageUrl(null);
             } else if (request.getImageUrl().startsWith("http://") || request.getImageUrl().startsWith("https://")) {
                 try {
-                    String imageName = imageStorageService.downloadVehicleImage(request.getImageUrl());
+                    String imageName = imageStorageService.downloadVehicleImage(request.getImageUrl(), imageCategory);
                     vehicle.setImageName(imageName);
+                    vehicle.setImageCategory(imageCategory);
                     vehicle.setImageUrl(null);
                 } catch (Exception e) {
-                    vehicle.setImageUrl(request.getImageUrl());
+                    vehicle.setImageUrl(null);
                 }
-            } else {
-                vehicle.setImageUrl(request.getImageUrl());
             }
         }
 
         vehicle.setIsAvailable(request.getIsAvailable());
 
         Vehicle updatedVehicle = vehicleRepository.save(vehicle);
-        return convertToResponse(updatedVehicle);
+        return convertToResponse(updatedVehicle, false);
     }
 
     @Override
@@ -124,13 +154,13 @@ public class VehicleServiceImpl implements VehicleService {
     @Override
     public Page<VehicleResponse> getAvailableVehicles(Pageable pageable) {
         Page<Vehicle> vehicles = vehicleRepository.findByIsAvailableTrue(pageable);
-        return vehicles.map(this::convertToResponse);
+        return vehicles.map(v -> convertToResponse(v, false));
     }
 
     @Override
     public Page<VehicleResponse> getAvailableVehicles(String search, Pageable pageable) {
         Page<Vehicle> vehicles = vehicleRepository.findAvailableBySearch(search, pageable);
-        return vehicles.map(this::convertToResponse);
+        return vehicles.map(v -> convertToResponse(v, false));
     }
 
     @Override
@@ -140,13 +170,37 @@ public class VehicleServiceImpl implements VehicleService {
 
         vehicle.setIsAvailable(isAvailable);
         Vehicle updatedVehicle = vehicleRepository.save(vehicle);
-        return convertToResponse(updatedVehicle);
+        return convertToResponse(updatedVehicle, false);
     }
 
-    private VehicleResponse convertToResponse(Vehicle vehicle) {
+    private VehicleResponse convertToResponse(Vehicle vehicle, boolean migrateExternalImageOnRead) {
+        if (migrateExternalImageOnRead
+                && (vehicle.getImageName() == null || vehicle.getImageName().isBlank())
+                && vehicle.getImageUrl() != null
+                && (vehicle.getImageUrl().startsWith("http://") || vehicle.getImageUrl().startsWith("https://"))) {
+            try {
+                String category = vehicle.getType() != null ? vehicle.getType().name().toLowerCase(Locale.ROOT) : "general";
+                String filename = imageStorageService.downloadVehicleImage(vehicle.getImageUrl(), category);
+                vehicle.setImageName(filename);
+                vehicle.setImageCategory(category);
+                vehicle.setImageUrl(null);
+                vehicleRepository.save(vehicle);
+            } catch (Exception ignored) {
+            }
+        }
+
         String imageUrl = vehicle.getImageUrl();
+        if (!migrateExternalImageOnRead
+                && imageUrl != null
+                && (imageUrl.startsWith("http://") || imageUrl.startsWith("https://"))) {
+            imageUrl = null;
+        }
         if (vehicle.getImageName() != null && !vehicle.getImageName().isBlank()) {
-            imageUrl = "/api/images/vehicles/" + vehicle.getImageName();
+            if (vehicle.getImageCategory() != null && !vehicle.getImageCategory().isBlank()) {
+                imageUrl = "/api/images/vehicles/" + vehicle.getImageCategory() + "/" + vehicle.getImageName();
+            } else {
+                imageUrl = "/api/images/vehicles/" + vehicle.getImageName();
+            }
         }
         return VehicleResponse.builder()
                 .id(vehicle.getId())

@@ -27,6 +27,27 @@ const transformVehicleToCar = (vehicle: VehicleResponse): Car => {
   const apiBaseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080/api';
   const backendOrigin = apiBaseUrl.replace(/\/api\/?$/, '');
 
+  const normalizeVehicleType = (type?: string): Car['type'] => {
+    const t = String(type || '').toUpperCase();
+    if (t === 'SUV') return 'SUV';
+    if (t === 'SEDAN') return 'Sedan';
+    if (t === 'HATCHBACK') return 'Hatchback';
+    if (t === 'LUXURY') return 'Luxury';
+    if (t === 'SPORTS') return 'Sports';
+    if (t === 'ELECTRIC') return 'Electric';
+    if (t === 'HYBRID') return 'Electric';
+    return 'SUV';
+  };
+
+  const normalizeFuelType = (fuelType?: string): Car['fuelType'] => {
+    const f = String(fuelType || '').toUpperCase();
+    if (f === 'PETROL') return 'Petrol';
+    if (f === 'DIESEL') return 'Diesel';
+    if (f === 'ELECTRIC') return 'Electric';
+    if (f === 'HYBRID') return 'Hybrid';
+    return 'Petrol';
+  };
+
   const normalizeImageUrl = (url?: string | null) => {
     if (!url) return '';
     if (url.startsWith('http://') || url.startsWith('https://')) return url;
@@ -41,11 +62,11 @@ const transformVehicleToCar = (vehicle: VehicleResponse): Car => {
     name: `${vehicle.make} ${vehicle.model}`,
     brand: vehicle.make,
     model: vehicle.model,
-    type: vehicle.type as Car['type'],
+    type: normalizeVehicleType(vehicle.type),
     pricePerDay: vehicle.dailyPrice ? Number(vehicle.dailyPrice) : 0,
     location: vehicle.location,
     transmission: vehicle.transmission as Car['transmission'],
-    fuelType: vehicle.fuelType as Car['fuelType'],
+    fuelType: normalizeFuelType(vehicle.fuelType),
     seats: vehicle.seats,
     luggage: vehicle.luggageCapacity,
     image: imageUrl,

@@ -19,11 +19,24 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ImageStorageServiceImpl implements ImageStorageService {
 
-    @Value("${app.storage.vehicles-dir:uploads/vehicles}")
+    @Value("${app.storage.vehicles-dir:backend/uploads/vehicles}")
     private String vehiclesDir;
 
+    private Path vehiclesBaseDir() {
+        String normalized = vehiclesDir == null ? "" : vehiclesDir.replace('\\', '/');
+        Path base = Path.of(vehiclesDir);
+        if (!base.isAbsolute() && normalized.startsWith("backend/")) {
+            Path cwd = Path.of("").toAbsolutePath().normalize();
+            Path leaf = cwd.getFileName();
+            if (leaf != null && leaf.toString().equalsIgnoreCase("backend")) {
+                base = Path.of(normalized.substring("backend/".length()));
+            }
+        }
+        return base;
+    }
+
     @Override
-    public String downloadVehicleImage(String imageUrl) throws IOException {
+    public String downloadVehicleImage(String imageUrl, String category) throws IOException {
         if (imageUrl == null || imageUrl.isBlank()) {
             throw new IOException("imageUrl is blank");
         }
@@ -38,7 +51,8 @@ public class ImageStorageServiceImpl implements ImageStorageService {
         String ext = extensionFromContentTypeOrUrl(contentType, url.getPath());
         String filename = UUID.randomUUID().toString().replace("-", "") + ext;
 
-        Path dir = Path.of(vehiclesDir);
+        String safeCategory = sanitizeCategory(category);
+        Path dir = vehiclesBaseDir().resolve(safeCategory);
         Files.createDirectories(dir);
 
         Path target = dir.resolve(filename);
@@ -50,6 +64,14 @@ public class ImageStorageServiceImpl implements ImageStorageService {
         }
 
         return filename;
+    }
+
+    private String sanitizeCategory(String category) {
+        if (category == null || category.isBlank()) return "general";
+        String c = category.trim().toLowerCase(Locale.ROOT);
+        c = c.replaceAll("[^a-z0-9_-]", "-");
+        if (c.isBlank()) return "general";
+        return c;
     }
 
     private String extensionFromContentTypeOrUrl(String contentType, String urlPath) {

@@ -25,11 +25,15 @@ const CarTable: React.FC<CarTableProps> = ({ cars }) => {
           {cars.map((car) => (
             <tr key={car.id} className="hover:bg-neutral-50">
               <td className="px-6 py-4">
-                <img
-                  src={car.image || 'https://via.placeholder.com/150'}
-                  alt={car.name}
-                  className="h-20 w-32 object-cover rounded"
-                />
+                {car.image ? (
+                  <img
+                    src={car.image}
+                    alt={car.name}
+                    className="h-20 w-32 object-cover rounded"
+                  />
+                ) : (
+                  <div className="h-20 w-32 bg-neutral-200 rounded" />
+                )}
               </td>
               <td className="px-6 py-4">
                 <div>

@@ -26,12 +26,13 @@ const CarListingPage: React.FC = () => {
   const availableCars = cars.filter((c) => c.available !== false);
 
   return (
-    <div className="min-h-screen bg-white py-8">
+    <div className="min-h-screen bg-neutral-50 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-neutral-900 mb-6">Car Listing</h1>
+        <div className="bg-white border border-neutral-200 rounded-xl p-6 md:p-8 mb-8">
+          <h1 className="text-3xl md:text-4xl font-bold text-neutral-900">Car Listing</h1>
+          <p className="text-neutral-600 mt-2">Browse available cars and view details</p>
 
-          <div className="mb-4">
+          <div className="mt-6">
             <CarSearchBar
               value={searchInput}
               onChange={setSearchInput}

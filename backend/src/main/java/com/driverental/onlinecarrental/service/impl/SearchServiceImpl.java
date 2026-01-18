@@ -138,6 +138,17 @@ public class SearchServiceImpl implements SearchService {
     }
 
     private VehicleResponse convertToResponse(Vehicle vehicle) {
+        String imageUrl = vehicle.getImageUrl();
+        if (vehicle.getImageName() != null && !vehicle.getImageName().isBlank()) {
+            if (vehicle.getImageCategory() != null && !vehicle.getImageCategory().isBlank()) {
+                imageUrl = "/api/images/vehicles/" + vehicle.getImageCategory() + "/" + vehicle.getImageName();
+            } else {
+                imageUrl = "/api/images/vehicles/" + vehicle.getImageName();
+            }
+        } else if (imageUrl != null && (imageUrl.startsWith("http://") || imageUrl.startsWith("https://"))) {
+            imageUrl = null;
+        }
+
         return VehicleResponse.builder()
                 .id(vehicle.getId())
                 .make(vehicle.getMake())
@@ -152,7 +163,7 @@ public class SearchServiceImpl implements SearchService {
                 .basePrice(vehicle.getBasePrice())
                 .dailyPrice(vehicle.getDailyPrice())
                 .location(vehicle.getLocation())
-                .imageUrl(vehicle.getImageUrl())
+                .imageUrl(imageUrl)
                 .isAvailable(vehicle.getIsAvailable())
                 .rating(vehicle.getRating())
                 .reviewCount(vehicle.getReviewCount())

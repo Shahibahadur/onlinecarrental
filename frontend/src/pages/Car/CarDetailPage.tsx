@@ -19,13 +19,14 @@ const CarDetailPage: React.FC = () => {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [showReviewForm, setShowReviewForm] = useState(false);
 
-  const { data: car, isLoading, error } = useQuery({
+  const { data: carData, isLoading, error } = useQuery<Car>({
     queryKey: ['car', id],
-    queryFn: () => carsAPI.getById(id!),
+    queryFn: async () => {
+      const resp = await carsAPI.getById(id!);
+      return resp.data;
+    },
     enabled: !!id,
   });
-
-  const carData = car?.data || car;
 
   const handleBookClick = () => {
     if (!isAuthenticated) {

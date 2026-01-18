@@ -79,6 +79,8 @@ public class Vehicle {
 
     private String imageName;
 
+    private String imageCategory;
+
     private String description;
 
     private String licensePlate;

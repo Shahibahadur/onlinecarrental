@@ -1,15 +1,13 @@
 import { useQuery } from '@tanstack/react-query';
 import { type Car, type SearchFilters } from '../types';
-import { mockCars } from '../constants/mockData';
+import { carsAPI } from '../api/cars';
 
 export const useCars = (filters: Partial<SearchFilters>) => {
   return useQuery({
     queryKey: ['cars', filters],
     queryFn: async (): Promise<Car[]> => {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 500));
-      
-      let filteredCars = mockCars;
+      const resp = await carsAPI.getAvailable(undefined, 0, 200);
+      let filteredCars = resp.data;
 
       if (filters.location) {
         filteredCars = filteredCars.filter(car => 
