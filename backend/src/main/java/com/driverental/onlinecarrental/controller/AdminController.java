@@ -38,6 +38,7 @@ public class AdminController {
     private final UserService userService;
     private final VehicleService vehicleService;
     private final BookingService bookingService;
+    private final ReviewService reviewService;
     private final UserRepository userRepository;
     private final VehicleRepository vehicleRepository;
     private final BookingRepository bookingRepository;
