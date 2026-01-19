@@ -70,7 +70,7 @@ const Login: React.FC = () => {
         }
       } else if (err.message) {
         if (err.message.includes('Network Error') || err.message.includes('ERR_CONNECTION_REFUSED') || err.message.includes('Failed to fetch')) {
-          errorMessage = 'Cannot connect to server. Please make sure the backend is running on http://localhost:8080';
+          errorMessage = `Cannot connect to server. Please make sure the backend is running on ${import.meta.env.VITE_API_BASE || 'http://localhost:8080'}`;
         } else if (err.message.includes('CORS')) {
           errorMessage = 'CORS error. Please check backend CORS configuration.';
         } else {

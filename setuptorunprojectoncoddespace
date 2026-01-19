@@ -4,4 +4,12 @@ sdk list java | grep installed
  sdk default  java 21.0.9-ms
  nvm install 20
  nvm use 20
- 
+ sudo apt install -y mysql
+
+
+pkill -f "java.*onlinecarrental"
+
+CREATE DATABASE car_rental_db;
+CREATE USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'root';
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' WITH GRANT OPTION;
+FLUSH PRIVILEGES;

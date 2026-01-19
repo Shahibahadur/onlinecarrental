@@ -38,8 +38,8 @@ interface VehicleRequest {
   isAvailable: boolean;
 }
 
-const apiBaseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080/api';
-const backendOrigin = apiBaseUrl.replace(/\/api\/?$/, '');
+const apiBaseUrl = import.meta.env.VITE_API_BASE || 'http://localhost:8080';
+const backendOrigin = apiBaseUrl;
 
 const normalizeImageUrl = (url?: string | null) => {
   if (!url) return '';
