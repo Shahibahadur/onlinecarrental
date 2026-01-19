@@ -44,10 +44,28 @@ The website provides a complete solution for car rental management with modern U
 - Dynamic pricing based on multiple factors
 
 ### Admin Features
-- Admin dashboard with statistics
-- Manage vehicles (Add, Edit, Delete)
-- View and manage all bookings
-- Update booking status
+- **Admin Dashboard** with real-time statistics
+  - Total cars, users, bookings, revenue
+- **Vehicle Management**
+  - Add new vehicles with image upload
+  - Edit existing vehicle details
+  - Delete vehicles with confirmation
+  - Toggle vehicle availability
+  - Search and filter vehicles
+- **Booking Management**
+  - View all reservations with customer details
+  - Accept or reject pending bookings
+  - Return completed bookings
+  - Delete reservations
+  - Filter bookings by status
+- **Feedback Management**
+  - View customer reviews and ratings
+  - Delete inappropriate reviews
+  - Search feedback
+- **User Management**
+  - View all registered users
+  - Manage user accounts
+  - Delete users if needed
 - User management
 - Vehicle availability management
 

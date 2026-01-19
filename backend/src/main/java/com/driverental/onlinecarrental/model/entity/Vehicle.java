@@ -80,6 +80,10 @@ public class Vehicle {
     private String imageName;
 
     private String imageCategory;
+    
+    // Store multiple image names separated by comma for car type-based retrieval
+    @Column(columnDefinition = "TEXT")
+    private String imageNames;
 
     private String description;
 

@@ -47,9 +47,11 @@ server:
 app:
   jwt:
     secret: your-super-secure-jwt-secret-key-that-is-at-least-256-bits-long
-    expiration: 86400000 
+    expiration: 86400000
+  
   storage:
     vehicles-dir: backend/uploads/vehicles
+  
   esewa:
     product-code: EPAYTEST
     secret-key: 8gBm/:&EnhH.1/q

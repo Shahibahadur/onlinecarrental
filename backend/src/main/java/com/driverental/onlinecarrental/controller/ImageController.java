@@ -7,12 +7,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.file.Files;
@@ -22,62 +17,41 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/images")
-@Tag(name = "Images", description = "Image serving APIs")
+@Tag(name = "Images", description = "Image serving and upload APIs")
 public class ImageController {
 
-    @Value("${app.storage.vehicles-dir:backend/uploads/vehicles}")
+    @Value("${app.storage.vehicles-dir:uploads/vehicles}")
     private String vehiclesDir;
 
-    private Path vehiclesBaseDir() {
-        String normalized = vehiclesDir == null ? "" : vehiclesDir.replace('\\', '/');
-        Path base = Path.of(vehiclesDir);
-        if (!base.isAbsolute() && normalized.startsWith("backend/")) {
-            Path cwd = Path.of("").toAbsolutePath().normalize();
-            Path leaf = cwd.getFileName();
-            if (leaf != null && leaf.toString().equalsIgnoreCase("backend")) {
-                base = Path.of(normalized.substring("backend/".length()));
-            }
+    /**
+     * Get vehicle image by vehicle type and filename
+     */
+    @GetMapping("/vehicles/{vehicleType}/{filename}")
+    @Operation(summary = "Serve vehicle image by type and filename")
+    public ResponseEntity<Resource> getVehicleImage(@PathVariable String vehicleType, @PathVariable String filename) throws Exception {
+        String safeType = sanitizeVehicleType(vehicleType);
+        Path file = Path.of(vehiclesDir).resolve(safeType).resolve(filename).normalize();
+        Resource resource = new UrlResource(file.toUri());
+
+        if (!resource.exists() || !resource.isReadable()) {
+            return ResponseEntity.notFound().build();
         }
-        return base;
+
+        String contentType = Files.probeContentType(file);
+        MediaType mediaType = (contentType != null) ? MediaType.parseMediaType(contentType) : MediaType.APPLICATION_OCTET_STREAM;
+
+        return ResponseEntity.ok()
+                .contentType(mediaType)
+                .body(resource);
     }
 
-    private String sanitizeCategory(String category) {
-        if (category == null || category.isBlank()) return "general";
-        String c = category.trim().toLowerCase();
-        c = c.replaceAll("[^a-z0-9_-]", "-");
-        if (c.isBlank()) return "general";
-        return c;
-    }
-
+    /**
+     * Get vehicle image by filename (legacy support)
+     */
     @GetMapping("/vehicles/{filename}")
-    @Operation(summary = "Serve vehicle image by filename")
-    public ResponseEntity<Resource> getVehicleImage(@PathVariable String filename) throws Exception {
-        Path file = vehiclesBaseDir().resolve(filename).normalize();
-        Resource resource = new UrlResource(file.toUri());
-
-        if (!resource.exists() || !resource.isReadable()) {
-            Path fallback = vehiclesBaseDir().resolve("general").resolve(filename).normalize();
-            resource = new UrlResource(fallback.toUri());
-            file = fallback;
-        }
-
-        if (!resource.exists() || !resource.isReadable()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        String contentType = Files.probeContentType(file);
-        MediaType mediaType = (contentType != null) ? MediaType.parseMediaType(contentType) : MediaType.APPLICATION_OCTET_STREAM;
-
-        return ResponseEntity.ok()
-                .contentType(mediaType)
-                .body(resource);
-    }
-
-    @GetMapping("/vehicles/{category}/{filename}")
-    @Operation(summary = "Serve vehicle image by category and filename")
-    public ResponseEntity<Resource> getVehicleImageByCategory(@PathVariable String category, @PathVariable String filename) throws Exception {
-        String safeCategory = sanitizeCategory(category);
-        Path file = vehiclesBaseDir().resolve(safeCategory).resolve(filename).normalize();
+    @Operation(summary = "Serve vehicle image by filename (legacy)")
+    public ResponseEntity<Resource> getVehicleImageLegacy(@PathVariable String filename) throws Exception {
+        Path file = Path.of(vehiclesDir).resolve(filename).normalize();
         Resource resource = new UrlResource(file.toUri());
 
         if (!resource.exists() || !resource.isReadable()) {
@@ -92,29 +66,45 @@ public class ImageController {
                 .body(resource);
     }
 
+    /**
+     * Upload vehicle image with car type organization
+     */
     @PostMapping("/vehicles/upload")
-    @Operation(summary = "Upload vehicle image (Admin only)")
-    public ResponseEntity<String> uploadVehicleImage(@RequestParam("file") MultipartFile file,
-                                                     @RequestParam(value = "category", required = false) String category) throws Exception {
+    @Operation(summary = "Upload vehicle image organized by vehicle type")
+    public ResponseEntity<String> uploadVehicleImage(
+            @RequestParam("file") MultipartFile file,
+            @RequestParam(value = "vehicleType", required = true) String vehicleType) throws Exception {
+
         if (file.isEmpty()) {
             return ResponseEntity.badRequest().body("File is empty");
         }
 
-        String original = file.getOriginalFilename() != null ? file.getOriginalFilename() : "";
+        String safeType = sanitizeVehicleType(vehicleType);
+        String originalFilename = file.getOriginalFilename() != null ? file.getOriginalFilename() : "";
+        
+        // Extract file extension
         String ext = "";
-        int dot = original.lastIndexOf('.');
-        if (dot >= 0 && dot < original.length() - 1) {
-            ext = original.substring(dot);
+        int dot = originalFilename.lastIndexOf('.');
+        if (dot >= 0 && dot < originalFilename.length() - 1) {
+            ext = originalFilename.substring(dot);
+        } else {
+            ext = ".jpg";
         }
+
         String filename = UUID.randomUUID().toString().replace("-", "") + ext;
 
-        String safeCategory = sanitizeCategory(category);
-        Path dir = vehiclesBaseDir().resolve(safeCategory);
+        // Create type-specific directory
+        Path dir = Path.of(vehiclesDir).resolve(safeType);
         Files.createDirectories(dir);
         Path target = dir.resolve(filename);
 
         Files.copy(file.getInputStream(), target, StandardCopyOption.REPLACE_EXISTING);
 
-        return ResponseEntity.ok("/api/images/vehicles/" + safeCategory + "/" + filename);
+        return ResponseEntity.ok("/api/images/vehicles/" + safeType + "/" + filename);
     }
-}
+
+    private String sanitizeVehicleType(String vehicleType) {
+        if (vehicleType == null || vehicleType.isBlank()) return "general";
+        return vehicleType.trim().toLowerCase()
+                .replaceAll("[^a-z0-9_-]", "");
+    }

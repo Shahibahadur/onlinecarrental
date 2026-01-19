@@ -1,26 +1,55 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Plus, Edit, Trash2, Car, Users, Wallet, TrendingUp } from 'lucide-react';
+import { Car, Users, Wallet, TrendingUp } from 'lucide-react';
+import { useQuery } from '@tanstack/react-query';
 import type { RootState } from '../store';
-import type { Car as CarType } from '../types';
+import { adminAPI } from '../api/admin';
+import VehicleManagement from './Admin/VehicleManagement';
+import BookingManagement from './Admin/BookingManagement';
+import FeedbackManagement from './Admin/FeedbackManagement';
+import UserManagement from './Admin/UserManagement';
 
 const Admin: React.FC = () => {
   const { user } = useSelector((state: RootState) => state.auth);
-  const [cars, setCars] = useState<CarType[]>([]);
   const [activeTab, setActiveTab] = useState('overview');
 
-  // Mock data for admin dashboard
-  const stats = [
-    { name: 'Total Cars', value: '24', icon: Car, change: '+12%', changeType: 'increase' },
-    { name: 'Total Users', value: '1,234', icon: Users, change: '+8%', changeType: 'increase' },
-    { name: 'Revenue', value: 'रू 45,231', icon: Wallet, change: '+23%', changeType: 'increase' },
-    { name: 'Bookings', value: '89', icon: TrendingUp, change: '+5%', changeType: 'increase' },
-  ];
+  const { data: statsData, isLoading: statsLoading } = useQuery({
+    queryKey: ['adminStats'],
+    queryFn: async () => {
+      const response = await adminAPI.getStats();
+      return response.data;
+    },
+  });
 
-  const recentBookings = [
-    { id: '1', user: 'John Doe', car: 'Toyota Camry', date: '2024-12-01', status: 'Confirmed', amount: 'रू 225' },
-    { id: '2', user: 'Jane Smith', car: 'Tesla Model 3', date: '2024-12-02', status: 'Pending', amount: 'रू 150' },
-    { id: '3', user: 'Mike Johnson', car: 'BMW X5', date: '2024-12-01', status: 'Completed', amount: 'रू 356' },
+  const stats = [
+    { 
+      name: 'Total Cars', 
+      value: statsData?.totalCars?.toString() || '0', 
+      icon: Car, 
+      change: '+12%', 
+      changeType: 'increase' as const 
+    },
+    { 
+      name: 'Total Users', 
+      value: statsData?.totalUsers?.toString() || '0', 
+      icon: Users, 
+      change: '+8%', 
+      changeType: 'increase' as const 
+    },
+    { 
+      name: 'Revenue', 
+      value: `रू ${statsData?.revenue?.toLocaleString('en-NP') || '0'}`, 
+      icon: Wallet, 
+      change: '+23%', 
+      changeType: 'increase' as const 
+    },
+    { 
+      name: 'Bookings', 
+      value: statsData?.totalBookings?.toString() || '0', 
+      icon: TrendingUp, 
+      change: '+5%', 
+      changeType: 'increase' as const 
+    },
   ];
 
   if (!user || user.email !== 'admin@rental.com') {
@@ -32,18 +61,6 @@ const Admin: React.FC = () => {
       </div>
     );
   }
-
-  const handleDeleteCar = (carId: string) => {
-    if (window.confirm('Are you sure you want to delete this car?')) {
-      setCars(cars.filter(car => car.id !== carId));
-    }
-  };
-
-  const toggleCarAvailability = (carId: string) => {
-    setCars(cars.map(car => 
-      car.id === carId ? { ...car, available: !car.available } : car
-    ));
-  };
 
   return (
     <div className="min-h-screen bg-neutral-50">
@@ -93,14 +110,14 @@ const Admin: React.FC = () => {
                 Overview
               </button>
               <button
-                onClick={() => setActiveTab('cars')}
+                onClick={() => setActiveTab('vehicles')}
                 className={`py-4 px-6 text-sm font-medium border-b-2 ${
-                  activeTab === 'cars'
+                  activeTab === 'vehicles'
                     ? 'border-primary-500 text-primary-600'
                     : 'border-transparent text-neutral-500 hover:text-neutral-700 hover:border-neutral-300'
                 }`}
               >
-                Cars Management
+                Vehicle Management
               </button>
               <button
                 onClick={() => setActiveTab('bookings')}
@@ -110,7 +127,27 @@ const Admin: React.FC = () => {
                     : 'border-transparent text-neutral-500 hover:text-neutral-700 hover:border-neutral-300'
                 }`}
               >
-                Bookings
+                Booking Management
+              </button>
+              <button
+                onClick={() => setActiveTab('feedback')}
+                className={`py-4 px-6 text-sm font-medium border-b-2 ${
+                  activeTab === 'feedback'
+                    ? 'border-primary-500 text-primary-600'
+                    : 'border-transparent text-neutral-500 hover:text-neutral-700 hover:border-neutral-300'
+                }`}
+              >
+                Feedback
+              </button>
+              <button
+                onClick={() => setActiveTab('users')}
+                className={`py-4 px-6 text-sm font-medium border-b-2 ${
+                  activeTab === 'users'
+                    ? 'border-primary-500 text-primary-600'
+                    : 'border-transparent text-neutral-500 hover:text-neutral-700 hover:border-neutral-300'
+                }`}
+              >
+                Users
               </button>
             </nav>
           </div>
@@ -118,166 +155,38 @@ const Admin: React.FC = () => {
           <div className="p-6">
             {activeTab === 'overview' && (
               <div>
-                <h3 className="text-lg font-semibold text-neutral-900 mb-4">Recent Bookings</h3>
-                <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 rounded-lg">
-                  <table className="min-w-full divide-y divide-neutral-200">
-                    <thead className="bg-neutral-50">
-                      <tr>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
-                          Booking ID
-                        </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
-                          User
-                        </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
-                          Car
-                        </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
-                          Date
-                        </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
-                          Status
-                        </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
-                          Amount
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody className="bg-white divide-y divide-neutral-200">
-                      {recentBookings.map((booking) => (
-                        <tr key={booking.id}>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-neutral-900">
-                            #{booking.id}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-900">
-                            {booking.user}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-900">
-                            {booking.car}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-900">
-                            {booking.date}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                              booking.status === 'Confirmed' ? 'bg-green-100 text-green-800' :
-                              booking.status === 'Pending' ? 'bg-yellow-100 text-yellow-800' :
-                              'bg-blue-100 text-blue-800'
-                            }`}>
-                              {booking.status}
-                            </span>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-900">
-                            {booking.amount}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
+                <h3 className="text-lg font-semibold text-neutral-900 mb-6">Admin Overview</h3>
+                {statsLoading ? (
+                  <div className="text-center py-8">
+                    <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600"></div>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    {stats.map((stat) => (
+                      <div key={stat.name} className="bg-neutral-50 p-4 rounded-lg border border-neutral-200">
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <p className="text-sm font-medium text-neutral-600">{stat.name}</p>
+                            <p className="text-2xl font-bold text-neutral-900 mt-1">{stat.value}</p>
+                          </div>
+                          <div className="bg-primary-100 p-3 rounded-full">
+                            <stat.icon className="h-6 w-6 text-primary-600" />
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             )}
 
-            {activeTab === 'cars' && (
-              <div>
-                <div className="flex justify-between items-center mb-6">
-                  <h3 className="text-lg font-semibold text-neutral-900">Cars Management</h3>
-                  <button className="flex items-center px-4 py-2 bg-primary-600 text-white rounded-md hover:bg-primary-700 transition-colors">
-                    <Plus className="h-4 w-4 mr-2" />
-                    Add New Car
-                  </button>
-                </div>
+            {activeTab === 'vehicles' && <VehicleManagement />}
 
-                <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 rounded-lg">
-                  <table className="min-w-full divide-y divide-neutral-200">
-                    <thead className="bg-neutral-50">
-                      <tr>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
-                          Car
-                        </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
-                          Type
-                        </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
-                          Location
-                        </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
-                          Price/Day
-                        </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
-                          Status
-                        </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
-                          Actions
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody className="bg-white divide-y divide-neutral-200">
-                      {cars.map((car) => (
-                        <tr key={car.id}>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <div className="flex items-center">
-                              <img
-                                src={car.image}
-                                alt={car.name}
-                                className="h-10 w-10 rounded-lg object-cover"
-                              />
-                              <div className="ml-4">
-                                <div className="text-sm font-medium text-neutral-900">{car.name}</div>
-                                <div className="text-sm text-neutral-500">{car.brand}</div>
-                              </div>
-                            </div>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-900">
-                            {car.type}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-900">
-                            {car.location}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-900">
-                            रू {car.pricePerDay.toLocaleString('en-NP')}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap">
-                            <button
-                              onClick={() => toggleCarAvailability(car.id)}
-                              className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full cursor-pointer ${
-                                car.available
-                                  ? 'bg-green-100 text-green-800 hover:bg-green-200'
-                                  : 'bg-red-100 text-red-800 hover:bg-red-200'
-                              }`}
-                            >
-                              {car.available ? 'Available' : 'Not Available'}
-                            </button>
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                            <div className="flex space-x-2">
-                              <button className="text-primary-600 hover:text-primary-900">
-                                <Edit className="h-4 w-4" />
-                              </button>
-                              <button
-                                onClick={() => handleDeleteCar(car.id)}
-                                className="text-red-600 hover:text-red-900"
-                              >
-                                <Trash2 className="h-4 w-4" />
-                              </button>
-                            </div>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            )}
+            {activeTab === 'bookings' && <BookingManagement />}
 
-            {activeTab === 'bookings' && (
-              <div>
-                <h3 className="text-lg font-semibold text-neutral-900 mb-4">All Bookings</h3>
-                <div className="text-center py-8 text-neutral-500">
-                  Bookings management section - Under development
-                </div>
-              </div>
-            )}
+            {activeTab === 'feedback' && <FeedbackManagement />}
+
+            {activeTab === 'users' && <UserManagement />}
           </div>
         </div>
       </div>
