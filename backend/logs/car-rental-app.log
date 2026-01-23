@@ -1,0 +1,1454 @@
+2026-01-23T11:28:32.586Z  INFO 54887 --- [restartedMain] c.d.o.OnlineCarRentalApplication         : Starting OnlineCarRentalApplication using Java 21.0.9 with PID 54887 (/workspaces/onlinecarrental/backend/target/classes started by codespace in /workspaces/onlinecarrental/backend)
+2026-01-23T11:28:32.589Z  INFO 54887 --- [restartedMain] c.d.o.OnlineCarRentalApplication         : No active profile set, falling back to 1 default profile: "default"
+2026-01-23T11:28:32.665Z  INFO 54887 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-01-23T11:28:32.666Z  INFO 54887 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-01-23T11:28:34.277Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-01-23T11:28:34.279Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-23T11:28:34.428Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 143 ms. Found 7 JPA repository interfaces.
+2026-01-23T11:28:34.447Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-01-23T11:28:34.448Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-01-23T11:28:34.464Z  INFO 54887 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.BookingRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T11:28:34.464Z  INFO 54887 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.PaymentRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T11:28:34.465Z  INFO 54887 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.PriceConfigRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T11:28:34.465Z  INFO 54887 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.ReviewRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T11:28:34.465Z  INFO 54887 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.UserRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T11:28:34.466Z  INFO 54887 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.VehicleImageRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T11:28:34.466Z  INFO 54887 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.VehicleRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T11:28:34.466Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 10 ms. Found 0 Redis repository interfaces.
+2026-01-23T11:28:35.146Z  INFO 54887 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-01-23T11:28:35.157Z  INFO 54887 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-23T11:28:35.157Z  INFO 54887 --- [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.16]
+2026-01-23T11:28:35.190Z  INFO 54887 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-01-23T11:28:35.190Z  INFO 54887 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2524 ms
+2026-01-23T11:28:35.387Z  INFO 54887 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-01-23T11:28:35.442Z  INFO 54887 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.3.1.Final
+2026-01-23T11:28:35.473Z  INFO 54887 --- [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-01-23T11:28:35.741Z  INFO 54887 --- [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-01-23T11:28:35.762Z  INFO 54887 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-01-23T11:28:36.199Z  INFO 54887 --- [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@7a0cbf7c
+2026-01-23T11:28:36.201Z  INFO 54887 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-01-23T11:28:36.245Z  WARN 54887 --- [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-01-23T11:28:37.205Z  INFO 54887 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-01-23T11:28:37.250Z DEBUG 54887 --- [restartedMain] org.hibernate.SQL                        : 
+    create table bookings (
+        id bigint not null auto_increment,
+        cancelled_at datetime(6),
+        confirmed_at datetime(6),
+        created_at datetime(6),
+        dropoff_location varchar(255),
+        end_date date,
+        pickup_location varchar(255),
+        start_date date,
+        status enum ('PENDING','CONFIRMED','ACTIVE','COMPLETED','CANCELLED'),
+        total_price decimal(38,2),
+        user_id bigint,
+        vehicle_id bigint,
+        primary key (id)
+    ) engine=InnoDB
+2026-01-23T11:28:37.297Z DEBUG 54887 --- [restartedMain] org.hibernate.SQL                        : 
+    create table payments (
+        id bigint not null auto_increment,
+        amount decimal(38,2),
+        completed_at datetime(6),
+        created_at datetime(6),
+        payment_method enum ('CREDIT_CARD','DEBIT_CARD','PAYPAL','ESEWA','CASH','BANK_TRANSFER'),
+        status enum ('PENDING','PROCESSING','COMPLETED','FAILED','REFUNDED'),
+        transaction_id varchar(255),
+        booking_id bigint,
+        primary key (id)
+    ) engine=InnoDB
+2026-01-23T11:28:37.319Z DEBUG 54887 --- [restartedMain] org.hibernate.SQL                        : 
+    create table price_config (
+        id bigint not null auto_increment,
+        primary key (id)
+    ) engine=InnoDB
+2026-01-23T11:28:37.342Z DEBUG 54887 --- [restartedMain] org.hibernate.SQL                        : 
+    create table reviews (
+        id bigint not null auto_increment,
+        comment varchar(255),
+        created_at datetime(6),
+        rating integer,
+        updated_at datetime(6),
+        user_id bigint,
+        vehicle_id bigint,
+        primary key (id)
+    ) engine=InnoDB
+2026-01-23T11:28:37.384Z DEBUG 54887 --- [restartedMain] org.hibernate.SQL                        : 
+    create table users (
+        id bigint not null auto_increment,
+        created_at datetime(6),
+        email varchar(255),
+        first_name varchar(255),
+        last_name varchar(255),
+        password varchar(255),
+        phone varchar(255),
+        role enum ('USER','ADMIN'),
+        updated_at datetime(6),
+        primary key (id)
+    ) engine=InnoDB
+2026-01-23T11:28:37.412Z DEBUG 54887 --- [restartedMain] org.hibernate.SQL                        : 
+    create table vehicle_features (
+        vehicle_id bigint not null,
+        feature varchar(255)
+    ) engine=InnoDB
+2026-01-23T11:28:37.433Z DEBUG 54887 --- [restartedMain] org.hibernate.SQL                        : 
+    create table vehicle_images (
+        id bigint not null auto_increment,
+        alt_text varchar(255),
+        category enum ('MAIN','EXTERIOR','INTERIOR','FEATURES','SAFETY','AMENITIES','PERFORMANCE'),
+        created_at datetime(6),
+        description varchar(255),
+        display_order integer,
+        image_name varchar(255),
+        image_path varchar(255),
+        is_active bit,
+        updated_at datetime(6),
+        vehicle_id bigint not null,
+        primary key (id)
+    ) engine=InnoDB
+2026-01-23T11:28:37.456Z DEBUG 54887 --- [restartedMain] org.hibernate.SQL                        : 
+    create table vehicles (
+        id bigint not null auto_increment,
+        base_price decimal(38,2),
+        created_at datetime(6),
+        daily_price decimal(38,2),
+        description varchar(255),
+        engine_capacity float(53),
+        fuel_type enum ('PETROL','DIESEL','ELECTRIC','HYBRID','PLUGIN_HYBRID','CNG','LPG','HYDROGEN','BIODIESEL','ETHANOL','SYNTHETIC'),
+        image_category varchar(255),
+        image_name varchar(255),
+        image_names TEXT,
+        image_url varchar(255),
+        is_available bit,
+        license_plate varchar(255),
+        location varchar(255),
+        luggage_capacity integer,
+        main_image_name varchar(255),
+        make varchar(255),
+        model varchar(255),
+        rating float(53),
+        review_count integer,
+        seats integer,
+        transmission varchar(255),
+        type enum ('SEDAN','SUV','HATCHBACK','CONVERTIBLE','LUXURY','SPORTS','VAN','TRUCK','ELECTRIC','HYBRID'),
+        updated_at datetime(6),
+        year integer,
+        primary key (id)
+    ) engine=InnoDB
+2026-01-23T11:28:37.526Z DEBUG 54887 --- [restartedMain] org.hibernate.SQL                        : 
+    alter table payments 
+       drop index UK_nuscjm6x127hkb15kcb8n56wo
+2026-01-23T11:28:37.565Z DEBUG 54887 --- [restartedMain] org.hibernate.SQL                        : 
+    alter table payments 
+       add constraint UK_nuscjm6x127hkb15kcb8n56wo unique (booking_id)
+2026-01-23T11:28:37.578Z DEBUG 54887 --- [restartedMain] org.hibernate.SQL                        : 
+    alter table users 
+       drop index UK_6dotkott2kjsp8vw4d0m25fb7
+2026-01-23T11:28:37.580Z DEBUG 54887 --- [restartedMain] org.hibernate.SQL                        : 
+    alter table users 
+       add constraint UK_6dotkott2kjsp8vw4d0m25fb7 unique (email)
+2026-01-23T11:28:37.593Z DEBUG 54887 --- [restartedMain] org.hibernate.SQL                        : 
+    create index idx_vehicle_id 
+       on vehicle_images (vehicle_id)
+2026-01-23T11:28:37.608Z DEBUG 54887 --- [restartedMain] org.hibernate.SQL                        : 
+    create index idx_category 
+       on vehicle_images (category)
+2026-01-23T11:28:37.624Z DEBUG 54887 --- [restartedMain] org.hibernate.SQL                        : 
+    create index idx_vehicle_category 
+       on vehicle_images (vehicle_id, category)
+2026-01-23T11:28:37.640Z DEBUG 54887 --- [restartedMain] org.hibernate.SQL                        : 
+    alter table bookings 
+       add constraint FKeyog2oic85xg7hsu2je2lx3s6 
+       foreign key (user_id) 
+       references users (id)
+2026-01-23T11:28:37.694Z DEBUG 54887 --- [restartedMain] org.hibernate.SQL                        : 
+    alter table bookings 
+       add constraint FKc0062bk3bchs55diw805avxq 
+       foreign key (vehicle_id) 
+       references vehicles (id)
+2026-01-23T11:28:37.778Z DEBUG 54887 --- [restartedMain] org.hibernate.SQL                        : 
+    alter table payments 
+       add constraint FKc52o2b1jkxttngufqp3t7jr3h 
+       foreign key (booking_id) 
+       references bookings (id)
+2026-01-23T11:28:37.825Z DEBUG 54887 --- [restartedMain] org.hibernate.SQL                        : 
+    alter table reviews 
+       add constraint FKcgy7qjc1r99dp117y9en6lxye 
+       foreign key (user_id) 
+       references users (id)
+2026-01-23T11:28:37.877Z DEBUG 54887 --- [restartedMain] org.hibernate.SQL                        : 
+    alter table reviews 
+       add constraint FKr37h09550sodud7wxf2uvgprp 
+       foreign key (vehicle_id) 
+       references vehicles (id)
+2026-01-23T11:28:38.028Z DEBUG 54887 --- [restartedMain] org.hibernate.SQL                        : 
+    alter table vehicle_features 
+       add constraint FK5gpmfcffxs7w11yckeuvwd3jk 
+       foreign key (vehicle_id) 
+       references vehicles (id)
+2026-01-23T11:28:38.130Z DEBUG 54887 --- [restartedMain] org.hibernate.SQL                        : 
+    alter table vehicle_images 
+       add constraint FKp6gw8mt61ktmsk5nuc4qid7i8 
+       foreign key (vehicle_id) 
+       references vehicles (id)
+2026-01-23T11:28:38.197Z  INFO 54887 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-01-23T11:28:38.430Z  INFO 54887 --- [restartedMain] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-01-23T11:28:40.077Z  INFO 54887 --- [restartedMain] c.d.o.service.impl.SearchServiceImpl     : Rebuilding search index...
+2026-01-23T11:28:40.138Z DEBUG 54887 --- [restartedMain] org.hibernate.SQL                        : 
+    select
+        v1_0.id,
+        v1_0.base_price,
+        v1_0.created_at,
+        v1_0.daily_price,
+        v1_0.description,
+        v1_0.engine_capacity,
+        v1_0.fuel_type,
+        v1_0.image_category,
+        v1_0.image_name,
+        v1_0.image_names,
+        v1_0.image_url,
+        v1_0.is_available,
+        v1_0.license_plate,
+        v1_0.location,
+        v1_0.luggage_capacity,
+        v1_0.main_image_name,
+        v1_0.make,
+        v1_0.model,
+        v1_0.rating,
+        v1_0.review_count,
+        v1_0.seats,
+        v1_0.transmission,
+        v1_0.type,
+        v1_0.updated_at,
+        v1_0.year 
+    from
+        vehicles v1_0
+2026-01-23T11:28:40.145Z  INFO 54887 --- [restartedMain] c.d.o.service.impl.SearchServiceImpl     : Search index rebuilt with 0 keywords
+2026-01-23T11:28:40.333Z  WARN 54887 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-01-23T11:28:41.380Z  INFO 54887 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-01-23T11:28:41.410Z  INFO 54887 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path ''
+2026-01-23T11:28:41.426Z  INFO 54887 --- [restartedMain] c.d.o.OnlineCarRentalApplication         : Started OnlineCarRentalApplication in 9.645 seconds (process running for 10.375)
+2026-01-23T11:28:41.439Z  INFO 54887 --- [scheduling-1] c.d.o.service.impl.SearchServiceImpl     : Rebuilding search index...
+2026-01-23T11:28:41.445Z DEBUG 54887 --- [scheduling-1] org.hibernate.SQL                        : 
+    select
+        v1_0.id,
+        v1_0.base_price,
+        v1_0.created_at,
+        v1_0.daily_price,
+        v1_0.description,
+        v1_0.engine_capacity,
+        v1_0.fuel_type,
+        v1_0.image_category,
+        v1_0.image_name,
+        v1_0.image_names,
+        v1_0.image_url,
+        v1_0.is_available,
+        v1_0.license_plate,
+        v1_0.location,
+        v1_0.luggage_capacity,
+        v1_0.main_image_name,
+        v1_0.make,
+        v1_0.model,
+        v1_0.rating,
+        v1_0.review_count,
+        v1_0.seats,
+        v1_0.transmission,
+        v1_0.type,
+        v1_0.updated_at,
+        v1_0.year 
+    from
+        vehicles v1_0
+2026-01-23T11:28:41.455Z  INFO 54887 --- [scheduling-1] c.d.o.service.impl.SearchServiceImpl     : Search index rebuilt with 0 keywords
+2026-01-23T12:03:39.651Z  INFO 54887 --- [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 158 class path changes (0 additions, 157 deletions, 1 modification)
+2026-01-23T12:03:39.737Z  INFO 54887 --- [Thread-5] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-01-23T12:03:39.754Z  INFO 54887 --- [Thread-5] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-01-23T12:03:39.774Z  INFO 54887 --- [Thread-5] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2026-01-23T12:03:40.251Z  INFO 54887 --- [restartedMain] c.d.o.OnlineCarRentalApplication         : Starting OnlineCarRentalApplication using Java 21.0.9 with PID 54887 (/workspaces/onlinecarrental/backend/target/classes started by codespace in /workspaces/onlinecarrental/backend)
+2026-01-23T12:03:40.254Z  INFO 54887 --- [restartedMain] c.d.o.OnlineCarRentalApplication         : No active profile set, falling back to 1 default profile: "default"
+2026-01-23T12:03:40.896Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-01-23T12:03:40.897Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-23T12:03:40.898Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 0 ms. Found 0 JPA repository interfaces.
+2026-01-23T12:03:40.904Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-01-23T12:03:40.904Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-01-23T12:03:40.906Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 1 ms. Found 0 Redis repository interfaces.
+2026-01-23T12:03:41.307Z  INFO 54887 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-01-23T12:03:41.308Z  INFO 54887 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-23T12:03:41.308Z  INFO 54887 --- [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.16]
+2026-01-23T12:03:41.349Z  INFO 54887 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-01-23T12:03:41.349Z  INFO 54887 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1090 ms
+2026-01-23T12:03:41.537Z  INFO 54887 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-01-23T12:03:41.557Z  INFO 54887 --- [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-01-23T12:03:41.569Z  INFO 54887 --- [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-01-23T12:03:41.574Z  INFO 54887 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
+2026-01-23T12:03:41.635Z  INFO 54887 --- [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-2 - Added connection com.mysql.cj.jdbc.ConnectionImpl@77eb020c
+2026-01-23T12:03:41.636Z  INFO 54887 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
+2026-01-23T12:03:41.642Z  WARN 54887 --- [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-01-23T12:03:41.677Z  INFO 54887 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-01-23T12:03:41.681Z  INFO 54887 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-01-23T12:03:41.968Z  WARN 54887 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-01-23T12:03:42.678Z  WARN 54887 --- [restartedMain] .s.s.UserDetailsServiceAutoConfiguration : 
+
+Using generated security password: 1e82b8ab-279c-4246-82e7-49826ffd0e3f
+
+This generated password is for development use only. Your security configuration must be updated before running your application in production.
+
+2026-01-23T12:03:42.873Z  INFO 54887 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-01-23T12:03:42.892Z  INFO 54887 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path ''
+2026-01-23T12:03:42.904Z  INFO 54887 --- [restartedMain] c.d.o.OnlineCarRentalApplication         : Started OnlineCarRentalApplication in 2.785 seconds (process running for 2111.853)
+2026-01-23T12:03:42.913Z  INFO 54887 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation delta:
+
+
+==========================
+CONDITION EVALUATION DELTA
+==========================
+
+
+Positive matches:
+-----------------
+
+   SpringBootWebSecurityConfiguration.SecurityFilterChainConfiguration matched:
+      - AllNestedConditions 2 matched 0 did not; NestedCondition on DefaultWebSecurityCondition.Beans @ConditionalOnMissingBean (types: org.springframework.security.web.SecurityFilterChain; SearchStrategy: all) did not find any beans; NestedCondition on DefaultWebSecurityCondition.Classes @ConditionalOnClass found required classes 'org.springframework.security.web.SecurityFilterChain', 'org.springframework.security.config.annotation.web.builders.HttpSecurity' (DefaultWebSecurityCondition)
+
+   SpringBootWebSecurityConfiguration.WebSecurityEnablerConfiguration matched:
+      - @ConditionalOnClass found required class 'org.springframework.security.config.annotation.web.configuration.EnableWebSecurity' (OnClassCondition)
+      - @ConditionalOnMissingBean (names: springSecurityFilterChain; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+   UserDetailsServiceAutoConfiguration matched:
+      - @ConditionalOnClass found required class 'org.springframework.security.authentication.AuthenticationManager'; @ConditionalOnMissingClass did not find unwanted classes 'org.springframework.security.oauth2.client.registration.ClientRegistrationRepository', 'org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector', 'org.springframework.security.saml2.provider.service.registration.RelyingPartyRegistrationRepository' (OnClassCondition)
+      - @ConditionalOnBean (types: org.springframework.security.config.annotation.ObjectPostProcessor; SearchStrategy: all) found bean 'objectPostProcessor'; @ConditionalOnMissingBean (types: org.springframework.security.authentication.AuthenticationManager,org.springframework.security.authentication.AuthenticationProvider,org.springframework.security.core.userdetails.UserDetailsService,org.springframework.security.authentication.AuthenticationManagerResolver,org.springframework.security.oauth2.jwt.JwtDecoder; SearchStrategy: all) did not find any beans (OnBeanCondition)
+
+
+Negative matches:
+-----------------
+
+    None
+
+
+Exclusions:
+-----------
+
+    None
+
+
+Unconditional classes:
+----------------------
+
+    None
+
+
+
+2026-01-23T12:03:50.534Z  INFO 54887 --- [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 159 class path changes (159 additions, 0 deletions, 0 modifications)
+2026-01-23T12:03:50.539Z  INFO 54887 --- [Thread-7] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-01-23T12:03:50.540Z  INFO 54887 --- [Thread-7] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown initiated...
+2026-01-23T12:03:50.545Z  INFO 54887 --- [Thread-7] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown completed.
+2026-01-23T12:03:50.673Z  INFO 54887 --- [restartedMain] c.d.o.OnlineCarRentalApplication         : Starting OnlineCarRentalApplication using Java 21.0.9 with PID 54887 (/workspaces/onlinecarrental/backend/target/classes started by codespace in /workspaces/onlinecarrental/backend)
+2026-01-23T12:03:50.675Z  INFO 54887 --- [restartedMain] c.d.o.OnlineCarRentalApplication         : No active profile set, falling back to 1 default profile: "default"
+2026-01-23T12:03:50.924Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-01-23T12:03:50.925Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-23T12:03:50.957Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 31 ms. Found 7 JPA repository interfaces.
+2026-01-23T12:03:50.961Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-01-23T12:03:50.962Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-01-23T12:03:50.966Z  INFO 54887 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.BookingRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T12:03:50.966Z  INFO 54887 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.PaymentRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T12:03:50.966Z  INFO 54887 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.PriceConfigRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T12:03:50.967Z  INFO 54887 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.ReviewRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T12:03:50.967Z  INFO 54887 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.UserRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T12:03:50.968Z  INFO 54887 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.VehicleImageRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T12:03:50.969Z  INFO 54887 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.VehicleRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T12:03:50.969Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 6 ms. Found 0 Redis repository interfaces.
+2026-01-23T12:03:51.084Z  INFO 54887 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-01-23T12:03:51.085Z  INFO 54887 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-23T12:03:51.085Z  INFO 54887 --- [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.16]
+2026-01-23T12:03:51.095Z  INFO 54887 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-01-23T12:03:51.095Z  INFO 54887 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 416 ms
+2026-01-23T12:03:51.143Z  INFO 54887 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-01-23T12:03:51.146Z  INFO 54887 --- [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-01-23T12:03:51.150Z  INFO 54887 --- [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-01-23T12:03:51.151Z  INFO 54887 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Starting...
+2026-01-23T12:03:51.182Z  INFO 54887 --- [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-3 - Added connection com.mysql.cj.jdbc.ConnectionImpl@7f913778
+2026-01-23T12:03:51.183Z  INFO 54887 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Start completed.
+2026-01-23T12:03:51.185Z  WARN 54887 --- [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-01-23T12:03:51.516Z  INFO 54887 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-01-23T12:03:51.630Z  INFO 54887 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-01-23T12:03:52.074Z  INFO 54887 --- [restartedMain] c.d.o.service.impl.SearchServiceImpl     : Rebuilding search index...
+2026-01-23T12:03:52.082Z DEBUG 54887 --- [restartedMain] org.hibernate.SQL                        : 
+    select
+        v1_0.id,
+        v1_0.base_price,
+        v1_0.created_at,
+        v1_0.daily_price,
+        v1_0.description,
+        v1_0.engine_capacity,
+        v1_0.fuel_type,
+        v1_0.image_category,
+        v1_0.image_name,
+        v1_0.image_names,
+        v1_0.image_url,
+        v1_0.is_available,
+        v1_0.license_plate,
+        v1_0.location,
+        v1_0.luggage_capacity,
+        v1_0.main_image_name,
+        v1_0.make,
+        v1_0.model,
+        v1_0.rating,
+        v1_0.review_count,
+        v1_0.seats,
+        v1_0.transmission,
+        v1_0.type,
+        v1_0.updated_at,
+        v1_0.year 
+    from
+        vehicles v1_0
+2026-01-23T12:03:52.086Z  INFO 54887 --- [restartedMain] c.d.o.service.impl.SearchServiceImpl     : Search index rebuilt with 0 keywords
+2026-01-23T12:03:52.139Z  WARN 54887 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-01-23T12:03:52.340Z  INFO 54887 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-01-23T12:03:52.351Z  INFO 54887 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path ''
+2026-01-23T12:03:52.355Z  INFO 54887 --- [scheduling-1] c.d.o.service.impl.SearchServiceImpl     : Rebuilding search index...
+2026-01-23T12:03:52.355Z  INFO 54887 --- [restartedMain] c.d.o.OnlineCarRentalApplication         : Started OnlineCarRentalApplication in 1.721 seconds (process running for 2121.304)
+2026-01-23T12:03:52.357Z  INFO 54887 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation delta:
+
+
+==========================
+CONDITION EVALUATION DELTA
+==========================
+
+
+Positive matches:
+-----------------
+
+    None
+
+
+Negative matches:
+-----------------
+
+   SpringBootWebSecurityConfiguration.SecurityFilterChainConfiguration:
+      Did not match:
+         - AllNestedConditions 1 matched 1 did not; NestedCondition on DefaultWebSecurityCondition.Beans @ConditionalOnMissingBean (types: org.springframework.security.web.SecurityFilterChain; SearchStrategy: all) found beans of type 'org.springframework.security.web.SecurityFilterChain' securityFilterChain; NestedCondition on DefaultWebSecurityCondition.Classes @ConditionalOnClass found required classes 'org.springframework.security.web.SecurityFilterChain', 'org.springframework.security.config.annotation.web.builders.HttpSecurity' (DefaultWebSecurityCondition)
+
+   SpringBootWebSecurityConfiguration.WebSecurityEnablerConfiguration:
+      Did not match:
+         - @ConditionalOnMissingBean (names: springSecurityFilterChain; SearchStrategy: all) found beans named springSecurityFilterChain (OnBeanCondition)
+      Matched:
+         - @ConditionalOnClass found required class 'org.springframework.security.config.annotation.web.configuration.EnableWebSecurity' (OnClassCondition)
+
+   UserDetailsServiceAutoConfiguration:
+      Did not match:
+         - @ConditionalOnMissingBean (types: org.springframework.security.authentication.AuthenticationManager,org.springframework.security.authentication.AuthenticationProvider,org.springframework.security.core.userdetails.UserDetailsService,org.springframework.security.authentication.AuthenticationManagerResolver,org.springframework.security.oauth2.jwt.JwtDecoder; SearchStrategy: all) found beans of type 'org.springframework.security.authentication.AuthenticationManager' authenticationManager and found beans of type 'org.springframework.security.core.userdetails.UserDetailsService' customUserDetailsService and found beans of type 'org.springframework.security.authentication.AuthenticationProvider' authenticationProvider (OnBeanCondition)
+      Matched:
+         - @ConditionalOnClass found required class 'org.springframework.security.authentication.AuthenticationManager'; @ConditionalOnMissingClass did not find unwanted classes 'org.springframework.security.oauth2.client.registration.ClientRegistrationRepository', 'org.springframework.security.oauth2.server.resource.introspection.OpaqueTokenIntrospector', 'org.springframework.security.saml2.provider.service.registration.RelyingPartyRegistrationRepository' (OnClassCondition)
+
+
+Exclusions:
+-----------
+
+    None
+
+
+Unconditional classes:
+----------------------
+
+    None
+
+
+
+2026-01-23T12:03:52.360Z DEBUG 54887 --- [scheduling-1] org.hibernate.SQL                        : 
+    select
+        v1_0.id,
+        v1_0.base_price,
+        v1_0.created_at,
+        v1_0.daily_price,
+        v1_0.description,
+        v1_0.engine_capacity,
+        v1_0.fuel_type,
+        v1_0.image_category,
+        v1_0.image_name,
+        v1_0.image_names,
+        v1_0.image_url,
+        v1_0.is_available,
+        v1_0.license_plate,
+        v1_0.location,
+        v1_0.luggage_capacity,
+        v1_0.main_image_name,
+        v1_0.make,
+        v1_0.model,
+        v1_0.rating,
+        v1_0.review_count,
+        v1_0.seats,
+        v1_0.transmission,
+        v1_0.type,
+        v1_0.updated_at,
+        v1_0.year 
+    from
+        vehicles v1_0
+2026-01-23T12:03:52.364Z  INFO 54887 --- [scheduling-1] c.d.o.service.impl.SearchServiceImpl     : Search index rebuilt with 0 keywords
+2026-01-23T12:13:57.534Z  INFO 54887 --- [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 160 class path changes (0 additions, 159 deletions, 1 modification)
+2026-01-23T12:13:57.584Z  INFO 54887 --- [Thread-11] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-01-23T12:13:57.588Z  INFO 54887 --- [Thread-11] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Shutdown initiated...
+2026-01-23T12:13:57.616Z  INFO 54887 --- [Thread-11] com.zaxxer.hikari.HikariDataSource       : HikariPool-3 - Shutdown completed.
+2026-01-23T12:13:57.975Z  INFO 54887 --- [restartedMain] c.d.o.OnlineCarRentalApplication         : Starting OnlineCarRentalApplication using Java 21.0.9 with PID 54887 (/workspaces/onlinecarrental/backend/target/classes started by codespace in /workspaces/onlinecarrental/backend)
+2026-01-23T12:13:57.976Z  INFO 54887 --- [restartedMain] c.d.o.OnlineCarRentalApplication         : No active profile set, falling back to 1 default profile: "default"
+2026-01-23T12:13:58.498Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-01-23T12:13:58.498Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-23T12:13:58.500Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 1 ms. Found 0 JPA repository interfaces.
+2026-01-23T12:13:58.505Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-01-23T12:13:58.508Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-01-23T12:13:58.510Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 0 ms. Found 0 Redis repository interfaces.
+2026-01-23T12:13:58.654Z  WARN 54887 --- [restartedMain] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: java.lang.NullPointerException: Cannot read field "generatedClass" because "data" is null
+2026-01-23T12:13:58.667Z  INFO 54887 --- [restartedMain] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-01-23T12:13:58.719Z ERROR 54887 --- [restartedMain] o.s.boot.SpringApplication               : Application run failed
+
+java.lang.NullPointerException: Cannot read field "generatedClass" because "data" is null
+	at org.springframework.cglib.proxy.Enhancer.nextInstance(Enhancer.java:783) ~[spring-core-6.1.1.jar:6.1.1]
+	at org.springframework.cglib.core.AbstractClassGenerator.create(AbstractClassGenerator.java:321) ~[spring-core-6.1.1.jar:6.1.1]
+	at org.springframework.cglib.proxy.Enhancer.createHelper(Enhancer.java:562) ~[spring-core-6.1.1.jar:6.1.1]
+	at org.springframework.cglib.proxy.Enhancer.createClass(Enhancer.java:407) ~[spring-core-6.1.1.jar:6.1.1]
+	at org.springframework.context.annotation.ConfigurationClassEnhancer.createClass(ConfigurationClassEnhancer.java:138) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.annotation.ConfigurationClassEnhancer.enhance(ConfigurationClassEnhancer.java:109) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.annotation.ConfigurationClassPostProcessor.enhanceConfigurationClasses(ConfigurationClassPostProcessor.java:533) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.annotation.ConfigurationClassPostProcessor.postProcessBeanFactory(ConfigurationClassPostProcessor.java:310) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(PostProcessorRegistrationDelegate.java:363) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(PostProcessorRegistrationDelegate.java:153) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.support.AbstractApplicationContext.invokeBeanFactoryPostProcessors(AbstractApplicationContext.java:775) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:597) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146) ~[spring-boot-3.2.0.jar:3.2.0]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:753) ~[spring-boot-3.2.0.jar:3.2.0]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:455) ~[spring-boot-3.2.0.jar:3.2.0]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:323) ~[spring-boot-3.2.0.jar:3.2.0]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1342) ~[spring-boot-3.2.0.jar:3.2.0]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1331) ~[spring-boot-3.2.0.jar:3.2.0]
+	at com.driverental.onlinecarrental.OnlineCarRentalApplication.main(OnlineCarRentalApplication.java:14) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50) ~[spring-boot-devtools-3.2.0.jar:3.2.0]
+
+2026-01-23T12:14:07.022Z  INFO 54887 --- [restartedMain] c.d.o.OnlineCarRentalApplication         : Starting OnlineCarRentalApplication using Java 21.0.9 with PID 54887 (/workspaces/onlinecarrental/backend/target/classes started by codespace in /workspaces/onlinecarrental/backend)
+2026-01-23T12:14:07.022Z  INFO 54887 --- [restartedMain] c.d.o.OnlineCarRentalApplication         : No active profile set, falling back to 1 default profile: "default"
+2026-01-23T12:14:07.222Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-01-23T12:14:07.223Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-23T12:14:07.287Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 63 ms. Found 7 JPA repository interfaces.
+2026-01-23T12:14:07.306Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-01-23T12:14:07.307Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-01-23T12:14:07.323Z  INFO 54887 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.BookingRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T12:14:07.324Z  INFO 54887 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.PaymentRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T12:14:07.324Z  INFO 54887 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.PriceConfigRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T12:14:07.324Z  INFO 54887 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.ReviewRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T12:14:07.324Z  INFO 54887 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.UserRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T12:14:07.324Z  INFO 54887 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.VehicleImageRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T12:14:07.324Z  INFO 54887 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.VehicleRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T12:14:07.324Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 16 ms. Found 0 Redis repository interfaces.
+2026-01-23T12:14:07.498Z  INFO 54887 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-01-23T12:14:07.499Z  INFO 54887 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-23T12:14:07.499Z  INFO 54887 --- [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.16]
+2026-01-23T12:14:07.514Z  INFO 54887 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-01-23T12:14:07.515Z  INFO 54887 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 491 ms
+2026-01-23T12:14:07.571Z  INFO 54887 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-01-23T12:14:07.573Z  INFO 54887 --- [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-01-23T12:14:07.576Z  INFO 54887 --- [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-01-23T12:14:07.577Z  INFO 54887 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Starting...
+2026-01-23T12:14:07.593Z  INFO 54887 --- [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-4 - Added connection com.mysql.cj.jdbc.ConnectionImpl@4ef312c4
+2026-01-23T12:14:07.593Z  INFO 54887 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Start completed.
+2026-01-23T12:14:07.594Z  WARN 54887 --- [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-01-23T12:14:07.752Z  INFO 54887 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-01-23T12:14:07.844Z  INFO 54887 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-01-23T12:14:08.371Z  INFO 54887 --- [restartedMain] c.d.o.service.impl.SearchServiceImpl     : Rebuilding search index...
+2026-01-23T12:14:08.381Z DEBUG 54887 --- [restartedMain] org.hibernate.SQL                        : 
+    select
+        v1_0.id,
+        v1_0.base_price,
+        v1_0.created_at,
+        v1_0.daily_price,
+        v1_0.description,
+        v1_0.engine_capacity,
+        v1_0.fuel_type,
+        v1_0.image_category,
+        v1_0.image_name,
+        v1_0.image_names,
+        v1_0.image_url,
+        v1_0.is_available,
+        v1_0.license_plate,
+        v1_0.location,
+        v1_0.luggage_capacity,
+        v1_0.main_image_name,
+        v1_0.make,
+        v1_0.model,
+        v1_0.rating,
+        v1_0.review_count,
+        v1_0.seats,
+        v1_0.transmission,
+        v1_0.type,
+        v1_0.updated_at,
+        v1_0.year 
+    from
+        vehicles v1_0
+2026-01-23T12:14:08.383Z  INFO 54887 --- [restartedMain] c.d.o.service.impl.SearchServiceImpl     : Search index rebuilt with 0 keywords
+2026-01-23T12:14:08.451Z  WARN 54887 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-01-23T12:14:08.729Z  INFO 54887 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-01-23T12:14:08.745Z  INFO 54887 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path ''
+2026-01-23T12:14:08.751Z  INFO 54887 --- [restartedMain] c.d.o.OnlineCarRentalApplication         : Started OnlineCarRentalApplication in 1.748 seconds (process running for 2737.7)
+2026-01-23T12:14:08.752Z  INFO 54887 --- [scheduling-1] c.d.o.service.impl.SearchServiceImpl     : Rebuilding search index...
+2026-01-23T12:14:08.754Z  INFO 54887 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2026-01-23T12:14:08.761Z DEBUG 54887 --- [scheduling-1] org.hibernate.SQL                        : 
+    select
+        v1_0.id,
+        v1_0.base_price,
+        v1_0.created_at,
+        v1_0.daily_price,
+        v1_0.description,
+        v1_0.engine_capacity,
+        v1_0.fuel_type,
+        v1_0.image_category,
+        v1_0.image_name,
+        v1_0.image_names,
+        v1_0.image_url,
+        v1_0.is_available,
+        v1_0.license_plate,
+        v1_0.location,
+        v1_0.luggage_capacity,
+        v1_0.main_image_name,
+        v1_0.make,
+        v1_0.model,
+        v1_0.rating,
+        v1_0.review_count,
+        v1_0.seats,
+        v1_0.transmission,
+        v1_0.type,
+        v1_0.updated_at,
+        v1_0.year 
+    from
+        vehicles v1_0
+2026-01-23T12:14:08.765Z  INFO 54887 --- [scheduling-1] c.d.o.service.impl.SearchServiceImpl     : Search index rebuilt with 0 keywords
+2026-01-23T12:22:40.150Z  INFO 54887 --- [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 160 class path changes (0 additions, 159 deletions, 1 modification)
+2026-01-23T12:22:40.170Z  INFO 54887 --- [Thread-15] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-01-23T12:22:40.172Z  INFO 54887 --- [Thread-15] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Shutdown initiated...
+2026-01-23T12:22:40.186Z  INFO 54887 --- [Thread-15] com.zaxxer.hikari.HikariDataSource       : HikariPool-4 - Shutdown completed.
+2026-01-23T12:22:40.619Z  INFO 54887 --- [restartedMain] c.d.o.OnlineCarRentalApplication         : Starting OnlineCarRentalApplication using Java 21.0.9 with PID 54887 (/workspaces/onlinecarrental/backend/target/classes started by codespace in /workspaces/onlinecarrental/backend)
+2026-01-23T12:22:40.620Z  INFO 54887 --- [restartedMain] c.d.o.OnlineCarRentalApplication         : No active profile set, falling back to 1 default profile: "default"
+2026-01-23T12:22:40.841Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-01-23T12:22:40.842Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-23T12:22:40.843Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 0 ms. Found 0 JPA repository interfaces.
+2026-01-23T12:22:40.846Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-01-23T12:22:40.847Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-01-23T12:22:40.849Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 1 ms. Found 0 Redis repository interfaces.
+2026-01-23T12:22:40.904Z  WARN 54887 --- [restartedMain] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: java.lang.NullPointerException: Cannot read field "generatedClass" because "data" is null
+2026-01-23T12:22:40.910Z  INFO 54887 --- [restartedMain] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-01-23T12:22:40.925Z ERROR 54887 --- [restartedMain] o.s.boot.SpringApplication               : Application run failed
+
+java.lang.NullPointerException: Cannot read field "generatedClass" because "data" is null
+	at org.springframework.cglib.proxy.Enhancer.nextInstance(Enhancer.java:783) ~[spring-core-6.1.1.jar:6.1.1]
+	at org.springframework.cglib.core.AbstractClassGenerator.create(AbstractClassGenerator.java:321) ~[spring-core-6.1.1.jar:6.1.1]
+	at org.springframework.cglib.proxy.Enhancer.createHelper(Enhancer.java:562) ~[spring-core-6.1.1.jar:6.1.1]
+	at org.springframework.cglib.proxy.Enhancer.createClass(Enhancer.java:407) ~[spring-core-6.1.1.jar:6.1.1]
+	at org.springframework.context.annotation.ConfigurationClassEnhancer.createClass(ConfigurationClassEnhancer.java:138) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.annotation.ConfigurationClassEnhancer.enhance(ConfigurationClassEnhancer.java:109) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.annotation.ConfigurationClassPostProcessor.enhanceConfigurationClasses(ConfigurationClassPostProcessor.java:533) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.annotation.ConfigurationClassPostProcessor.postProcessBeanFactory(ConfigurationClassPostProcessor.java:310) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(PostProcessorRegistrationDelegate.java:363) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(PostProcessorRegistrationDelegate.java:153) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.support.AbstractApplicationContext.invokeBeanFactoryPostProcessors(AbstractApplicationContext.java:775) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:597) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146) ~[spring-boot-3.2.0.jar:3.2.0]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:753) ~[spring-boot-3.2.0.jar:3.2.0]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:455) ~[spring-boot-3.2.0.jar:3.2.0]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:323) ~[spring-boot-3.2.0.jar:3.2.0]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1342) ~[spring-boot-3.2.0.jar:3.2.0]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1331) ~[spring-boot-3.2.0.jar:3.2.0]
+	at com.driverental.onlinecarrental.OnlineCarRentalApplication.main(OnlineCarRentalApplication.java:14) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50) ~[spring-boot-devtools-3.2.0.jar:3.2.0]
+
+2026-01-23T12:22:48.199Z  INFO 54887 --- [restartedMain] c.d.o.OnlineCarRentalApplication         : Starting OnlineCarRentalApplication using Java 21.0.9 with PID 54887 (/workspaces/onlinecarrental/backend/target/classes started by codespace in /workspaces/onlinecarrental/backend)
+2026-01-23T12:22:48.200Z  INFO 54887 --- [restartedMain] c.d.o.OnlineCarRentalApplication         : No active profile set, falling back to 1 default profile: "default"
+2026-01-23T12:22:48.577Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-01-23T12:22:48.577Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-23T12:22:48.579Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 1 ms. Found 0 JPA repository interfaces.
+2026-01-23T12:22:48.583Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-01-23T12:22:48.583Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-01-23T12:22:48.588Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 4 ms. Found 0 Redis repository interfaces.
+2026-01-23T12:22:48.652Z  WARN 54887 --- [restartedMain] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: java.lang.NullPointerException: Cannot read field "generatedClass" because "data" is null
+2026-01-23T12:22:48.658Z  INFO 54887 --- [restartedMain] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-01-23T12:22:48.667Z ERROR 54887 --- [restartedMain] o.s.boot.SpringApplication               : Application run failed
+
+java.lang.NullPointerException: Cannot read field "generatedClass" because "data" is null
+	at org.springframework.cglib.proxy.Enhancer.nextInstance(Enhancer.java:783) ~[spring-core-6.1.1.jar:6.1.1]
+	at org.springframework.cglib.core.AbstractClassGenerator.create(AbstractClassGenerator.java:321) ~[spring-core-6.1.1.jar:6.1.1]
+	at org.springframework.cglib.proxy.Enhancer.createHelper(Enhancer.java:562) ~[spring-core-6.1.1.jar:6.1.1]
+	at org.springframework.cglib.proxy.Enhancer.createClass(Enhancer.java:407) ~[spring-core-6.1.1.jar:6.1.1]
+	at org.springframework.context.annotation.ConfigurationClassEnhancer.createClass(ConfigurationClassEnhancer.java:138) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.annotation.ConfigurationClassEnhancer.enhance(ConfigurationClassEnhancer.java:109) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.annotation.ConfigurationClassPostProcessor.enhanceConfigurationClasses(ConfigurationClassPostProcessor.java:533) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.annotation.ConfigurationClassPostProcessor.postProcessBeanFactory(ConfigurationClassPostProcessor.java:310) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(PostProcessorRegistrationDelegate.java:363) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(PostProcessorRegistrationDelegate.java:153) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.support.AbstractApplicationContext.invokeBeanFactoryPostProcessors(AbstractApplicationContext.java:775) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:597) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146) ~[spring-boot-3.2.0.jar:3.2.0]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:753) ~[spring-boot-3.2.0.jar:3.2.0]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:455) ~[spring-boot-3.2.0.jar:3.2.0]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:323) ~[spring-boot-3.2.0.jar:3.2.0]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1342) ~[spring-boot-3.2.0.jar:3.2.0]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1331) ~[spring-boot-3.2.0.jar:3.2.0]
+	at com.driverental.onlinecarrental.OnlineCarRentalApplication.main(OnlineCarRentalApplication.java:14) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50) ~[spring-boot-devtools-3.2.0.jar:3.2.0]
+
+2026-01-23T12:23:17.184Z  INFO 54887 --- [restartedMain] c.d.o.OnlineCarRentalApplication         : Starting OnlineCarRentalApplication using Java 21.0.9 with PID 54887 (/workspaces/onlinecarrental/backend/target/classes started by codespace in /workspaces/onlinecarrental/backend)
+2026-01-23T12:23:17.185Z  INFO 54887 --- [restartedMain] c.d.o.OnlineCarRentalApplication         : No active profile set, falling back to 1 default profile: "default"
+2026-01-23T12:23:17.869Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-01-23T12:23:17.870Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-23T12:23:17.871Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 0 ms. Found 0 JPA repository interfaces.
+2026-01-23T12:23:17.878Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-01-23T12:23:17.881Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-01-23T12:23:17.881Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 0 ms. Found 0 Redis repository interfaces.
+2026-01-23T12:23:17.963Z  WARN 54887 --- [restartedMain] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: java.lang.NullPointerException: Cannot read field "generatedClass" because "data" is null
+2026-01-23T12:23:17.970Z  INFO 54887 --- [restartedMain] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-01-23T12:23:17.975Z ERROR 54887 --- [restartedMain] o.s.boot.SpringApplication               : Application run failed
+
+java.lang.NullPointerException: Cannot read field "generatedClass" because "data" is null
+	at org.springframework.cglib.proxy.Enhancer.nextInstance(Enhancer.java:783) ~[spring-core-6.1.1.jar:6.1.1]
+	at org.springframework.cglib.core.AbstractClassGenerator.create(AbstractClassGenerator.java:321) ~[spring-core-6.1.1.jar:6.1.1]
+	at org.springframework.cglib.proxy.Enhancer.createHelper(Enhancer.java:562) ~[spring-core-6.1.1.jar:6.1.1]
+	at org.springframework.cglib.proxy.Enhancer.createClass(Enhancer.java:407) ~[spring-core-6.1.1.jar:6.1.1]
+	at org.springframework.context.annotation.ConfigurationClassEnhancer.createClass(ConfigurationClassEnhancer.java:138) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.annotation.ConfigurationClassEnhancer.enhance(ConfigurationClassEnhancer.java:109) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.annotation.ConfigurationClassPostProcessor.enhanceConfigurationClasses(ConfigurationClassPostProcessor.java:533) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.annotation.ConfigurationClassPostProcessor.postProcessBeanFactory(ConfigurationClassPostProcessor.java:310) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(PostProcessorRegistrationDelegate.java:363) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(PostProcessorRegistrationDelegate.java:153) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.support.AbstractApplicationContext.invokeBeanFactoryPostProcessors(AbstractApplicationContext.java:775) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:597) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146) ~[spring-boot-3.2.0.jar:3.2.0]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:753) ~[spring-boot-3.2.0.jar:3.2.0]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:455) ~[spring-boot-3.2.0.jar:3.2.0]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:323) ~[spring-boot-3.2.0.jar:3.2.0]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1342) ~[spring-boot-3.2.0.jar:3.2.0]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1331) ~[spring-boot-3.2.0.jar:3.2.0]
+	at com.driverental.onlinecarrental.OnlineCarRentalApplication.main(OnlineCarRentalApplication.java:14) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50) ~[spring-boot-devtools-3.2.0.jar:3.2.0]
+
+2026-01-23T12:23:24.343Z  INFO 54887 --- [restartedMain] c.d.o.OnlineCarRentalApplication         : Starting OnlineCarRentalApplication using Java 21.0.9 with PID 54887 (/workspaces/onlinecarrental/backend/target/classes started by codespace in /workspaces/onlinecarrental/backend)
+2026-01-23T12:23:24.344Z  INFO 54887 --- [restartedMain] c.d.o.OnlineCarRentalApplication         : No active profile set, falling back to 1 default profile: "default"
+2026-01-23T12:23:24.820Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-01-23T12:23:24.822Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-23T12:23:24.827Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 2 ms. Found 0 JPA repository interfaces.
+2026-01-23T12:23:24.840Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-01-23T12:23:24.841Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-01-23T12:23:24.844Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 2 ms. Found 0 Redis repository interfaces.
+2026-01-23T12:23:24.944Z  WARN 54887 --- [restartedMain] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: java.lang.NullPointerException: Cannot read field "generatedClass" because "data" is null
+2026-01-23T12:23:24.959Z  INFO 54887 --- [restartedMain] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-01-23T12:23:24.968Z ERROR 54887 --- [restartedMain] o.s.boot.SpringApplication               : Application run failed
+
+java.lang.NullPointerException: Cannot read field "generatedClass" because "data" is null
+	at org.springframework.cglib.proxy.Enhancer.nextInstance(Enhancer.java:783) ~[spring-core-6.1.1.jar:6.1.1]
+	at org.springframework.cglib.core.AbstractClassGenerator.create(AbstractClassGenerator.java:321) ~[spring-core-6.1.1.jar:6.1.1]
+	at org.springframework.cglib.proxy.Enhancer.createHelper(Enhancer.java:562) ~[spring-core-6.1.1.jar:6.1.1]
+	at org.springframework.cglib.proxy.Enhancer.createClass(Enhancer.java:407) ~[spring-core-6.1.1.jar:6.1.1]
+	at org.springframework.context.annotation.ConfigurationClassEnhancer.createClass(ConfigurationClassEnhancer.java:138) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.annotation.ConfigurationClassEnhancer.enhance(ConfigurationClassEnhancer.java:109) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.annotation.ConfigurationClassPostProcessor.enhanceConfigurationClasses(ConfigurationClassPostProcessor.java:533) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.annotation.ConfigurationClassPostProcessor.postProcessBeanFactory(ConfigurationClassPostProcessor.java:310) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(PostProcessorRegistrationDelegate.java:363) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(PostProcessorRegistrationDelegate.java:153) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.support.AbstractApplicationContext.invokeBeanFactoryPostProcessors(AbstractApplicationContext.java:775) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:597) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146) ~[spring-boot-3.2.0.jar:3.2.0]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:753) ~[spring-boot-3.2.0.jar:3.2.0]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:455) ~[spring-boot-3.2.0.jar:3.2.0]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:323) ~[spring-boot-3.2.0.jar:3.2.0]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1342) ~[spring-boot-3.2.0.jar:3.2.0]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1331) ~[spring-boot-3.2.0.jar:3.2.0]
+	at com.driverental.onlinecarrental.OnlineCarRentalApplication.main(OnlineCarRentalApplication.java:14) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50) ~[spring-boot-devtools-3.2.0.jar:3.2.0]
+
+2026-01-23T12:25:12.565Z  INFO 54887 --- [restartedMain] c.d.o.OnlineCarRentalApplication         : Starting OnlineCarRentalApplication using Java 21.0.9 with PID 54887 (/workspaces/onlinecarrental/backend/target/classes started by codespace in /workspaces/onlinecarrental/backend)
+2026-01-23T12:25:12.565Z  INFO 54887 --- [restartedMain] c.d.o.OnlineCarRentalApplication         : No active profile set, falling back to 1 default profile: "default"
+2026-01-23T12:25:12.823Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-01-23T12:25:12.825Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-23T12:25:12.826Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 0 ms. Found 0 JPA repository interfaces.
+2026-01-23T12:25:12.831Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-01-23T12:25:12.833Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-01-23T12:25:12.834Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 0 ms. Found 0 Redis repository interfaces.
+2026-01-23T12:25:12.881Z  WARN 54887 --- [restartedMain] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: java.lang.NullPointerException: Cannot read field "generatedClass" because "data" is null
+2026-01-23T12:25:12.892Z  INFO 54887 --- [restartedMain] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-01-23T12:25:12.896Z ERROR 54887 --- [restartedMain] o.s.boot.SpringApplication               : Application run failed
+
+java.lang.NullPointerException: Cannot read field "generatedClass" because "data" is null
+	at org.springframework.cglib.proxy.Enhancer.nextInstance(Enhancer.java:783) ~[spring-core-6.1.1.jar:6.1.1]
+	at org.springframework.cglib.core.AbstractClassGenerator.create(AbstractClassGenerator.java:321) ~[spring-core-6.1.1.jar:6.1.1]
+	at org.springframework.cglib.proxy.Enhancer.createHelper(Enhancer.java:562) ~[spring-core-6.1.1.jar:6.1.1]
+	at org.springframework.cglib.proxy.Enhancer.createClass(Enhancer.java:407) ~[spring-core-6.1.1.jar:6.1.1]
+	at org.springframework.context.annotation.ConfigurationClassEnhancer.createClass(ConfigurationClassEnhancer.java:138) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.annotation.ConfigurationClassEnhancer.enhance(ConfigurationClassEnhancer.java:109) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.annotation.ConfigurationClassPostProcessor.enhanceConfigurationClasses(ConfigurationClassPostProcessor.java:533) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.annotation.ConfigurationClassPostProcessor.postProcessBeanFactory(ConfigurationClassPostProcessor.java:310) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(PostProcessorRegistrationDelegate.java:363) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(PostProcessorRegistrationDelegate.java:153) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.support.AbstractApplicationContext.invokeBeanFactoryPostProcessors(AbstractApplicationContext.java:775) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:597) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146) ~[spring-boot-3.2.0.jar:3.2.0]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:753) ~[spring-boot-3.2.0.jar:3.2.0]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:455) ~[spring-boot-3.2.0.jar:3.2.0]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:323) ~[spring-boot-3.2.0.jar:3.2.0]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1342) ~[spring-boot-3.2.0.jar:3.2.0]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1331) ~[spring-boot-3.2.0.jar:3.2.0]
+	at com.driverental.onlinecarrental.OnlineCarRentalApplication.main(OnlineCarRentalApplication.java:14) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50) ~[spring-boot-devtools-3.2.0.jar:3.2.0]
+
+2026-01-23T12:25:22.619Z  INFO 54887 --- [restartedMain] c.d.o.OnlineCarRentalApplication         : Starting OnlineCarRentalApplication using Java 21.0.9 with PID 54887 (/workspaces/onlinecarrental/backend/target/classes started by codespace in /workspaces/onlinecarrental/backend)
+2026-01-23T12:25:22.619Z  INFO 54887 --- [restartedMain] c.d.o.OnlineCarRentalApplication         : No active profile set, falling back to 1 default profile: "default"
+2026-01-23T12:25:22.820Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-01-23T12:25:22.820Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-23T12:25:22.844Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 23 ms. Found 7 JPA repository interfaces.
+2026-01-23T12:25:22.847Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-01-23T12:25:22.848Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-01-23T12:25:22.853Z  INFO 54887 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.BookingRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T12:25:22.853Z  INFO 54887 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.PaymentRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T12:25:22.854Z  INFO 54887 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.PriceConfigRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T12:25:22.854Z  INFO 54887 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.ReviewRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T12:25:22.854Z  INFO 54887 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.UserRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T12:25:22.854Z  INFO 54887 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.VehicleImageRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T12:25:22.854Z  INFO 54887 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.VehicleRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T12:25:22.855Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 6 ms. Found 0 Redis repository interfaces.
+2026-01-23T12:25:22.997Z  INFO 54887 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-01-23T12:25:22.998Z  INFO 54887 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-23T12:25:22.998Z  INFO 54887 --- [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.16]
+2026-01-23T12:25:23.007Z  INFO 54887 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-01-23T12:25:23.007Z  INFO 54887 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 386 ms
+2026-01-23T12:25:23.058Z  INFO 54887 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-01-23T12:25:23.060Z  INFO 54887 --- [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-01-23T12:25:23.063Z  INFO 54887 --- [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-01-23T12:25:23.063Z  INFO 54887 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-5 - Starting...
+2026-01-23T12:25:23.087Z  INFO 54887 --- [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-5 - Added connection com.mysql.cj.jdbc.ConnectionImpl@44d6d535
+2026-01-23T12:25:23.087Z  INFO 54887 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-5 - Start completed.
+2026-01-23T12:25:23.089Z  WARN 54887 --- [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-01-23T12:25:23.247Z  INFO 54887 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-01-23T12:25:23.305Z  INFO 54887 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-01-23T12:25:23.829Z  INFO 54887 --- [restartedMain] c.d.o.service.impl.SearchServiceImpl     : Rebuilding search index...
+2026-01-23T12:25:23.838Z DEBUG 54887 --- [restartedMain] org.hibernate.SQL                        : 
+    select
+        v1_0.id,
+        v1_0.base_price,
+        v1_0.created_at,
+        v1_0.daily_price,
+        v1_0.description,
+        v1_0.engine_capacity,
+        v1_0.fuel_type,
+        v1_0.image_category,
+        v1_0.image_name,
+        v1_0.image_names,
+        v1_0.image_url,
+        v1_0.is_available,
+        v1_0.license_plate,
+        v1_0.location,
+        v1_0.luggage_capacity,
+        v1_0.main_image_name,
+        v1_0.make,
+        v1_0.model,
+        v1_0.rating,
+        v1_0.review_count,
+        v1_0.seats,
+        v1_0.transmission,
+        v1_0.type,
+        v1_0.updated_at,
+        v1_0.year 
+    from
+        vehicles v1_0
+2026-01-23T12:25:23.840Z  INFO 54887 --- [restartedMain] c.d.o.service.impl.SearchServiceImpl     : Search index rebuilt with 0 keywords
+2026-01-23T12:25:23.888Z  WARN 54887 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-01-23T12:25:24.172Z  INFO 54887 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-01-23T12:25:24.183Z  INFO 54887 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path ''
+2026-01-23T12:25:24.186Z  INFO 54887 --- [scheduling-1] c.d.o.service.impl.SearchServiceImpl     : Rebuilding search index...
+2026-01-23T12:25:24.187Z  INFO 54887 --- [restartedMain] c.d.o.OnlineCarRentalApplication         : Started OnlineCarRentalApplication in 1.586 seconds (process running for 3413.136)
+2026-01-23T12:25:24.188Z  INFO 54887 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2026-01-23T12:25:24.190Z DEBUG 54887 --- [scheduling-1] org.hibernate.SQL                        : 
+    select
+        v1_0.id,
+        v1_0.base_price,
+        v1_0.created_at,
+        v1_0.daily_price,
+        v1_0.description,
+        v1_0.engine_capacity,
+        v1_0.fuel_type,
+        v1_0.image_category,
+        v1_0.image_name,
+        v1_0.image_names,
+        v1_0.image_url,
+        v1_0.is_available,
+        v1_0.license_plate,
+        v1_0.location,
+        v1_0.luggage_capacity,
+        v1_0.main_image_name,
+        v1_0.make,
+        v1_0.model,
+        v1_0.rating,
+        v1_0.review_count,
+        v1_0.seats,
+        v1_0.transmission,
+        v1_0.type,
+        v1_0.updated_at,
+        v1_0.year 
+    from
+        vehicles v1_0
+2026-01-23T12:25:24.192Z  INFO 54887 --- [scheduling-1] c.d.o.service.impl.SearchServiceImpl     : Search index rebuilt with 0 keywords
+2026-01-23T12:31:59.196Z  INFO 54887 --- [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 160 class path changes (0 additions, 159 deletions, 1 modification)
+2026-01-23T12:31:59.235Z  INFO 54887 --- [Thread-22] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-01-23T12:31:59.236Z  INFO 54887 --- [Thread-22] com.zaxxer.hikari.HikariDataSource       : HikariPool-5 - Shutdown initiated...
+2026-01-23T12:31:59.255Z  INFO 54887 --- [Thread-22] com.zaxxer.hikari.HikariDataSource       : HikariPool-5 - Shutdown completed.
+2026-01-23T12:31:59.634Z  INFO 54887 --- [restartedMain] c.d.o.OnlineCarRentalApplication         : Starting OnlineCarRentalApplication using Java 21.0.9 with PID 54887 (/workspaces/onlinecarrental/backend/target/classes started by codespace in /workspaces/onlinecarrental/backend)
+2026-01-23T12:31:59.636Z  INFO 54887 --- [restartedMain] c.d.o.OnlineCarRentalApplication         : No active profile set, falling back to 1 default profile: "default"
+2026-01-23T12:32:00.307Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-01-23T12:32:00.308Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-23T12:32:00.309Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 0 ms. Found 0 JPA repository interfaces.
+2026-01-23T12:32:00.330Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-01-23T12:32:00.332Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-01-23T12:32:00.334Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 0 ms. Found 0 Redis repository interfaces.
+2026-01-23T12:32:00.467Z  WARN 54887 --- [restartedMain] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: java.lang.NullPointerException: Cannot read field "generatedClass" because "data" is null
+2026-01-23T12:32:00.482Z  INFO 54887 --- [restartedMain] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-01-23T12:32:00.487Z ERROR 54887 --- [restartedMain] o.s.boot.SpringApplication               : Application run failed
+
+java.lang.NullPointerException: Cannot read field "generatedClass" because "data" is null
+	at org.springframework.cglib.proxy.Enhancer.nextInstance(Enhancer.java:783) ~[spring-core-6.1.1.jar:6.1.1]
+	at org.springframework.cglib.core.AbstractClassGenerator.create(AbstractClassGenerator.java:321) ~[spring-core-6.1.1.jar:6.1.1]
+	at org.springframework.cglib.proxy.Enhancer.createHelper(Enhancer.java:562) ~[spring-core-6.1.1.jar:6.1.1]
+	at org.springframework.cglib.proxy.Enhancer.createClass(Enhancer.java:407) ~[spring-core-6.1.1.jar:6.1.1]
+	at org.springframework.context.annotation.ConfigurationClassEnhancer.createClass(ConfigurationClassEnhancer.java:138) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.annotation.ConfigurationClassEnhancer.enhance(ConfigurationClassEnhancer.java:109) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.annotation.ConfigurationClassPostProcessor.enhanceConfigurationClasses(ConfigurationClassPostProcessor.java:533) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.annotation.ConfigurationClassPostProcessor.postProcessBeanFactory(ConfigurationClassPostProcessor.java:310) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(PostProcessorRegistrationDelegate.java:363) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(PostProcessorRegistrationDelegate.java:153) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.support.AbstractApplicationContext.invokeBeanFactoryPostProcessors(AbstractApplicationContext.java:775) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:597) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146) ~[spring-boot-3.2.0.jar:3.2.0]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:753) ~[spring-boot-3.2.0.jar:3.2.0]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:455) ~[spring-boot-3.2.0.jar:3.2.0]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:323) ~[spring-boot-3.2.0.jar:3.2.0]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1342) ~[spring-boot-3.2.0.jar:3.2.0]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1331) ~[spring-boot-3.2.0.jar:3.2.0]
+	at com.driverental.onlinecarrental.OnlineCarRentalApplication.main(OnlineCarRentalApplication.java:14) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50) ~[spring-boot-devtools-3.2.0.jar:3.2.0]
+
+2026-01-23T12:32:08.778Z  INFO 54887 --- [restartedMain] c.d.o.OnlineCarRentalApplication         : Starting OnlineCarRentalApplication using Java 21.0.9 with PID 54887 (/workspaces/onlinecarrental/backend/target/classes started by codespace in /workspaces/onlinecarrental/backend)
+2026-01-23T12:32:08.778Z  INFO 54887 --- [restartedMain] c.d.o.OnlineCarRentalApplication         : No active profile set, falling back to 1 default profile: "default"
+2026-01-23T12:32:08.951Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-01-23T12:32:08.951Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-23T12:32:08.985Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 33 ms. Found 8 JPA repository interfaces.
+2026-01-23T12:32:08.991Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-01-23T12:32:08.991Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-01-23T12:32:08.998Z  INFO 54887 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.BookingRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T12:32:09.000Z  INFO 54887 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.ImageCategoryRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T12:32:09.000Z  INFO 54887 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.PaymentRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T12:32:09.000Z  INFO 54887 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.PriceConfigRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T12:32:09.001Z  INFO 54887 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.ReviewRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T12:32:09.001Z  INFO 54887 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.UserRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T12:32:09.001Z  INFO 54887 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.VehicleImageRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T12:32:09.002Z  INFO 54887 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.VehicleRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T12:32:09.002Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 10 ms. Found 0 Redis repository interfaces.
+2026-01-23T12:32:09.158Z  INFO 54887 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-01-23T12:32:09.159Z  INFO 54887 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-23T12:32:09.160Z  INFO 54887 --- [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.16]
+2026-01-23T12:32:09.168Z  INFO 54887 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-01-23T12:32:09.168Z  INFO 54887 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 389 ms
+2026-01-23T12:32:09.232Z  INFO 54887 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-01-23T12:32:09.235Z  INFO 54887 --- [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-01-23T12:32:09.241Z  INFO 54887 --- [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-01-23T12:32:09.243Z  INFO 54887 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Starting...
+2026-01-23T12:32:09.311Z  INFO 54887 --- [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-6 - Added connection com.mysql.cj.jdbc.ConnectionImpl@5e2e1de1
+2026-01-23T12:32:09.311Z  INFO 54887 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Start completed.
+2026-01-23T12:32:09.313Z  WARN 54887 --- [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-01-23T12:32:09.648Z  INFO 54887 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-01-23T12:32:09.667Z DEBUG 54887 --- [restartedMain] org.hibernate.SQL                        : 
+    create table image_categories (
+        id bigint not null auto_increment,
+        created_at datetime(6),
+        description varchar(255),
+        is_active bit,
+        is_default bit,
+        name varchar(255) not null,
+        updated_at datetime(6),
+        primary key (id)
+    ) engine=InnoDB
+2026-01-23T12:32:09.700Z DEBUG 54887 --- [restartedMain] org.hibernate.SQL                        : 
+    alter table vehicle_images 
+       modify column category varchar(255) not null
+2026-01-23T12:32:09.812Z DEBUG 54887 --- [restartedMain] org.hibernate.SQL                        : 
+    alter table image_categories 
+       drop index UK_ci8mupno9f7ha0pae33hxvxnw
+2026-01-23T12:32:09.815Z DEBUG 54887 --- [restartedMain] org.hibernate.SQL                        : 
+    alter table image_categories 
+       add constraint UK_ci8mupno9f7ha0pae33hxvxnw unique (name)
+2026-01-23T12:32:09.868Z  INFO 54887 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-01-23T12:32:09.975Z  WARN 54887 --- [restartedMain] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'adminController' defined in file [/workspaces/onlinecarrental/backend/target/classes/com/driverental/onlinecarrental/controller/AdminController.class]: Unsatisfied dependency expressed through constructor parameter 0: No qualifying bean of type 'com.driverental.onlinecarrental.service.UserService' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+2026-01-23T12:32:09.975Z  INFO 54887 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-01-23T12:32:09.976Z  INFO 54887 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Shutdown initiated...
+2026-01-23T12:32:09.979Z  INFO 54887 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Shutdown completed.
+2026-01-23T12:32:09.979Z  INFO 54887 --- [restartedMain] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2026-01-23T12:32:09.983Z  INFO 54887 --- [restartedMain] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-01-23T12:32:09.988Z ERROR 54887 --- [restartedMain] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Parameter 0 of constructor in com.driverental.onlinecarrental.controller.AdminController required a bean of type 'com.driverental.onlinecarrental.service.UserService' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'com.driverental.onlinecarrental.service.UserService' in your configuration.
+
+2026-01-23T12:33:02.724Z  INFO 54887 --- [restartedMain] c.d.o.OnlineCarRentalApplication         : Starting OnlineCarRentalApplication using Java 21.0.9 with PID 54887 (/workspaces/onlinecarrental/backend/target/classes started by codespace in /workspaces/onlinecarrental/backend)
+2026-01-23T12:33:02.726Z  INFO 54887 --- [restartedMain] c.d.o.OnlineCarRentalApplication         : No active profile set, falling back to 1 default profile: "default"
+2026-01-23T12:33:03.120Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-01-23T12:33:03.120Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-23T12:33:03.121Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 0 ms. Found 0 JPA repository interfaces.
+2026-01-23T12:33:03.128Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-01-23T12:33:03.128Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-01-23T12:33:03.131Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 0 ms. Found 0 Redis repository interfaces.
+2026-01-23T12:33:03.221Z  WARN 54887 --- [restartedMain] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: java.lang.NullPointerException: Cannot read field "generatedClass" because "data" is null
+2026-01-23T12:33:03.230Z  INFO 54887 --- [restartedMain] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-01-23T12:33:03.242Z ERROR 54887 --- [restartedMain] o.s.boot.SpringApplication               : Application run failed
+
+java.lang.NullPointerException: Cannot read field "generatedClass" because "data" is null
+	at org.springframework.cglib.proxy.Enhancer.nextInstance(Enhancer.java:783) ~[spring-core-6.1.1.jar:6.1.1]
+	at org.springframework.cglib.core.AbstractClassGenerator.create(AbstractClassGenerator.java:321) ~[spring-core-6.1.1.jar:6.1.1]
+	at org.springframework.cglib.proxy.Enhancer.createHelper(Enhancer.java:562) ~[spring-core-6.1.1.jar:6.1.1]
+	at org.springframework.cglib.proxy.Enhancer.createClass(Enhancer.java:407) ~[spring-core-6.1.1.jar:6.1.1]
+	at org.springframework.context.annotation.ConfigurationClassEnhancer.createClass(ConfigurationClassEnhancer.java:138) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.annotation.ConfigurationClassEnhancer.enhance(ConfigurationClassEnhancer.java:109) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.annotation.ConfigurationClassPostProcessor.enhanceConfigurationClasses(ConfigurationClassPostProcessor.java:533) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.annotation.ConfigurationClassPostProcessor.postProcessBeanFactory(ConfigurationClassPostProcessor.java:310) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(PostProcessorRegistrationDelegate.java:363) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(PostProcessorRegistrationDelegate.java:153) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.support.AbstractApplicationContext.invokeBeanFactoryPostProcessors(AbstractApplicationContext.java:775) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:597) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146) ~[spring-boot-3.2.0.jar:3.2.0]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:753) ~[spring-boot-3.2.0.jar:3.2.0]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:455) ~[spring-boot-3.2.0.jar:3.2.0]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:323) ~[spring-boot-3.2.0.jar:3.2.0]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1342) ~[spring-boot-3.2.0.jar:3.2.0]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1331) ~[spring-boot-3.2.0.jar:3.2.0]
+	at com.driverental.onlinecarrental.OnlineCarRentalApplication.main(OnlineCarRentalApplication.java:14) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50) ~[spring-boot-devtools-3.2.0.jar:3.2.0]
+
+2026-01-23T12:33:11.944Z  INFO 54887 --- [restartedMain] c.d.o.OnlineCarRentalApplication         : Starting OnlineCarRentalApplication using Java 21.0.9 with PID 54887 (/workspaces/onlinecarrental/backend/target/classes started by codespace in /workspaces/onlinecarrental/backend)
+2026-01-23T12:33:11.944Z  INFO 54887 --- [restartedMain] c.d.o.OnlineCarRentalApplication         : No active profile set, falling back to 1 default profile: "default"
+2026-01-23T12:33:12.094Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-01-23T12:33:12.095Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-23T12:33:12.123Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 28 ms. Found 8 JPA repository interfaces.
+2026-01-23T12:33:12.131Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-01-23T12:33:12.131Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-01-23T12:33:12.140Z  INFO 54887 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.BookingRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T12:33:12.141Z  INFO 54887 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.ImageCategoryRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T12:33:12.142Z  INFO 54887 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.PaymentRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T12:33:12.142Z  INFO 54887 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.PriceConfigRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T12:33:12.143Z  INFO 54887 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.ReviewRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T12:33:12.143Z  INFO 54887 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.UserRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T12:33:12.144Z  INFO 54887 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.VehicleImageRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T12:33:12.144Z  INFO 54887 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.VehicleRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T12:33:12.144Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 12 ms. Found 0 Redis repository interfaces.
+2026-01-23T12:33:12.336Z  INFO 54887 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-01-23T12:33:12.339Z  INFO 54887 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-23T12:33:12.340Z  INFO 54887 --- [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.16]
+2026-01-23T12:33:12.354Z  INFO 54887 --- [restartedMain] o.a.c.c.C.[Tomcat-1].[localhost].[/]     : Initializing Spring embedded WebApplicationContext
+2026-01-23T12:33:12.354Z  INFO 54887 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 408 ms
+2026-01-23T12:33:12.406Z  INFO 54887 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-01-23T12:33:12.409Z  INFO 54887 --- [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-01-23T12:33:12.412Z  INFO 54887 --- [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-01-23T12:33:12.413Z  INFO 54887 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-7 - Starting...
+2026-01-23T12:33:12.431Z  INFO 54887 --- [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-7 - Added connection com.mysql.cj.jdbc.ConnectionImpl@16cc3510
+2026-01-23T12:33:12.432Z  INFO 54887 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-7 - Start completed.
+2026-01-23T12:33:12.434Z  WARN 54887 --- [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-01-23T12:33:12.697Z  INFO 54887 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-01-23T12:33:12.727Z DEBUG 54887 --- [restartedMain] org.hibernate.SQL                        : 
+    alter table image_categories 
+       drop index UKci8mupno9f7ha0pae33hxvxnw
+2026-01-23T12:33:12.728Z DEBUG 54887 --- [restartedMain] org.hibernate.SQL                        : 
+    alter table image_categories 
+       add constraint UKci8mupno9f7ha0pae33hxvxnw unique (name)
+2026-01-23T12:33:12.797Z  INFO 54887 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-01-23T12:33:12.919Z  WARN 54887 --- [restartedMain] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'adminController' defined in file [/workspaces/onlinecarrental/backend/target/classes/com/driverental/onlinecarrental/controller/AdminController.class]: Unsatisfied dependency expressed through constructor parameter 0: No qualifying bean of type 'com.driverental.onlinecarrental.service.UserService' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+2026-01-23T12:33:12.919Z  INFO 54887 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-01-23T12:33:12.919Z  INFO 54887 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-7 - Shutdown initiated...
+2026-01-23T12:33:12.926Z  INFO 54887 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-7 - Shutdown completed.
+2026-01-23T12:33:12.927Z  INFO 54887 --- [restartedMain] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2026-01-23T12:33:12.933Z  INFO 54887 --- [restartedMain] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-01-23T12:33:12.938Z ERROR 54887 --- [restartedMain] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Parameter 0 of constructor in com.driverental.onlinecarrental.controller.AdminController required a bean of type 'com.driverental.onlinecarrental.service.UserService' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'com.driverental.onlinecarrental.service.UserService' in your configuration.
+
+2026-01-23T12:34:56.252Z  INFO 54887 --- [restartedMain] c.d.o.OnlineCarRentalApplication         : Starting OnlineCarRentalApplication using Java 21.0.9 with PID 54887 (/workspaces/onlinecarrental/backend/target/classes started by codespace in /workspaces/onlinecarrental/backend)
+2026-01-23T12:34:56.253Z  INFO 54887 --- [restartedMain] c.d.o.OnlineCarRentalApplication         : No active profile set, falling back to 1 default profile: "default"
+2026-01-23T12:34:56.603Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-01-23T12:34:56.605Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-23T12:34:56.606Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 0 ms. Found 0 JPA repository interfaces.
+2026-01-23T12:34:56.617Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-01-23T12:34:56.618Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-01-23T12:34:56.620Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 0 ms. Found 0 Redis repository interfaces.
+2026-01-23T12:34:56.690Z  WARN 54887 --- [restartedMain] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: java.lang.NullPointerException: Cannot read field "generatedClass" because "data" is null
+2026-01-23T12:34:56.700Z  INFO 54887 --- [restartedMain] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-01-23T12:34:56.702Z ERROR 54887 --- [restartedMain] o.s.boot.SpringApplication               : Application run failed
+
+java.lang.NullPointerException: Cannot read field "generatedClass" because "data" is null
+	at org.springframework.cglib.proxy.Enhancer.nextInstance(Enhancer.java:783) ~[spring-core-6.1.1.jar:6.1.1]
+	at org.springframework.cglib.core.AbstractClassGenerator.create(AbstractClassGenerator.java:321) ~[spring-core-6.1.1.jar:6.1.1]
+	at org.springframework.cglib.proxy.Enhancer.createHelper(Enhancer.java:562) ~[spring-core-6.1.1.jar:6.1.1]
+	at org.springframework.cglib.proxy.Enhancer.createClass(Enhancer.java:407) ~[spring-core-6.1.1.jar:6.1.1]
+	at org.springframework.context.annotation.ConfigurationClassEnhancer.createClass(ConfigurationClassEnhancer.java:138) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.annotation.ConfigurationClassEnhancer.enhance(ConfigurationClassEnhancer.java:109) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.annotation.ConfigurationClassPostProcessor.enhanceConfigurationClasses(ConfigurationClassPostProcessor.java:533) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.annotation.ConfigurationClassPostProcessor.postProcessBeanFactory(ConfigurationClassPostProcessor.java:310) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(PostProcessorRegistrationDelegate.java:363) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(PostProcessorRegistrationDelegate.java:153) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.support.AbstractApplicationContext.invokeBeanFactoryPostProcessors(AbstractApplicationContext.java:775) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:597) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146) ~[spring-boot-3.2.0.jar:3.2.0]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:753) ~[spring-boot-3.2.0.jar:3.2.0]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:455) ~[spring-boot-3.2.0.jar:3.2.0]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:323) ~[spring-boot-3.2.0.jar:3.2.0]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1342) ~[spring-boot-3.2.0.jar:3.2.0]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1331) ~[spring-boot-3.2.0.jar:3.2.0]
+	at com.driverental.onlinecarrental.OnlineCarRentalApplication.main(OnlineCarRentalApplication.java:14) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50) ~[spring-boot-devtools-3.2.0.jar:3.2.0]
+
+2026-01-23T12:35:05.595Z  INFO 54887 --- [restartedMain] c.d.o.OnlineCarRentalApplication         : Starting OnlineCarRentalApplication using Java 21.0.9 with PID 54887 (/workspaces/onlinecarrental/backend/target/classes started by codespace in /workspaces/onlinecarrental/backend)
+2026-01-23T12:35:05.595Z  INFO 54887 --- [restartedMain] c.d.o.OnlineCarRentalApplication         : No active profile set, falling back to 1 default profile: "default"
+2026-01-23T12:35:05.746Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-01-23T12:35:05.746Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-23T12:35:05.764Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 17 ms. Found 8 JPA repository interfaces.
+2026-01-23T12:35:05.767Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-01-23T12:35:05.767Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-01-23T12:35:05.770Z  INFO 54887 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.BookingRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T12:35:05.770Z  INFO 54887 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.ImageCategoryRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T12:35:05.770Z  INFO 54887 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.PaymentRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T12:35:05.771Z  INFO 54887 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.PriceConfigRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T12:35:05.771Z  INFO 54887 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.ReviewRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T12:35:05.771Z  INFO 54887 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.UserRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T12:35:05.771Z  INFO 54887 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.VehicleImageRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T12:35:05.771Z  INFO 54887 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.VehicleRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T12:35:05.771Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 4 ms. Found 0 Redis repository interfaces.
+2026-01-23T12:35:05.876Z  INFO 54887 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-01-23T12:35:05.877Z  INFO 54887 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-23T12:35:05.877Z  INFO 54887 --- [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.16]
+2026-01-23T12:35:05.885Z  INFO 54887 --- [restartedMain] o.a.c.c.C.[Tomcat-2].[localhost].[/]     : Initializing Spring embedded WebApplicationContext
+2026-01-23T12:35:05.885Z  INFO 54887 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 289 ms
+2026-01-23T12:35:05.931Z  INFO 54887 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-01-23T12:35:05.933Z  INFO 54887 --- [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-01-23T12:35:05.936Z  INFO 54887 --- [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-01-23T12:35:05.937Z  INFO 54887 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-8 - Starting...
+2026-01-23T12:35:05.958Z  INFO 54887 --- [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-8 - Added connection com.mysql.cj.jdbc.ConnectionImpl@8c48b5
+2026-01-23T12:35:05.960Z  INFO 54887 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-8 - Start completed.
+2026-01-23T12:35:05.961Z  WARN 54887 --- [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-01-23T12:35:06.202Z  INFO 54887 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-01-23T12:35:06.258Z  INFO 54887 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-01-23T12:35:06.366Z  WARN 54887 --- [restartedMain] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'adminController' defined in file [/workspaces/onlinecarrental/backend/target/classes/com/driverental/onlinecarrental/controller/AdminController.class]: Unsatisfied dependency expressed through constructor parameter 0: No qualifying bean of type 'com.driverental.onlinecarrental.service.UserService' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+2026-01-23T12:35:06.366Z  INFO 54887 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-01-23T12:35:06.367Z  INFO 54887 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-8 - Shutdown initiated...
+2026-01-23T12:35:06.370Z  INFO 54887 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-8 - Shutdown completed.
+2026-01-23T12:35:06.370Z  INFO 54887 --- [restartedMain] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2026-01-23T12:35:06.374Z  INFO 54887 --- [restartedMain] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-01-23T12:35:06.378Z ERROR 54887 --- [restartedMain] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Parameter 0 of constructor in com.driverental.onlinecarrental.controller.AdminController required a bean of type 'com.driverental.onlinecarrental.service.UserService' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'com.driverental.onlinecarrental.service.UserService' in your configuration.
+
+2026-01-23T12:36:54.332Z  INFO 54887 --- [restartedMain] c.d.o.OnlineCarRentalApplication         : Starting OnlineCarRentalApplication using Java 21.0.9 with PID 54887 (/workspaces/onlinecarrental/backend/target/classes started by codespace in /workspaces/onlinecarrental/backend)
+2026-01-23T12:36:54.333Z  INFO 54887 --- [restartedMain] c.d.o.OnlineCarRentalApplication         : No active profile set, falling back to 1 default profile: "default"
+2026-01-23T12:36:54.607Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-01-23T12:36:54.607Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-23T12:36:54.608Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 0 ms. Found 0 JPA repository interfaces.
+2026-01-23T12:36:54.612Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-01-23T12:36:54.612Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-01-23T12:36:54.613Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 0 ms. Found 0 Redis repository interfaces.
+2026-01-23T12:36:54.675Z  WARN 54887 --- [restartedMain] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: java.lang.NullPointerException: Cannot read field "generatedClass" because "data" is null
+2026-01-23T12:36:54.680Z  INFO 54887 --- [restartedMain] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-01-23T12:36:54.684Z ERROR 54887 --- [restartedMain] o.s.boot.SpringApplication               : Application run failed
+
+java.lang.NullPointerException: Cannot read field "generatedClass" because "data" is null
+	at org.springframework.cglib.proxy.Enhancer.nextInstance(Enhancer.java:783) ~[spring-core-6.1.1.jar:6.1.1]
+	at org.springframework.cglib.core.AbstractClassGenerator.create(AbstractClassGenerator.java:321) ~[spring-core-6.1.1.jar:6.1.1]
+	at org.springframework.cglib.proxy.Enhancer.createHelper(Enhancer.java:562) ~[spring-core-6.1.1.jar:6.1.1]
+	at org.springframework.cglib.proxy.Enhancer.createClass(Enhancer.java:407) ~[spring-core-6.1.1.jar:6.1.1]
+	at org.springframework.context.annotation.ConfigurationClassEnhancer.createClass(ConfigurationClassEnhancer.java:138) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.annotation.ConfigurationClassEnhancer.enhance(ConfigurationClassEnhancer.java:109) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.annotation.ConfigurationClassPostProcessor.enhanceConfigurationClasses(ConfigurationClassPostProcessor.java:533) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.annotation.ConfigurationClassPostProcessor.postProcessBeanFactory(ConfigurationClassPostProcessor.java:310) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(PostProcessorRegistrationDelegate.java:363) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(PostProcessorRegistrationDelegate.java:153) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.support.AbstractApplicationContext.invokeBeanFactoryPostProcessors(AbstractApplicationContext.java:775) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:597) ~[spring-context-6.1.1.jar:6.1.1]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146) ~[spring-boot-3.2.0.jar:3.2.0]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:753) ~[spring-boot-3.2.0.jar:3.2.0]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:455) ~[spring-boot-3.2.0.jar:3.2.0]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:323) ~[spring-boot-3.2.0.jar:3.2.0]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1342) ~[spring-boot-3.2.0.jar:3.2.0]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1331) ~[spring-boot-3.2.0.jar:3.2.0]
+	at com.driverental.onlinecarrental.OnlineCarRentalApplication.main(OnlineCarRentalApplication.java:14) ~[classes/:na]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[na:na]
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50) ~[spring-boot-devtools-3.2.0.jar:3.2.0]
+
+2026-01-23T12:37:04.441Z  INFO 54887 --- [restartedMain] c.d.o.OnlineCarRentalApplication         : Starting OnlineCarRentalApplication using Java 21.0.9 with PID 54887 (/workspaces/onlinecarrental/backend/target/classes started by codespace in /workspaces/onlinecarrental/backend)
+2026-01-23T12:37:04.441Z  INFO 54887 --- [restartedMain] c.d.o.OnlineCarRentalApplication         : No active profile set, falling back to 1 default profile: "default"
+2026-01-23T12:37:04.678Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-01-23T12:37:04.679Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-23T12:37:04.709Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 29 ms. Found 8 JPA repository interfaces.
+2026-01-23T12:37:04.713Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-01-23T12:37:04.713Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-01-23T12:37:04.719Z  INFO 54887 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.BookingRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T12:37:04.719Z  INFO 54887 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.ImageCategoryRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T12:37:04.719Z  INFO 54887 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.PaymentRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T12:37:04.719Z  INFO 54887 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.PriceConfigRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T12:37:04.719Z  INFO 54887 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.ReviewRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T12:37:04.720Z  INFO 54887 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.UserRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T12:37:04.720Z  INFO 54887 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.VehicleImageRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T12:37:04.720Z  INFO 54887 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.VehicleRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T12:37:04.720Z  INFO 54887 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 6 ms. Found 0 Redis repository interfaces.
+2026-01-23T12:37:04.886Z  INFO 54887 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-01-23T12:37:04.887Z  INFO 54887 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-23T12:37:04.887Z  INFO 54887 --- [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.16]
+2026-01-23T12:37:04.900Z  INFO 54887 --- [restartedMain] o.a.c.c.C.[Tomcat-3].[localhost].[/]     : Initializing Spring embedded WebApplicationContext
+2026-01-23T12:37:04.900Z  INFO 54887 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 455 ms
+2026-01-23T12:37:04.977Z  INFO 54887 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-01-23T12:37:04.979Z  INFO 54887 --- [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-01-23T12:37:04.990Z  INFO 54887 --- [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-01-23T12:37:04.993Z  INFO 54887 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-9 - Starting...
+2026-01-23T12:37:05.004Z  INFO 54887 --- [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-9 - Added connection com.mysql.cj.jdbc.ConnectionImpl@5efcc10d
+2026-01-23T12:37:05.004Z  INFO 54887 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-9 - Start completed.
+2026-01-23T12:37:05.005Z  WARN 54887 --- [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-01-23T12:37:05.320Z  INFO 54887 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-01-23T12:37:05.377Z  INFO 54887 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-01-23T12:37:05.808Z  INFO 54887 --- [restartedMain] c.d.o.service.impl.SearchServiceImpl     : Rebuilding search index...
+2026-01-23T12:37:05.818Z DEBUG 54887 --- [restartedMain] org.hibernate.SQL                        : 
+    select
+        v1_0.id,
+        v1_0.base_price,
+        v1_0.created_at,
+        v1_0.daily_price,
+        v1_0.description,
+        v1_0.engine_capacity,
+        v1_0.fuel_type,
+        v1_0.image_category,
+        v1_0.image_name,
+        v1_0.image_names,
+        v1_0.image_url,
+        v1_0.is_available,
+        v1_0.license_plate,
+        v1_0.location,
+        v1_0.luggage_capacity,
+        v1_0.main_image_name,
+        v1_0.make,
+        v1_0.model,
+        v1_0.rating,
+        v1_0.review_count,
+        v1_0.seats,
+        v1_0.transmission,
+        v1_0.type,
+        v1_0.updated_at,
+        v1_0.year 
+    from
+        vehicles v1_0
+2026-01-23T12:37:05.820Z  INFO 54887 --- [restartedMain] c.d.o.service.impl.SearchServiceImpl     : Search index rebuilt with 0 keywords
+2026-01-23T12:37:05.896Z  WARN 54887 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-01-23T12:37:06.153Z  INFO 54887 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-01-23T12:37:06.165Z  INFO 54887 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path ''
+2026-01-23T12:37:06.168Z  INFO 54887 --- [scheduling-1] c.d.o.service.impl.SearchServiceImpl     : Rebuilding search index...
+2026-01-23T12:37:06.168Z  INFO 54887 --- [restartedMain] c.d.o.OnlineCarRentalApplication         : Started OnlineCarRentalApplication in 1.782 seconds (process running for 4115.118)
+2026-01-23T12:37:06.170Z  INFO 54887 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2026-01-23T12:37:06.171Z DEBUG 54887 --- [scheduling-1] org.hibernate.SQL                        : 
+    select
+        v1_0.id,
+        v1_0.base_price,
+        v1_0.created_at,
+        v1_0.daily_price,
+        v1_0.description,
+        v1_0.engine_capacity,
+        v1_0.fuel_type,
+        v1_0.image_category,
+        v1_0.image_name,
+        v1_0.image_names,
+        v1_0.image_url,
+        v1_0.is_available,
+        v1_0.license_plate,
+        v1_0.location,
+        v1_0.luggage_capacity,
+        v1_0.main_image_name,
+        v1_0.make,
+        v1_0.model,
+        v1_0.rating,
+        v1_0.review_count,
+        v1_0.seats,
+        v1_0.transmission,
+        v1_0.type,
+        v1_0.updated_at,
+        v1_0.year 
+    from
+        vehicles v1_0
+2026-01-23T12:37:06.176Z  INFO 54887 --- [scheduling-1] c.d.o.service.impl.SearchServiceImpl     : Search index rebuilt with 0 keywords
+2026-01-23T12:59:52.471Z  INFO 54887 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-01-23T12:59:52.483Z  INFO 54887 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-9 - Shutdown initiated...
+2026-01-23T12:59:52.497Z  INFO 54887 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-9 - Shutdown completed.
+2026-01-23T13:00:07.932Z  INFO 99419 --- [restartedMain] c.d.o.OnlineCarRentalApplication         : Starting OnlineCarRentalApplication using Java 21.0.9 with PID 99419 (/workspaces/onlinecarrental/backend/target/classes started by codespace in /workspaces/onlinecarrental/backend)
+2026-01-23T13:00:07.935Z  INFO 99419 --- [restartedMain] c.d.o.OnlineCarRentalApplication         : No active profile set, falling back to 1 default profile: "default"
+2026-01-23T13:00:08.005Z  INFO 99419 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-01-23T13:00:08.006Z  INFO 99419 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-01-23T13:00:09.112Z  INFO 99419 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-01-23T13:00:09.114Z  INFO 99419 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-23T13:00:09.312Z  INFO 99419 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 190 ms. Found 8 JPA repository interfaces.
+2026-01-23T13:00:09.350Z  INFO 99419 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-01-23T13:00:09.352Z  INFO 99419 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-01-23T13:00:09.368Z  INFO 99419 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.BookingRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T13:00:09.369Z  INFO 99419 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.ImageCategoryRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T13:00:09.369Z  INFO 99419 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.PaymentRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T13:00:09.370Z  INFO 99419 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.PriceConfigRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T13:00:09.370Z  INFO 99419 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.ReviewRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T13:00:09.370Z  INFO 99419 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.UserRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T13:00:09.371Z  INFO 99419 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.VehicleImageRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T13:00:09.372Z  INFO 99419 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.VehicleRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T13:00:09.372Z  INFO 99419 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 12 ms. Found 0 Redis repository interfaces.
+2026-01-23T13:00:09.975Z  INFO 99419 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-01-23T13:00:09.984Z  INFO 99419 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-23T13:00:09.985Z  INFO 99419 --- [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.16]
+2026-01-23T13:00:10.020Z  INFO 99419 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-01-23T13:00:10.021Z  INFO 99419 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2014 ms
+2026-01-23T13:00:10.224Z  INFO 99419 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-01-23T13:00:10.295Z  INFO 99419 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.3.1.Final
+2026-01-23T13:00:10.329Z  INFO 99419 --- [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-01-23T13:00:10.560Z  INFO 99419 --- [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-01-23T13:00:10.580Z  INFO 99419 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-01-23T13:00:10.961Z  INFO 99419 --- [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@297452a2
+2026-01-23T13:00:10.965Z  INFO 99419 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-01-23T13:00:11.017Z  WARN 99419 --- [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-01-23T13:00:12.066Z  INFO 99419 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-01-23T13:00:12.154Z  INFO 99419 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-01-23T13:00:12.389Z  INFO 99419 --- [restartedMain] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-01-23T13:00:13.902Z  INFO 99419 --- [restartedMain] c.d.o.service.impl.SearchServiceImpl     : Rebuilding search index...
+2026-01-23T13:00:13.970Z DEBUG 99419 --- [restartedMain] org.hibernate.SQL                        : 
+    select
+        v1_0.id,
+        v1_0.base_price,
+        v1_0.created_at,
+        v1_0.daily_price,
+        v1_0.description,
+        v1_0.engine_capacity,
+        v1_0.fuel_type,
+        v1_0.image_category,
+        v1_0.image_name,
+        v1_0.image_names,
+        v1_0.image_url,
+        v1_0.is_available,
+        v1_0.license_plate,
+        v1_0.location,
+        v1_0.luggage_capacity,
+        v1_0.main_image_name,
+        v1_0.make,
+        v1_0.model,
+        v1_0.rating,
+        v1_0.review_count,
+        v1_0.seats,
+        v1_0.transmission,
+        v1_0.type,
+        v1_0.updated_at,
+        v1_0.year 
+    from
+        vehicles v1_0
+2026-01-23T13:00:13.976Z  INFO 99419 --- [restartedMain] c.d.o.service.impl.SearchServiceImpl     : Search index rebuilt with 0 keywords
+2026-01-23T13:00:14.113Z  WARN 99419 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-01-23T13:00:14.979Z  INFO 99419 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-01-23T13:00:15.008Z  INFO 99419 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path ''
+2026-01-23T13:00:15.021Z  INFO 99419 --- [restartedMain] c.d.o.OnlineCarRentalApplication         : Started OnlineCarRentalApplication in 7.629 seconds (process running for 8.279)
+2026-01-23T13:00:15.026Z  INFO 99419 --- [scheduling-1] c.d.o.service.impl.SearchServiceImpl     : Rebuilding search index...
+2026-01-23T13:00:15.032Z DEBUG 99419 --- [scheduling-1] org.hibernate.SQL                        : 
+    select
+        v1_0.id,
+        v1_0.base_price,
+        v1_0.created_at,
+        v1_0.daily_price,
+        v1_0.description,
+        v1_0.engine_capacity,
+        v1_0.fuel_type,
+        v1_0.image_category,
+        v1_0.image_name,
+        v1_0.image_names,
+        v1_0.image_url,
+        v1_0.is_available,
+        v1_0.license_plate,
+        v1_0.location,
+        v1_0.luggage_capacity,
+        v1_0.main_image_name,
+        v1_0.make,
+        v1_0.model,
+        v1_0.rating,
+        v1_0.review_count,
+        v1_0.seats,
+        v1_0.transmission,
+        v1_0.type,
+        v1_0.updated_at,
+        v1_0.year 
+    from
+        vehicles v1_0
+2026-01-23T13:00:15.035Z  INFO 99419 --- [scheduling-1] c.d.o.service.impl.SearchServiceImpl     : Search index rebuilt with 0 keywords

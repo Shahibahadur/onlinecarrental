@@ -108,3 +108,4 @@ public class ImageController {
         return vehicleType.trim().toLowerCase()
                 .replaceAll("[^a-z0-9_-]", "");
     }
+}

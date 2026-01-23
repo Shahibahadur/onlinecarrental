@@ -1,13 +1,13 @@
 package com.driverental.onlinecarrental.model.enums;
 
 public enum ImageCategory {
-    MAIN("Main Display Image"),
-    EXTERIOR("Exterior Views"),
-    INTERIOR("Interior Views"),
-    FEATURES("Feature Highlights"),
-    SAFETY("Safety Features"),
-    AMENITIES("Amenities"),
-    PERFORMANCE("Performance & Specs");
+    SEDAN("Sedan"),
+    SPORTS("Sports"),
+    CONVERTIBLE("Convertible"),
+    HATCHBACK("Hatchback"),
+    HYBRID("Hybrid"),
+    ELECTRIC("Electric"),
+    SUV("SUV");
 
     private final String description;
 

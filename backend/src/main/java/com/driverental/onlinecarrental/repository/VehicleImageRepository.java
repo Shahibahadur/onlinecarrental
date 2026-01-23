@@ -1,7 +1,6 @@
 package com.driverental.onlinecarrental.repository;
 
 import com.driverental.onlinecarrental.model.entity.VehicleImage;
-import com.driverental.onlinecarrental.model.enums.ImageCategory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -24,23 +23,24 @@ public interface VehicleImageRepository extends JpaRepository<VehicleImage, Long
      */
     List<VehicleImage> findByVehicleIdAndCategoryAndIsActiveTrueOrderByDisplayOrder(
         Long vehicleId,
-        ImageCategory category
+        String category
     );
 
     /**
-     * Find main image for a vehicle
+     * Find main image for a vehicle by category
      */
-    VehicleImage findByVehicleIdAndCategoryAndIsActiveTrue(Long vehicleId, ImageCategory category);
+    VehicleImage findByVehicleIdAndCategoryAndIsActiveTrue(Long vehicleId, String category);
 
     /**
      * Find all images for a category
      */
-    List<VehicleImage> findByCategoryAndIsActiveTrueOrderByDisplayOrder(ImageCategory category);
+    List<VehicleImage> findByCategoryAndIsActiveTrueOrderByDisplayOrder(String category);
+
 
     /**
      * Delete all images for a vehicle in a specific category
      */
-    void deleteByVehicleIdAndCategory(Long vehicleId, ImageCategory category);
+    void deleteByVehicleIdAndCategory(Long vehicleId, String category);
 
     /**
      * Count images for a vehicle
@@ -57,7 +57,12 @@ public interface VehicleImageRepository extends JpaRepository<VehicleImage, Long
      */
     Page<VehicleImage> findByVehicleIdAndCategoryAndIsActiveTrueOrderByDisplayOrder(
         Long vehicleId,
-        ImageCategory category,
+        String category,
         Pageable pageable
     );
+
+    /**
+     * Count images by category
+     */
+    long countByCategory(String category);
 }

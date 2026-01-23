@@ -4,7 +4,6 @@ import com.driverental.onlinecarrental.model.dto.request.VehicleImageRequest;
 import com.driverental.onlinecarrental.model.dto.response.VehicleImageResponse;
 import com.driverental.onlinecarrental.model.entity.Vehicle;
 import com.driverental.onlinecarrental.model.entity.VehicleImage;
-import com.driverental.onlinecarrental.model.enums.ImageCategory;
 import com.driverental.onlinecarrental.repository.VehicleImageRepository;
 import com.driverental.onlinecarrental.repository.VehicleRepository;
 import com.driverental.onlinecarrental.service.VehicleImageService;
@@ -39,7 +38,7 @@ public class VehicleImageServiceImpl implements VehicleImageService {
     }
 
     @Override
-    public List<VehicleImageResponse> getVehicleImagesByCategory(Long vehicleId, ImageCategory category) {
+    public List<VehicleImageResponse> getVehicleImagesByCategory(Long vehicleId, String category) {
         return vehicleImageRepository.findByVehicleIdAndCategoryAndIsActiveTrueOrderByDisplayOrder(vehicleId, category)
                 .stream()
                 .map(this::convertToResponse)
@@ -54,7 +53,7 @@ public class VehicleImageServiceImpl implements VehicleImageService {
         VehicleImage image = VehicleImage.builder()
                 .vehicle(vehicle)
                 .imageName(request.getImageName())
-                .category(request.getCategory() != null ? request.getCategory() : ImageCategory.MAIN)
+                .category(request.getCategory() != null ? request.getCategory() : "SEDAN")
                 .displayOrder(request.getDisplayOrder() != null ? request.getDisplayOrder() : 0)
                 .altText(request.getAltText())
                 .description(request.getDescription())
@@ -99,7 +98,7 @@ public class VehicleImageServiceImpl implements VehicleImageService {
     }
 
     @Override
-    public void deleteVehicleImagesByCategory(Long vehicleId, ImageCategory category) {
+    public void deleteVehicleImagesByCategory(Long vehicleId, String category) {
         vehicleImageRepository.deleteByVehicleIdAndCategory(vehicleId, category);
     }
 
@@ -115,44 +114,35 @@ public class VehicleImageServiceImpl implements VehicleImageService {
             throw new RuntimeException("Image does not belong to this vehicle");
         }
 
-        // Remove MAIN category from other images
-        List<VehicleImage> mainImages = vehicleImageRepository.findByVehicleIdAndCategoryAndIsActiveTrueOrderByDisplayOrder(
-                vehicleId, ImageCategory.MAIN);
-        mainImages.forEach(img -> {
-            if (!img.getId().equals(imageId)) {
-                img.setCategory(ImageCategory.EXTERIOR); // Move to exterior if not the main one
-                vehicleImageRepository.save(img);
-            }
-        });
-
-        // Set this image as main
-        image.setCategory(ImageCategory.MAIN);
-        image.setDisplayOrder(0);
-        vehicleImageRepository.save(image);
-
         // Update vehicle's main image name
         vehicle.setMainImageName(image.getImageName());
         vehicleRepository.save(vehicle);
+
+        // Set this image's display order to 0
+        image.setDisplayOrder(0);
+        vehicleImageRepository.save(image);
     }
 
     @Override
-    public void reorderImages(Long vehicleId, ImageCategory category, List<Long> imageIds) {
+    public void reorderImages(Long vehicleId, String category, List<Long> imageIds) {
         for (int i = 0; i < imageIds.size(); i++) {
-            VehicleImage image = vehicleImageRepository.findById(imageIds.get(i))
-                    .orElseThrow(() -> new RuntimeException("Image not found with id: " + imageIds.get(i)));
+            final int index = i;
+            Long imageId = imageIds.get(i);
+            VehicleImage image = vehicleImageRepository.findById(imageId)
+                    .orElseThrow(() -> new RuntimeException("Image not found with id: " + imageId));
 
             if (!image.getVehicle().getId().equals(vehicleId)) {
                 throw new RuntimeException("Image does not belong to this vehicle");
             }
 
-            image.setDisplayOrder(i);
+            image.setDisplayOrder(index);
             vehicleImageRepository.save(image);
         }
     }
 
     @Override
     public VehicleImageResponse getMainImage(Long vehicleId) {
-        VehicleImage mainImage = vehicleImageRepository.findByVehicleIdAndCategoryAndIsActiveTrue(vehicleId, ImageCategory.MAIN);
+        VehicleImage mainImage = vehicleImageRepository.findByVehicleIdAndCategoryAndIsActiveTrue(vehicleId, "MAIN");
         return mainImage != null ? convertToResponse(mainImage) : null;
     }
 
@@ -162,7 +152,7 @@ public class VehicleImageServiceImpl implements VehicleImageService {
     }
 
     private VehicleImageResponse convertToResponse(VehicleImage image) {
-        String imageUrl = "/api/images/vehicles/categorized/" + image.getCategory().name().toLowerCase() 
+        String imageUrl = "/api/images/vehicles/categorized/" + image.getCategory().toLowerCase() 
                         + "/" + image.getImageName();
 
         return VehicleImageResponse.builder()

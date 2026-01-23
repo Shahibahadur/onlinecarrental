@@ -2,7 +2,6 @@ package com.driverental.onlinecarrental.controller;
 
 import com.driverental.onlinecarrental.model.dto.request.VehicleImageRequest;
 import com.driverental.onlinecarrental.model.dto.response.VehicleImageResponse;
-import com.driverental.onlinecarrental.model.enums.ImageCategory;
 import com.driverental.onlinecarrental.service.VehicleImageService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -38,7 +37,7 @@ public class VehicleImageController {
     @Operation(summary = "Get images for a vehicle by category")
     public ResponseEntity<List<VehicleImageResponse>> getVehicleImagesByCategory(
             @PathVariable Long vehicleId,
-            @PathVariable ImageCategory category) {
+            @PathVariable String category) {
         List<VehicleImageResponse> images = vehicleImageService.getVehicleImagesByCategory(vehicleId, category);
         return ResponseEntity.ok(images);
     }
@@ -95,7 +94,7 @@ public class VehicleImageController {
     @Operation(summary = "Delete all images in a category for a vehicle (Admin only)")
     public ResponseEntity<Void> deleteVehicleImagesByCategory(
             @PathVariable Long vehicleId,
-            @PathVariable ImageCategory category) {
+            @PathVariable String category) {
         vehicleImageService.deleteVehicleImagesByCategory(vehicleId, category);
         return ResponseEntity.noContent().build();
     }
@@ -119,7 +118,7 @@ public class VehicleImageController {
     @Operation(summary = "Reorder images within a category (Admin only)")
     public ResponseEntity<Void> reorderImages(
             @PathVariable Long vehicleId,
-            @PathVariable ImageCategory category,
+            @PathVariable String category,
             @RequestBody List<Long> imageIds) {
         vehicleImageService.reorderImages(vehicleId, category, imageIds);
         return ResponseEntity.noContent().build();

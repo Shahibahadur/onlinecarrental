@@ -1,6 +1,5 @@
 package com.driverental.onlinecarrental.model.entity;
 
-import com.driverental.onlinecarrental.model.enums.ImageCategory;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -35,9 +34,9 @@ public class VehicleImage {
     // Full path where the image is stored
     private String imagePath;
 
-    // Category: MAIN, EXTERIOR, INTERIOR, FEATURES, SAFETY, AMENITIES, PERFORMANCE
-    @Enumerated(EnumType.STRING)
-    private ImageCategory category;
+    // Category name - supports dynamic categories
+    @Column(nullable = false)
+    private String category;
 
     // Display order within the category
     @Builder.Default

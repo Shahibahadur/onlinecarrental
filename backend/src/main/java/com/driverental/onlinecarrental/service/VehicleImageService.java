@@ -2,7 +2,6 @@ package com.driverental.onlinecarrental.service;
 
 import com.driverental.onlinecarrental.model.dto.request.VehicleImageRequest;
 import com.driverental.onlinecarrental.model.dto.response.VehicleImageResponse;
-import com.driverental.onlinecarrental.model.enums.ImageCategory;
 
 import java.util.List;
 
@@ -15,7 +14,7 @@ public interface VehicleImageService {
     /**
      * Get images for a vehicle by category
      */
-    List<VehicleImageResponse> getVehicleImagesByCategory(Long vehicleId, ImageCategory category);
+    List<VehicleImageResponse> getVehicleImagesByCategory(Long vehicleId, String category);
 
     /**
      * Upload and store an image for a vehicle
@@ -35,7 +34,7 @@ public interface VehicleImageService {
     /**
      * Delete all images in a category for a vehicle
      */
-    void deleteVehicleImagesByCategory(Long vehicleId, ImageCategory category);
+    void deleteVehicleImagesByCategory(Long vehicleId, String category);
 
     /**
      * Set main image for a vehicle
@@ -45,7 +44,7 @@ public interface VehicleImageService {
     /**
      * Reorder images within a category
      */
-    void reorderImages(Long vehicleId, ImageCategory category, List<Long> imageIds);
+    void reorderImages(Long vehicleId, String category, List<Long> imageIds);
 
     /**
      * Get main image for a vehicle

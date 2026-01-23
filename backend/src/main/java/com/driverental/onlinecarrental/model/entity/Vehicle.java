@@ -79,6 +79,8 @@ public class Vehicle {
 
     private String imageName;
 
+    private String mainImageName;
+
     private String imageCategory;
     
     // Store multiple image names separated by comma for car type-based retrieval

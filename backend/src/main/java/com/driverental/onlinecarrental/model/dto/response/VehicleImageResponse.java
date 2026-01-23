@@ -1,6 +1,5 @@
 package com.driverental.onlinecarrental.model.dto.response;
 
-import com.driverental.onlinecarrental.model.enums.ImageCategory;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,7 +19,7 @@ public class VehicleImageResponse {
     private Long vehicleId;
     private String imageName;
     private String imageUrl; // Full path for frontend
-    private ImageCategory category;
+    private String category;
     private Integer displayOrder;
     private String altText;
     private String description;
