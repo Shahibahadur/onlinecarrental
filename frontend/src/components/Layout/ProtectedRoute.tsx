@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import type { RootState } from '../../store';
 
@@ -10,9 +10,11 @@ interface ProtectedRouteProps {
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, adminOnly = false }) => {
   const { isAuthenticated, user } = useSelector((state: RootState) => state.auth);
+  const location = useLocation();
 
   if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
+    // Remember where the user wanted to go so Login can send them back
+    return <Navigate to="/login" replace state={{ returnTo: location.pathname }} />;
   }
 
   if (adminOnly) {
