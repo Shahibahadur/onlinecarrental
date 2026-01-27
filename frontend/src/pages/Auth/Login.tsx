@@ -37,13 +37,14 @@ const Login: React.FC = () => {
       // Store the token
       localStorage.setItem('authToken', response.data.token);
       
-      // Store user data in Redux
+      // Store user data in Redux (including role from backend)
       const user = {
         id: response.data.email, // Using email as ID temporarily
         email: response.data.email,
         firstName: response.data.firstName,
         lastName: response.data.lastName,
         phone: '',
+        role: response.data.role,
       };
       
       dispatch(setUser(user));

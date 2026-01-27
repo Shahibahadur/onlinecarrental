@@ -15,8 +15,11 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, adminOnly = f
     return <Navigate to="/login" replace />;
   }
 
-  if (adminOnly && user?.email !== 'admin@rental.com') {
-    return <Navigate to="/" replace />;
+  if (adminOnly) {
+    const role = user?.role?.toUpperCase();
+    if (role !== 'ADMIN') {
+      return <Navigate to="/" replace />;
+    }
   }
 
   return <>{children}</>;
