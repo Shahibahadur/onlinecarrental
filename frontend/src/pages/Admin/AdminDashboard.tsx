@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { Users, Car, Calendar, DollarSign, TrendingUp, AlertCircle, CheckCircle, Clock, X } from 'lucide-react';
+import { Users, Car, Calendar, DollarSign, TrendingUp, AlertCircle, CheckCircle, Clock, X, Images } from 'lucide-react';
 import { adminAPI } from '../../api/admin';
 import { formatCurrency } from '../../constants/locale';
 import BookingManagement from './BookingManagement';
 import UserManagement from './UserManagement';
 import VehicleManagement from './VehicleManagement';
+import VehicleImagesManagement from './VehicleImagesManagement';
 
 const AdminDashboard: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'overview' | 'vehicles' | 'bookings' | 'users'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'vehicles' | 'bookings' | 'users' | 'images'>('overview');
 
   const { data: stats, isLoading: statsLoading } = useQuery({
     queryKey: ['adminStats'],
@@ -33,6 +34,7 @@ const AdminDashboard: React.FC = () => {
     { id: 'vehicles', label: 'Vehicles', icon: Car },
     { id: 'bookings', label: 'Bookings', icon: Calendar },
     { id: 'users', label: 'Users', icon: Users },
+    { id: 'images', label: 'Images', icon: Images },
   ];
 
   return (
@@ -239,6 +241,9 @@ const AdminDashboard: React.FC = () => {
 
         {/* Users Tab */}
         {activeTab === 'users' && <UserManagement />}
+
+        {/* Images Tab */}
+        {activeTab === 'images' && <VehicleImagesManagement />}
       </div>
     </div>
   );

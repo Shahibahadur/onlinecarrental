@@ -140,6 +140,34 @@ export interface PaginatedResponse<T> {
   numberOfElements?: number;
 }
 
+// Vehicle image types for admin management
+export interface VehicleImage {
+  id: number;
+  vehicleId: number;
+  imageName: string;
+  imageUrl: string;
+  category: string;
+  displayOrder: number;
+  altText?: string | null;
+  description?: string | null;
+  isActive: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface AdminImageListResponse {
+  vehicleId: number;
+  vehicleInfo: string;
+  images: VehicleImage[];
+}
+
+export interface AdminImageDeleteResponse {
+  success: boolean;
+  message: string;
+  imageId: number;
+  fileName: string;
+}
+
 export const adminAPI = {
   // Dashboard Statistics
   getStats: () =>
@@ -182,11 +210,14 @@ export const adminAPI = {
   updateVehicle: (id: string, data: Partial<Car>) =>
     axiosInstance.put(`/vehicles/${id}`, toVehicleRequest(data)),
 
-  uploadVehicleImage: (file: File, category?: string) => {
+  // Upload a raw vehicle image and get back a public image URL.
+  // This uses the generic ImageController: POST /api/images/vehicles/upload
+  // and organizes images on disk by vehicleType (SUV, SEDAN, etc.).
+  uploadVehicleImage: (file: File, vehicleType?: string) => {
     const formData = new FormData();
     formData.append('file', file);
     return axiosInstance.post<string>('/images/vehicles/upload', formData, {
-      params: { category: category || 'general' },
+      params: { vehicleType: vehicleType || 'general' },
       headers: { 'Content-Type': 'multipart/form-data' },
     });
   },
@@ -227,4 +258,65 @@ export const adminAPI = {
 
   deleteReview: (id: string) =>
     axiosInstance.delete(`/admin/reviews/${id}`),
+
+  // Vehicle Image Management (AdminVehicleImageController + VehicleImageController)
+
+  /**
+   * List images grouped by vehicle and optional category.
+   * If vehicleId is provided, returns a single entry for that vehicle.
+   */
+  listVehicleImages: (params?: { vehicleId?: number | string; category?: string }) =>
+    axiosInstance.get<AdminImageListResponse[]>('/admin/images/vehicles/list', {
+      params,
+    }),
+
+  /**
+   * List filesystem categories from uploads/vehicles (keys are category names).
+   */
+  listImageCategories: () =>
+    axiosInstance.get<Record<string, string[]>>('/admin/images/vehicles/filesystem/by-category'),
+
+  /**
+   * Upload and attach an image to a specific vehicle and category.
+   * This uses AdminVehicleImageController and persists both file and DB record.
+   */
+  uploadVehicleImageForVehicle: (
+    vehicleId: number | string,
+    category: string,
+    file: File,
+    options?: { altText?: string; description?: string },
+  ) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    if (options?.altText) formData.append('altText', options.altText);
+    if (options?.description) formData.append('description', options.description);
+
+    return axiosInstance.post<VehicleImage>(
+      `/admin/images/vehicles/upload/${vehicleId}/${encodeURIComponent(category)}`,
+      formData,
+      {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      },
+    );
+  },
+
+  /**
+   * Delete a vehicle image (removes both DB record and file).
+   */
+  deleteVehicleImage: (imageId: number | string) =>
+    axiosInstance.delete<AdminImageDeleteResponse>(`/admin/images/vehicles/${imageId}`),
+
+  /**
+   * Reorder images within a category for a vehicle.
+   * Uses VehicleImageController's reorder endpoint.
+   */
+  reorderVehicleImages: (
+    vehicleId: number | string,
+    category: string,
+    imageIds: Array<number | string>,
+  ) =>
+    axiosInstance.post<void>(
+      `/vehicle-images/vehicle/${vehicleId}/category/${encodeURIComponent(category)}/reorder`,
+      imageIds,
+    ),
 };
