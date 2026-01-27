@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import authReducer from './auth.store';
+import authReducer from './slices/authSlice';
 import searchReducer from './search.store';
 import bookingReducer from './booking.store';
 
