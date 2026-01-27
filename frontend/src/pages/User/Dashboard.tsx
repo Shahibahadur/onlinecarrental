@@ -32,16 +32,24 @@ const Dashboard: React.FC = () => {
     },
   });
 
-  const filteredBookings = bookings?.filter((booking: any) => {
+  // Normalize bookings into a simple array in case the API returns a paginated object
+  const bookingList: any[] = Array.isArray(bookings)
+    ? bookings
+    : (bookings && Array.isArray((bookings as any).content)
+        ? (bookings as any).content
+        : []);
+
+  const filteredBookings = bookingList.filter((booking: any) => {
     if (activeTab === 'all') return true;
     return booking.status?.toLowerCase() === activeTab;
-  }) || [];
+  });
 
   const stats = {
-    total: bookings?.length || 0,
-    completed: bookings?.filter((b: any) => b.status?.toLowerCase() === 'completed').length || 0,
-    pending: bookings?.filter((b: any) => b.status?.toLowerCase() === 'pending').length || 0,
-    totalSpent: bookings?.filter((b: any) => b.status?.toLowerCase() === 'completed')
+    total: bookingList.length || 0,
+    completed: bookingList.filter((b: any) => b.status?.toLowerCase() === 'completed').length || 0,
+    pending: bookingList.filter((b: any) => b.status?.toLowerCase() === 'pending').length || 0,
+    totalSpent: bookingList
+      .filter((b: any) => b.status?.toLowerCase() === 'completed')
       .reduce((sum: number, b: any) => sum + (b.totalPrice || 0), 0) || 0,
   };
 
