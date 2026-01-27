@@ -17,7 +17,10 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, adminOnly = f
 
   if (adminOnly) {
     const role = user?.role?.toUpperCase();
-    if (role !== 'ADMIN') {
+    const isLegacyAdminEmail = user?.email === 'admin@rental.com';
+
+    // Allow access if the backend role is ADMIN or if it's the legacy hard-coded admin email
+    if (role !== 'ADMIN' && !isLegacyAdminEmail) {
       return <Navigate to="/" replace />;
     }
   }
