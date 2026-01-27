@@ -57,7 +57,7 @@ const Header: React.FC = () => {
           <div className="hidden md:flex items-center">
             {isAuthenticated ? (
               <div className="flex items-center space-x-3">
-                {user?.email === 'admin@rental.com' ? (
+                {user?.role?.toUpperCase() === 'ADMIN' ? (
                   <Link
                     to="/admin"
                     className="px-4 py-2 text-sm font-medium text-neutral-900 hover:text-primary-600 transition-colors"
@@ -130,7 +130,7 @@ const Header: React.FC = () => {
               ))}
               {isAuthenticated ? (
                 <>
-                  {user?.email === 'admin@rental.com' ? (
+                  {user?.role?.toUpperCase() === 'ADMIN' ? (
                     <Link
                       to="/admin"
                       className="px-3 py-2 text-base font-medium text-neutral-900 hover:text-primary-600"

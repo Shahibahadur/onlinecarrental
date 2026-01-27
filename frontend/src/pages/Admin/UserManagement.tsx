@@ -137,7 +137,7 @@ const UserManagement: React.FC = () => {
                       <td className="px-6 py-4 whitespace-nowrap">
                         <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
                           <Shield className="h-3 w-3 mr-1" />
-                          {user.email === 'admin@rental.com' ? 'Admin' : 'User'}
+                          {(user as any).role?.toString().toUpperCase() === 'ADMIN' ? 'Admin' : 'User'}
                         </span>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
@@ -154,16 +154,14 @@ const UserManagement: React.FC = () => {
                           >
                             <Edit className="h-4 w-4" />
                           </button>
-                          {user.email !== 'admin@rental.com' && (
-                            <button
-                              onClick={() => handleDelete(user.id, user.email || '')}
-                              className="text-red-600 hover:text-red-900"
-                              title="Delete User"
-                              disabled={deleteMutation.isPending}
-                            >
-                              <Trash2 className="h-4 w-4" />
-                            </button>
-                          )}
+                          <button
+                            onClick={() => handleDelete(user.id, user.email || '')}
+                            className="text-red-600 hover:text-red-900"
+                            title="Delete User"
+                            disabled={deleteMutation.isPending}
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </button>
                         </div>
                       </td>
                     </tr>

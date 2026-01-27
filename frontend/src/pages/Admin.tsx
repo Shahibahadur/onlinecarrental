@@ -52,7 +52,9 @@ const Admin: React.FC = () => {
     },
   ];
 
-  if (!user || user.email !== 'admin@rental.com') {
+  const role = user?.role?.toUpperCase();
+
+  if (!user || role !== 'ADMIN') {
     return (
       <div className="min-h-screen bg-neutral-50 flex items-center justify-center">
         <div className="text-center">

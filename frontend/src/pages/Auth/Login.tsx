@@ -12,13 +12,6 @@ const Login: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   
-  // Get return URL from navigation state or URL params
-  const getReturnUrl = () => {
-    const state = location.state as { returnTo?: string } | null;
-    const params = new URLSearchParams(location.search);
-    return state?.returnTo || params.get('returnTo') || '/dashboard';
-  };
-
   const handleLogin = async (data: any) => {
     try {
       setError(null);
@@ -49,8 +42,15 @@ const Login: React.FC = () => {
       
       dispatch(setUser(user));
       
-      // Redirect to return URL or dashboard
-      const returnUrl = getReturnUrl();
+      // Redirect:
+      // 1) If there is an explicit returnTo (coming from ProtectedRoute or URL), use that
+      // 2) Otherwise, send ADMIN users to /admin and normal users to /dashboard
+      const state = location.state as { returnTo?: string } | null;
+      const params = new URLSearchParams(location.search);
+      const explicitReturn = state?.returnTo || params.get('returnTo');
+      const isAdmin = String(response.data.role || '').toUpperCase() === 'ADMIN';
+      const fallback = isAdmin ? '/admin' : '/dashboard';
+      const returnUrl = explicitReturn || fallback;
       navigate(returnUrl, { replace: true });
     } catch (err: any) {
       console.error('Login error:', err);
