@@ -4,7 +4,10 @@ sdk list java | grep installed
  sdk default  java 21.0.9-ms
  nvm install 20
  nvm use 20
- sudo apt install -y mysql
+ sudo apt install -y default-mysql-client
+ sudo apt install -y default-mysql-server
+ sudo service mysql start
+ sudo mysql -u root -p
 
  select user, host from mysql.user;
  drop user 'root'@'localhost';

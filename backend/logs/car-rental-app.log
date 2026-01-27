@@ -1452,3 +1452,282 @@ java.lang.NullPointerException: Cannot read field "generatedClass" because "data
     from
         vehicles v1_0
 2026-01-23T13:00:15.035Z  INFO 99419 --- [scheduling-1] c.d.o.service.impl.SearchServiceImpl     : Search index rebuilt with 0 keywords
+2026-01-23T14:23:48.589Z  INFO 27494 --- [restartedMain] c.d.o.OnlineCarRentalApplication         : Starting OnlineCarRentalApplication using Java 21.0.9 with PID 27494 (/workspaces/onlinecarrental/backend/target/classes started by codespace in /workspaces/onlinecarrental/backend)
+2026-01-23T14:23:48.591Z  INFO 27494 --- [restartedMain] c.d.o.OnlineCarRentalApplication         : No active profile set, falling back to 1 default profile: "default"
+2026-01-23T14:23:48.664Z  INFO 27494 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-01-23T14:23:48.666Z  INFO 27494 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-01-23T14:23:50.176Z  INFO 27494 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-01-23T14:23:50.179Z  INFO 27494 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-23T14:23:50.339Z  INFO 27494 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 152 ms. Found 8 JPA repository interfaces.
+2026-01-23T14:23:50.359Z  INFO 27494 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-01-23T14:23:50.360Z  INFO 27494 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-01-23T14:23:50.378Z  INFO 27494 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.BookingRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T14:23:50.379Z  INFO 27494 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.ImageCategoryRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T14:23:50.379Z  INFO 27494 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.PaymentRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T14:23:50.379Z  INFO 27494 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.PriceConfigRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T14:23:50.379Z  INFO 27494 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.ReviewRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T14:23:50.380Z  INFO 27494 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.UserRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T14:23:50.381Z  INFO 27494 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.VehicleImageRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T14:23:50.381Z  INFO 27494 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.VehicleRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-01-23T14:23:50.381Z  INFO 27494 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 12 ms. Found 0 Redis repository interfaces.
+2026-01-23T14:23:50.969Z  INFO 27494 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-01-23T14:23:50.980Z  INFO 27494 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-23T14:23:50.981Z  INFO 27494 --- [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.16]
+2026-01-23T14:23:51.016Z  INFO 27494 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-01-23T14:23:51.016Z  INFO 27494 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2349 ms
+2026-01-23T14:23:51.171Z  INFO 27494 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-01-23T14:23:51.255Z  INFO 27494 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.3.1.Final
+2026-01-23T14:23:51.285Z  INFO 27494 --- [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-01-23T14:23:51.545Z  INFO 27494 --- [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-01-23T14:23:51.566Z  INFO 27494 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-01-23T14:23:51.932Z  INFO 27494 --- [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@2f175cbe
+2026-01-23T14:23:51.934Z  INFO 27494 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-01-23T14:23:51.980Z  WARN 27494 --- [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-01-23T14:23:53.073Z  INFO 27494 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-01-23T14:23:53.118Z DEBUG 27494 --- [restartedMain] org.hibernate.SQL                        : 
+    create table bookings (
+        id bigint not null auto_increment,
+        cancelled_at datetime(6),
+        confirmed_at datetime(6),
+        created_at datetime(6),
+        dropoff_location varchar(255),
+        end_date date,
+        pickup_location varchar(255),
+        start_date date,
+        status enum ('PENDING','CONFIRMED','ACTIVE','COMPLETED','CANCELLED'),
+        total_price decimal(38,2),
+        user_id bigint,
+        vehicle_id bigint,
+        primary key (id)
+    ) engine=InnoDB
+2026-01-23T14:23:53.175Z DEBUG 27494 --- [restartedMain] org.hibernate.SQL                        : 
+    create table image_categories (
+        id bigint not null auto_increment,
+        created_at datetime(6),
+        description varchar(255),
+        is_active bit,
+        is_default bit,
+        name varchar(255) not null,
+        updated_at datetime(6),
+        primary key (id)
+    ) engine=InnoDB
+2026-01-23T14:23:53.199Z DEBUG 27494 --- [restartedMain] org.hibernate.SQL                        : 
+    create table payments (
+        id bigint not null auto_increment,
+        amount decimal(38,2),
+        completed_at datetime(6),
+        created_at datetime(6),
+        payment_method enum ('CREDIT_CARD','DEBIT_CARD','PAYPAL','ESEWA','CASH','BANK_TRANSFER'),
+        status enum ('PENDING','PROCESSING','COMPLETED','FAILED','REFUNDED'),
+        transaction_id varchar(255),
+        booking_id bigint,
+        primary key (id)
+    ) engine=InnoDB
+2026-01-23T14:23:53.222Z DEBUG 27494 --- [restartedMain] org.hibernate.SQL                        : 
+    create table price_config (
+        id bigint not null auto_increment,
+        primary key (id)
+    ) engine=InnoDB
+2026-01-23T14:23:53.243Z DEBUG 27494 --- [restartedMain] org.hibernate.SQL                        : 
+    create table reviews (
+        id bigint not null auto_increment,
+        comment varchar(255),
+        created_at datetime(6),
+        rating integer,
+        updated_at datetime(6),
+        user_id bigint,
+        vehicle_id bigint,
+        primary key (id)
+    ) engine=InnoDB
+2026-01-23T14:23:53.268Z DEBUG 27494 --- [restartedMain] org.hibernate.SQL                        : 
+    create table users (
+        id bigint not null auto_increment,
+        created_at datetime(6),
+        email varchar(255),
+        first_name varchar(255),
+        last_name varchar(255),
+        password varchar(255),
+        phone varchar(255),
+        role enum ('USER','ADMIN'),
+        updated_at datetime(6),
+        primary key (id)
+    ) engine=InnoDB
+2026-01-23T14:23:53.287Z DEBUG 27494 --- [restartedMain] org.hibernate.SQL                        : 
+    create table vehicle_features (
+        vehicle_id bigint not null,
+        feature varchar(255)
+    ) engine=InnoDB
+2026-01-23T14:23:53.309Z DEBUG 27494 --- [restartedMain] org.hibernate.SQL                        : 
+    create table vehicle_images (
+        id bigint not null auto_increment,
+        alt_text varchar(255),
+        category varchar(255) not null,
+        created_at datetime(6),
+        description varchar(255),
+        display_order integer,
+        image_name varchar(255),
+        image_path varchar(255),
+        is_active bit,
+        updated_at datetime(6),
+        vehicle_id bigint not null,
+        primary key (id)
+    ) engine=InnoDB
+2026-01-23T14:23:53.331Z DEBUG 27494 --- [restartedMain] org.hibernate.SQL                        : 
+    create table vehicles (
+        id bigint not null auto_increment,
+        base_price decimal(38,2),
+        created_at datetime(6),
+        daily_price decimal(38,2),
+        description varchar(255),
+        engine_capacity float(53),
+        fuel_type enum ('PETROL','DIESEL','ELECTRIC','HYBRID','PLUGIN_HYBRID','CNG','LPG','HYDROGEN','BIODIESEL','ETHANOL','SYNTHETIC'),
+        image_category varchar(255),
+        image_name varchar(255),
+        image_names TEXT,
+        image_url varchar(255),
+        is_available bit,
+        license_plate varchar(255),
+        location varchar(255),
+        luggage_capacity integer,
+        main_image_name varchar(255),
+        make varchar(255),
+        model varchar(255),
+        rating float(53),
+        review_count integer,
+        seats integer,
+        transmission varchar(255),
+        type enum ('SEDAN','SUV','HATCHBACK','CONVERTIBLE','LUXURY','SPORTS','VAN','TRUCK','ELECTRIC','HYBRID'),
+        updated_at datetime(6),
+        year integer,
+        primary key (id)
+    ) engine=InnoDB
+2026-01-23T14:23:53.375Z DEBUG 27494 --- [restartedMain] org.hibernate.SQL                        : 
+    alter table image_categories 
+       drop index UK_ci8mupno9f7ha0pae33hxvxnw
+2026-01-23T14:23:53.421Z DEBUG 27494 --- [restartedMain] org.hibernate.SQL                        : 
+    alter table image_categories 
+       add constraint UK_ci8mupno9f7ha0pae33hxvxnw unique (name)
+2026-01-23T14:23:53.435Z DEBUG 27494 --- [restartedMain] org.hibernate.SQL                        : 
+    alter table payments 
+       drop index UK_nuscjm6x127hkb15kcb8n56wo
+2026-01-23T14:23:53.438Z DEBUG 27494 --- [restartedMain] org.hibernate.SQL                        : 
+    alter table payments 
+       add constraint UK_nuscjm6x127hkb15kcb8n56wo unique (booking_id)
+2026-01-23T14:23:53.455Z DEBUG 27494 --- [restartedMain] org.hibernate.SQL                        : 
+    alter table users 
+       drop index UK_6dotkott2kjsp8vw4d0m25fb7
+2026-01-23T14:23:53.457Z DEBUG 27494 --- [restartedMain] org.hibernate.SQL                        : 
+    alter table users 
+       add constraint UK_6dotkott2kjsp8vw4d0m25fb7 unique (email)
+2026-01-23T14:23:53.471Z DEBUG 27494 --- [restartedMain] org.hibernate.SQL                        : 
+    create index idx_vehicle_id 
+       on vehicle_images (vehicle_id)
+2026-01-23T14:23:53.491Z DEBUG 27494 --- [restartedMain] org.hibernate.SQL                        : 
+    create index idx_category 
+       on vehicle_images (category)
+2026-01-23T14:23:53.509Z DEBUG 27494 --- [restartedMain] org.hibernate.SQL                        : 
+    create index idx_vehicle_category 
+       on vehicle_images (vehicle_id, category)
+2026-01-23T14:23:53.526Z DEBUG 27494 --- [restartedMain] org.hibernate.SQL                        : 
+    alter table bookings 
+       add constraint FKeyog2oic85xg7hsu2je2lx3s6 
+       foreign key (user_id) 
+       references users (id)
+2026-01-23T14:23:53.568Z DEBUG 27494 --- [restartedMain] org.hibernate.SQL                        : 
+    alter table bookings 
+       add constraint FKc0062bk3bchs55diw805avxq 
+       foreign key (vehicle_id) 
+       references vehicles (id)
+2026-01-23T14:23:53.637Z DEBUG 27494 --- [restartedMain] org.hibernate.SQL                        : 
+    alter table payments 
+       add constraint FKc52o2b1jkxttngufqp3t7jr3h 
+       foreign key (booking_id) 
+       references bookings (id)
+2026-01-23T14:23:53.687Z DEBUG 27494 --- [restartedMain] org.hibernate.SQL                        : 
+    alter table reviews 
+       add constraint FKcgy7qjc1r99dp117y9en6lxye 
+       foreign key (user_id) 
+       references users (id)
+2026-01-23T14:23:53.747Z DEBUG 27494 --- [restartedMain] org.hibernate.SQL                        : 
+    alter table reviews 
+       add constraint FKr37h09550sodud7wxf2uvgprp 
+       foreign key (vehicle_id) 
+       references vehicles (id)
+2026-01-23T14:23:53.810Z DEBUG 27494 --- [restartedMain] org.hibernate.SQL                        : 
+    alter table vehicle_features 
+       add constraint FK5gpmfcffxs7w11yckeuvwd3jk 
+       foreign key (vehicle_id) 
+       references vehicles (id)
+2026-01-23T14:23:53.861Z DEBUG 27494 --- [restartedMain] org.hibernate.SQL                        : 
+    alter table vehicle_images 
+       add constraint FKp6gw8mt61ktmsk5nuc4qid7i8 
+       foreign key (vehicle_id) 
+       references vehicles (id)
+2026-01-23T14:23:53.983Z  INFO 27494 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-01-23T14:23:54.269Z  INFO 27494 --- [restartedMain] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-01-23T14:23:56.047Z  INFO 27494 --- [restartedMain] c.d.o.service.impl.SearchServiceImpl     : Rebuilding search index...
+2026-01-23T14:23:56.116Z DEBUG 27494 --- [restartedMain] org.hibernate.SQL                        : 
+    select
+        v1_0.id,
+        v1_0.base_price,
+        v1_0.created_at,
+        v1_0.daily_price,
+        v1_0.description,
+        v1_0.engine_capacity,
+        v1_0.fuel_type,
+        v1_0.image_category,
+        v1_0.image_name,
+        v1_0.image_names,
+        v1_0.image_url,
+        v1_0.is_available,
+        v1_0.license_plate,
+        v1_0.location,
+        v1_0.luggage_capacity,
+        v1_0.main_image_name,
+        v1_0.make,
+        v1_0.model,
+        v1_0.rating,
+        v1_0.review_count,
+        v1_0.seats,
+        v1_0.transmission,
+        v1_0.type,
+        v1_0.updated_at,
+        v1_0.year 
+    from
+        vehicles v1_0
+2026-01-23T14:23:56.126Z  INFO 27494 --- [restartedMain] c.d.o.service.impl.SearchServiceImpl     : Search index rebuilt with 0 keywords
+2026-01-23T14:23:56.272Z  WARN 27494 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-01-23T14:23:57.113Z  INFO 27494 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-01-23T14:23:57.154Z  INFO 27494 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path ''
+2026-01-23T14:23:57.167Z  INFO 27494 --- [restartedMain] c.d.o.OnlineCarRentalApplication         : Started OnlineCarRentalApplication in 9.218 seconds (process running for 9.723)
+2026-01-23T14:23:57.172Z  INFO 27494 --- [scheduling-1] c.d.o.service.impl.SearchServiceImpl     : Rebuilding search index...
+2026-01-23T14:23:57.177Z DEBUG 27494 --- [scheduling-1] org.hibernate.SQL                        : 
+    select
+        v1_0.id,
+        v1_0.base_price,
+        v1_0.created_at,
+        v1_0.daily_price,
+        v1_0.description,
+        v1_0.engine_capacity,
+        v1_0.fuel_type,
+        v1_0.image_category,
+        v1_0.image_name,
+        v1_0.image_names,
+        v1_0.image_url,
+        v1_0.is_available,
+        v1_0.license_plate,
+        v1_0.location,
+        v1_0.luggage_capacity,
+        v1_0.main_image_name,
+        v1_0.make,
+        v1_0.model,
+        v1_0.rating,
+        v1_0.review_count,
+        v1_0.seats,
+        v1_0.transmission,
+        v1_0.type,
+        v1_0.updated_at,
+        v1_0.year 
+    from
+        vehicles v1_0
+2026-01-23T14:23:57.180Z  INFO 27494 --- [scheduling-1] c.d.o.service.impl.SearchServiceImpl     : Search index rebuilt with 0 keywords
