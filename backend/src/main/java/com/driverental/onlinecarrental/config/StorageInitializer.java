@@ -13,7 +13,7 @@ import java.nio.file.Path;
 @RequiredArgsConstructor
 public class StorageInitializer implements ApplicationRunner {
 
-    @Value("${app.storage.vehicles-dir:backend/uploads/vehicles}")
+    @Value("${app.storage.vehicles-dir:../uploads/vehicles}")
     private String vehiclesDir;
 
     private Path vehiclesBaseDir() {

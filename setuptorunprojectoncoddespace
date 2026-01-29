@@ -2,8 +2,8 @@ sudo apt update
 sudo apt install -y openjdk-21-jdk
 sdk list java | grep installed
  sdk default  java 21.0.9-ms
- nvm install 20
- nvm use 20
+ nvm install 22
+ nvm use 22
  sudo apt install -y default-mysql-client
  sudo apt install -y default-mysql-server
  sudo service mysql start
@@ -22,3 +22,5 @@ CREATE DATABASE car_rental_db;
 CREATE USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'root';
 GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
+
+https://example.com/testing.jpg

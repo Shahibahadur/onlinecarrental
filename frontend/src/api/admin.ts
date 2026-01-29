@@ -168,6 +168,17 @@ export interface AdminImageDeleteResponse {
   fileName: string;
 }
 
+// ImageCategory response from server
+export interface ImageCategoryResponse {
+  id: number;
+  name: string;
+  description?: string;
+  isDefault?: boolean;
+  isActive?: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
 export const adminAPI = {
   // Dashboard Statistics
   getStats: () =>
@@ -275,6 +286,13 @@ export const adminAPI = {
    */
   listImageCategories: () =>
     axiosInstance.get<Record<string, string[]>>('/admin/images/vehicles/filesystem/by-category'),
+
+  // Image category management (DB-backed)
+  getImageCategories: () =>
+    axiosInstance.get<ImageCategoryResponse[]>('/admin/image-categories'),
+
+  createImageCategory: (data: { name: string; description?: string }) =>
+    axiosInstance.post<ImageCategoryResponse>('/admin/image-categories', data),
 
   /**
    * Upload and attach an image to a specific vehicle and category.

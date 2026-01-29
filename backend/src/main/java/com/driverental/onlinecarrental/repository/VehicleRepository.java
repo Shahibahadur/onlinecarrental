@@ -19,6 +19,9 @@ public interface VehicleRepository extends JpaRepository<Vehicle, Long>, JpaSpec
 
     List<Vehicle> findByIsAvailableTrue();
 
+    @Query("SELECT DISTINCT v FROM Vehicle v LEFT JOIN FETCH v.features")
+    List<Vehicle> findAllWithFeatures();
+
     Page<Vehicle> findByIsAvailableTrue(Pageable pageable);
 
     @Query("SELECT v FROM Vehicle v WHERE v.isAvailable = true AND (" +

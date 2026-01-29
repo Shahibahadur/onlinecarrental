@@ -23,7 +23,7 @@ public class VehicleImageServiceImpl implements VehicleImageService {
     private final VehicleImageRepository vehicleImageRepository;
     private final VehicleRepository vehicleRepository;
 
-    @Value("${app.storage.vehicles-dir:uploads/vehicles}")
+    @Value("${app.storage.vehicles-dir:../uploads/vehicles}")
     private String vehiclesDir;
 
     @Value("${app.api.base-url:http://localhost:8080}")

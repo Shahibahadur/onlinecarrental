@@ -19,7 +19,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ImageStorageServiceImpl implements ImageStorageService {
 
-    @Value("${app.storage.vehicles-dir:backend/uploads/vehicles}")
+    @Value("${app.storage.vehicles-dir:../uploads/vehicles}")
     private String vehiclesDir;
 
     private Path vehiclesBaseDir() {

@@ -16,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import jakarta.annotation.PostConstruct;
 import java.util.*;
@@ -37,9 +38,10 @@ public class SearchServiceImpl implements SearchService {
 
     @Override
     @Scheduled(fixedRate = 3600000) // Rebuild every hour
+    @Transactional(readOnly = true)
     public void rebuildSearchIndex() {
         log.info("Rebuilding search index...");
-        List<Vehicle> allVehicles = vehicleRepository.findAll();
+        List<Vehicle> allVehicles = vehicleRepository.findAllWithFeatures();
         searchKeywords = extractKeywords(allVehicles);
         ahoCorasick.buildTrie(searchKeywords);
         log.info("Search index rebuilt with {} keywords", searchKeywords.size());
@@ -48,15 +50,18 @@ public class SearchServiceImpl implements SearchService {
     private List<String> extractKeywords(List<Vehicle> vehicles) {
         Set<String> keywords = new HashSet<>();
         for (Vehicle vehicle : vehicles) {
-            keywords.add(vehicle.getMake().toLowerCase());
-            keywords.add(vehicle.getModel().toLowerCase());
-            keywords.add(vehicle.getType().name().toLowerCase());
-            keywords.add(vehicle.getFuelType().name().toLowerCase());
-            keywords.add(vehicle.getTransmission().toLowerCase());
-            keywords.add(vehicle.getLocation().toLowerCase());
-            keywords.addAll(vehicle.getFeatures().stream()
-                    .map(String::toLowerCase)
-                    .collect(Collectors.toSet()));
+            if (vehicle.getMake() != null) keywords.add(vehicle.getMake().toLowerCase());
+            if (vehicle.getModel() != null) keywords.add(vehicle.getModel().toLowerCase());
+            if (vehicle.getType() != null) keywords.add(vehicle.getType().name().toLowerCase());
+            if (vehicle.getFuelType() != null) keywords.add(vehicle.getFuelType().name().toLowerCase());
+            if (vehicle.getTransmission() != null) keywords.add(vehicle.getTransmission().toLowerCase());
+            if (vehicle.getLocation() != null) keywords.add(vehicle.getLocation().toLowerCase());
+            if (vehicle.getFeatures() != null) {
+                keywords.addAll(vehicle.getFeatures().stream()
+                        .filter(Objects::nonNull)
+                        .map(String::toLowerCase)
+                        .collect(Collectors.toSet()));
+            }
         }
         return new ArrayList<>(keywords);
     }

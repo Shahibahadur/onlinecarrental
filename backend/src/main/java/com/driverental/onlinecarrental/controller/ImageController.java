@@ -20,7 +20,7 @@ import java.util.UUID;
 @Tag(name = "Images", description = "Image serving and upload APIs")
 public class ImageController {
 
-    @Value("${app.storage.vehicles-dir:uploads/vehicles}")
+    @Value("${app.storage.vehicles-dir:../uploads/vehicles}")
     private String vehiclesDir;
 
     /**

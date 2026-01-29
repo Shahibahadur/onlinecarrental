@@ -50,7 +50,7 @@ app:
     expiration: 86400000
   
   storage:
-    vehicles-dir: backend/uploads/vehicles
+    vehicles-dir: ../uploads/vehicles
   
   esewa:
     product-code: EPAYTEST
