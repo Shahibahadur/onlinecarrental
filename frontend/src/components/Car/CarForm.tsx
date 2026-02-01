@@ -73,10 +73,6 @@ const CarForm: React.FC<CarFormProps> = ({ car, onSubmit, onSuccess, onCancel, i
         setErrors({ brand: 'Brand is required' });
         return;
       }
-      if (!data.image) {
-        setErrors({ image: 'Image URL is required' });
-        return;
-      }
 
       setErrors({});
 
@@ -164,6 +160,19 @@ const CarForm: React.FC<CarFormProps> = ({ car, onSubmit, onSuccess, onCancel, i
           )}
         </div>
         <div>
+          <label className="block text-sm font-medium text-neutral-700 mb-1">Registration Number</label>
+          <input
+            type="text"
+            value={formData.registrationNumber || ''}
+            onChange={(e) => handleChange('registrationNumber', e.target.value)}
+            placeholder="e.g., BA-1-234"
+            className="w-full px-4 py-2 border border-neutral-300 rounded-lg"
+          />
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 gap-4">
+        <div>
           <label className="block text-sm font-medium text-neutral-700 mb-1">Type</label>
           <select
             value={formData.type}
@@ -172,6 +181,19 @@ const CarForm: React.FC<CarFormProps> = ({ car, onSubmit, onSuccess, onCancel, i
           >
             <option value="">Select Type</option>
             {CAR_TYPES.map(type => (
+              <option key={type} value={type}>{type}</option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-neutral-700 mb-1">Fuel Type</label>
+          <select
+            value={formData.fuelType}
+            onChange={(e) => handleChange('fuelType', e.target.value)}
+            className="w-full px-4 py-2 border border-neutral-300 rounded-lg"
+          >
+            <option value="">Select Fuel Type</option>
+            {FUEL_TYPES.map(type => (
               <option key={type} value={type}>{type}</option>
             ))}
           </select>
@@ -224,20 +246,6 @@ const CarForm: React.FC<CarFormProps> = ({ car, onSubmit, onSuccess, onCancel, i
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-neutral-700 mb-1">Image URL</label>
-        <input
-          type="url"
-          value={formData.image}
-          onChange={(e) => handleChange('image', e.target.value)}
-          placeholder="https://example.com/car-image.jpg"
-          className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
-        />
-        {errors.image && (
-          <p className="text-red-600 text-xs mt-1">{errors.image}</p>
-        )}
-      </div>
-
-      <div>
         <label className="block text-sm font-medium text-neutral-700 mb-1">Upload Image</label>
         <input
           type="file"
@@ -246,10 +254,18 @@ const CarForm: React.FC<CarFormProps> = ({ car, onSubmit, onSuccess, onCancel, i
           onChange={async (e) => {
             const file = e.target.files?.[0];
             if (!file) return;
+            if (!formData.name || !String(formData.name).trim()) {
+              setErrors((prev) => ({ ...prev, name: 'Please enter vehicle Name before uploading an image' }));
+              return;
+            }
 
             try {
               setIsUploading(true);
-              const resp = await adminAPI.uploadVehicleImage(file, String(formData.type || 'general'));
+              const resp = await adminAPI.uploadVehicleImage(
+                file,
+                String(formData.type || 'general'),
+                formData.name
+              );
               handleChange('image', resp.data);
               setErrors((prev) => {
                 const next = { ...prev };
@@ -262,6 +278,16 @@ const CarForm: React.FC<CarFormProps> = ({ car, onSubmit, onSuccess, onCancel, i
           }}
           className="w-full px-4 py-2 border border-neutral-300 rounded-lg"
         />
+        {isUploading && (
+          <p className="text-sm text-neutral-600 mt-2">Uploading...</p>
+        )}
+        {formData.image && !isUploading && (
+          <div className="mt-2 p-2 bg-green-50 border border-green-200 rounded-lg">
+            <p className="text-sm text-green-700">
+              ✓ Image uploaded: <span className="font-medium">{formData.name}</span>
+            </p>
+          </div>
+        )}
       </div>
 
       <div>

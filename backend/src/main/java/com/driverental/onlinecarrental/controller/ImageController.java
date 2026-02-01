@@ -20,7 +20,7 @@ import java.util.UUID;
 @Tag(name = "Images", description = "Image serving and upload APIs")
 public class ImageController {
 
-    @Value("${app.storage.vehicles-dir:../uploads/vehicles}")
+    @Value("${app.storage.vehicles-dir:uploads/vehicles}")
     private String vehiclesDir;
 
     /**
@@ -30,7 +30,7 @@ public class ImageController {
     @Operation(summary = "Serve vehicle image by type and filename")
     public ResponseEntity<Resource> getVehicleImage(@PathVariable String vehicleType, @PathVariable String filename) throws Exception {
         String safeType = sanitizeVehicleType(vehicleType);
-        Path file = Path.of(vehiclesDir).resolve(safeType).resolve(filename).normalize();
+        Path file = getVehiclesBasePath().resolve(safeType).resolve(filename).normalize();
         Resource resource = new UrlResource(file.toUri());
 
         if (!resource.exists() || !resource.isReadable()) {
@@ -51,7 +51,7 @@ public class ImageController {
     @GetMapping("/vehicles/{filename}")
     @Operation(summary = "Serve vehicle image by filename (legacy)")
     public ResponseEntity<Resource> getVehicleImageLegacy(@PathVariable String filename) throws Exception {
-        Path file = Path.of(vehiclesDir).resolve(filename).normalize();
+        Path file = getVehiclesBasePath().resolve(filename).normalize();
         Resource resource = new UrlResource(file.toUri());
 
         if (!resource.exists() || !resource.isReadable()) {
@@ -66,6 +66,15 @@ public class ImageController {
                 .body(resource);
     }
 
+    private Path getVehiclesBasePath() {
+        Path base = Path.of(vehiclesDir);
+        if (!base.isAbsolute()) {
+            Path cwd = Path.of("").toAbsolutePath().normalize();
+            base = cwd.resolve(vehiclesDir).normalize();
+        }
+        return base;
+    }
+
     /**
      * Upload vehicle image with car type organization
      */
@@ -73,7 +82,8 @@ public class ImageController {
     @Operation(summary = "Upload vehicle image organized by vehicle type")
     public ResponseEntity<String> uploadVehicleImage(
             @RequestParam("file") MultipartFile file,
-            @RequestParam(value = "vehicleType", required = true) String vehicleType) throws Exception {
+            @RequestParam(value = "vehicleType", required = true) String vehicleType,
+            @RequestParam(value = "vehicleName", required = false) String vehicleName) throws Exception {
 
         if (file.isEmpty()) {
             return ResponseEntity.badRequest().body("File is empty");
@@ -91,10 +101,17 @@ public class ImageController {
             ext = ".jpg";
         }
 
-        String filename = UUID.randomUUID().toString().replace("-", "") + ext;
+        // Use vehicle name if provided, otherwise use UUID
+        String filename;
+        if (vehicleName != null && !vehicleName.isBlank()) {
+            // Sanitize vehicle name to use as filename
+            filename = vehicleName.replaceAll("[^a-zA-Z0-9_-]", "_") + ext;
+        } else {
+            filename = UUID.randomUUID().toString().replace("-", "") + ext;
+        }
 
         // Create type-specific directory
-        Path dir = Path.of(vehiclesDir).resolve(safeType);
+        Path dir = getVehiclesBasePath().resolve(safeType);
         Files.createDirectories(dir);
         Path target = dir.resolve(filename);
 

@@ -75,8 +75,6 @@ public class Vehicle {
     @Size(max = 100)
     private String location;
 
-    private String imageUrl;
-
     private String imageName;
 
     private String mainImageName;
@@ -90,6 +88,8 @@ public class Vehicle {
     private String description;
 
     private String licensePlate;
+
+    private String registrationNumber;
 
     private Double engineCapacity;
 

@@ -34,7 +34,8 @@ interface VehicleRequest {
   basePrice: number;
   dailyPrice: number;
   location: string;
-  imageUrl?: string;
+  imageName?: string;
+  registrationNumber?: string;
   isAvailable: boolean;
 }
 
@@ -100,6 +101,14 @@ const toVehicleRequest = (data: Partial<Car> & any): VehicleRequest => {
   const dailyPrice = Number(data.pricePerDay ?? 0);
   const luggageCapacity = Number(data.luggage ?? data.luggageCapacity ?? 0);
 
+  // Extract imageName from image URL
+  // Format: /api/images/vehicles/{type}/{filename}
+  let imageName = '';
+  if (data.image && typeof data.image === 'string') {
+    const match = data.image.match(/\/api\/images\/vehicles\/[^/]+\/([^/]+)(?:\?.*)?$/);
+    imageName = match ? match[1] : '';
+  }
+
   return {
     make,
     model,
@@ -113,7 +122,8 @@ const toVehicleRequest = (data: Partial<Car> & any): VehicleRequest => {
     basePrice,
     dailyPrice,
     location: String(data.location || ''),
-    imageUrl: String(data.image || ''),
+    imageName,
+    registrationNumber: data.registrationNumber || '',
     isAvailable: data.available !== false,
   };
 };
@@ -224,11 +234,14 @@ export const adminAPI = {
   // Upload a raw vehicle image and get back a public image URL.
   // This uses the generic ImageController: POST /api/images/vehicles/upload
   // and organizes images on disk by vehicleType (SUV, SEDAN, etc.).
-  uploadVehicleImage: (file: File, vehicleType?: string) => {
+  uploadVehicleImage: (file: File, vehicleType?: string, vehicleName?: string) => {
     const formData = new FormData();
     formData.append('file', file);
     return axiosInstance.post<string>('/images/vehicles/upload', formData, {
-      params: { vehicleType: vehicleType || 'general' },
+      params: { 
+        vehicleType: vehicleType || 'general',
+        ...(vehicleName && { vehicleName })
+      },
       headers: { 'Content-Type': 'multipart/form-data' },
     });
   },

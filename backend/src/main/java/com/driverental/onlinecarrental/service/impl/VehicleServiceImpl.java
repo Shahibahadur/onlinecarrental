@@ -40,30 +40,7 @@ public class VehicleServiceImpl implements VehicleService {
 
     @Override
     public VehicleResponse createVehicle(VehicleRequest request) {
-        String imageName = null;
         String imageCategory = request.getType() != null ? request.getType().name().toLowerCase(Locale.ROOT) : "general";
-        if (request.getImageUrl() != null && !request.getImageUrl().isBlank()) {
-            String imageUrl = request.getImageUrl();
-            int idx = imageUrl.indexOf("/api/images/vehicles/");
-            if (idx > 0) {
-                imageUrl = imageUrl.substring(idx);
-            }
-
-            Matcher m = VEHICLE_IMAGE_WITH_CATEGORY.matcher(imageUrl);
-            if (m.matches()) {
-                imageCategory = m.group(1);
-                imageName = m.group(2);
-            } else if (imageUrl.startsWith("/api/images/vehicles/")) {
-                imageName = imageUrl.substring("/api/images/vehicles/".length());
-                imageCategory = "general";
-            } else if (request.getImageUrl().startsWith("http://") || request.getImageUrl().startsWith("https://")) {
-                try {
-                    imageName = imageStorageService.downloadVehicleImage(request.getImageUrl(), imageCategory);
-                } catch (Exception e) {
-                    imageName = null;
-                }
-            }
-        }
 
         Vehicle vehicle = Vehicle.builder()
                 .make(request.getMake())
@@ -78,8 +55,9 @@ public class VehicleServiceImpl implements VehicleService {
                 .basePrice(request.getBasePrice())
                 .dailyPrice(request.getDailyPrice())
                 .location(request.getLocation())
-                .imageName(imageName)
-                .imageCategory(imageName != null ? imageCategory : null)
+                .imageName(request.getImageName())
+                   .imageCategory(imageCategory)
+                .registrationNumber(request.getRegistrationNumber())
                 .isAvailable(request.getIsAvailable())
                 .rating(0.0)
                 .reviewCount(0)
@@ -106,38 +84,18 @@ public class VehicleServiceImpl implements VehicleService {
         vehicle.setBasePrice(request.getBasePrice());
         vehicle.setDailyPrice(request.getDailyPrice());
         vehicle.setLocation(request.getLocation());
-
-        if (request.getImageUrl() != null && !request.getImageUrl().isBlank()) {
-            String imageCategory = request.getType() != null ? request.getType().name().toLowerCase(Locale.ROOT) : "general";
-            String imageUrl = request.getImageUrl();
-            int idx = imageUrl.indexOf("/api/images/vehicles/");
-            if (idx > 0) {
-                imageUrl = imageUrl.substring(idx);
-            }
-
-            Matcher m = VEHICLE_IMAGE_WITH_CATEGORY.matcher(imageUrl);
-            if (m.matches()) {
-                String imageName = m.group(2);
-                vehicle.setImageName(imageName);
-                vehicle.setImageCategory(m.group(1));
-                vehicle.setImageUrl(null);
-            } else if (imageUrl.startsWith("/api/images/vehicles/")) {
-                String imageName = imageUrl.substring("/api/images/vehicles/".length());
-                vehicle.setImageName(imageName);
-                vehicle.setImageCategory("general");
-                vehicle.setImageUrl(null);
-            } else if (request.getImageUrl().startsWith("http://") || request.getImageUrl().startsWith("https://")) {
-                try {
-                    String imageName = imageStorageService.downloadVehicleImage(request.getImageUrl(), imageCategory);
-                    vehicle.setImageName(imageName);
-                    vehicle.setImageCategory(imageCategory);
-                    vehicle.setImageUrl(null);
-                } catch (Exception e) {
-                    vehicle.setImageUrl(null);
-                }
-            }
+        
+        String imageCategory = request.getType() != null ? request.getType().name().toLowerCase(Locale.ROOT) : "general";
+        vehicle.setImageCategory(imageCategory);
+        
+        if (request.getImageName() != null && !request.getImageName().isBlank()) {
+            vehicle.setImageName(request.getImageName());
         }
-
+        
+        if (request.getRegistrationNumber() != null) {
+            vehicle.setRegistrationNumber(request.getRegistrationNumber());
+        }
+        
         vehicle.setIsAvailable(request.getIsAvailable());
 
         Vehicle updatedVehicle = vehicleRepository.save(vehicle);
@@ -174,27 +132,7 @@ public class VehicleServiceImpl implements VehicleService {
     }
 
     private VehicleResponse convertToResponse(Vehicle vehicle, boolean migrateExternalImageOnRead) {
-        if (migrateExternalImageOnRead
-                && (vehicle.getImageName() == null || vehicle.getImageName().isBlank())
-                && vehicle.getImageUrl() != null
-                && (vehicle.getImageUrl().startsWith("http://") || vehicle.getImageUrl().startsWith("https://"))) {
-            try {
-                String category = vehicle.getType() != null ? vehicle.getType().name().toLowerCase(Locale.ROOT) : "general";
-                String filename = imageStorageService.downloadVehicleImage(vehicle.getImageUrl(), category);
-                vehicle.setImageName(filename);
-                vehicle.setImageCategory(category);
-                vehicle.setImageUrl(null);
-                vehicleRepository.save(vehicle);
-            } catch (Exception ignored) {
-            }
-        }
-
-        String imageUrl = vehicle.getImageUrl();
-        if (!migrateExternalImageOnRead
-                && imageUrl != null
-                && (imageUrl.startsWith("http://") || imageUrl.startsWith("https://"))) {
-            imageUrl = null;
-        }
+        String imageUrl = null;
         if (vehicle.getImageName() != null && !vehicle.getImageName().isBlank()) {
             if (vehicle.getImageCategory() != null && !vehicle.getImageCategory().isBlank()) {
                 imageUrl = "/api/images/vehicles/" + vehicle.getImageCategory() + "/" + vehicle.getImageName();

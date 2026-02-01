@@ -33,11 +33,20 @@ public class AdminVehicleImageController {
     private final VehicleImageRepository vehicleImageRepository;
     private final ImageStorageService imageStorageService;
 
-    @Value("${app.storage.vehicles-dir:../uploads/vehicles}")
+    @Value("${app.storage.vehicles-dir:uploads/vehicles}")
     private String vehiclesDir;
 
     @Value("${app.api.base-url:http://localhost:8080}")
     private String apiBaseUrl;
+
+    private Path getVehiclesBasePath() {
+        Path base = Path.of(vehiclesDir);
+        if (!base.isAbsolute()) {
+            Path cwd = Path.of("").toAbsolutePath().normalize();
+            base = cwd.resolve(vehiclesDir).normalize();
+        }
+        return base;
+    }
 
     public record MigrationResult(int total, int migrated, int skipped, int failed, List<Long> failedVehicleIds) {
     }
@@ -103,10 +112,11 @@ public class AdminVehicleImageController {
      */
     @PostMapping("/upload/{vehicleId}/{category}")
     @Operation(summary = "Upload image for vehicle by category (Admin only)")
-    public ResponseEntity<VehicleImageResponse> uploadVehicleImageByCategory(
+        public ResponseEntity<VehicleImageResponse> uploadVehicleImageByCategory(
             @PathVariable Long vehicleId,
             @PathVariable String category,
             @RequestParam("file") MultipartFile file,
+            @RequestParam(value = "vehicleName", required = false) String vehicleName,
             @RequestParam(value = "altText", required = false) String altText,
             @RequestParam(value = "description", required = false) String description) throws Exception {
         
@@ -129,10 +139,20 @@ public class AdminVehicleImageController {
             ext = ".jpg";
         }
 
-        String filename = UUID.randomUUID().toString().replace("-", "") + ext;
+        // Determine filename: prefer provided vehicleName, then vehicle make+model, then registrationNumber, then id
+        String filename;
+        if (vehicleName != null && !vehicleName.isBlank()) {
+            filename = vehicleName.replaceAll("[^a-zA-Z0-9_-]", "_") + ext;
+        } else if (vehicle.getMake() != null && vehicle.getModel() != null && !(vehicle.getMake().isBlank() || vehicle.getModel().isBlank())) {
+            filename = (vehicle.getMake() + "_" + vehicle.getModel()).replaceAll("[^a-zA-Z0-9_-]", "_") + ext;
+        } else if (vehicle.getRegistrationNumber() != null && !vehicle.getRegistrationNumber().isBlank()) {
+            filename = vehicle.getRegistrationNumber().replaceAll("[^a-zA-Z0-9_-]", "_") + ext;
+        } else {
+            filename = vehicle.getId() + ext;
+        }
 
         // Create category-specific directory
-        Path dir = Path.of(vehiclesDir).resolve(categoryName);
+        Path dir = getVehiclesBasePath().resolve(categoryName);
         Files.createDirectories(dir);
         Path target = dir.resolve(filename);
 
@@ -170,7 +190,7 @@ public class AdminVehicleImageController {
         
         try {
             // Delete file from storage
-            Path filePath = Path.of(vehiclesDir).resolve(category).resolve(imageName);
+            Path filePath = getVehiclesBasePath().resolve(category).resolve(imageName);
             if (Files.exists(filePath)) {
                 Files.delete(filePath);
             }
@@ -202,7 +222,7 @@ public class AdminVehicleImageController {
     public ResponseEntity<Map<String, List<String>>> listImagesByCategory() throws IOException {
         Map<String, List<String>> categoryImages = new TreeMap<>();
         
-        Path vehiclesPath = Path.of(vehiclesDir);
+        Path vehiclesPath = getVehiclesBasePath();
         if (!Files.exists(vehiclesPath)) {
             return ResponseEntity.ok(categoryImages);
         }
@@ -282,40 +302,14 @@ public class AdminVehicleImageController {
     public ResponseEntity<MigrationResult> migrateVehicleImages(
             @RequestParam(value = "max", required = false) Integer max
     ) {
+        // Migration of external image URLs is not supported because the Vehicle entity
+        // no longer stores external `imageUrl` values. Return skipped for all entries.
         List<Vehicle> vehicles = vehicleRepository.findAll();
-
         int limit = max != null && max > 0 ? Math.min(max, vehicles.size()) : vehicles.size();
-
         int migrated = 0;
-        int skipped = 0;
+        int skipped = limit;
         int failed = 0;
         List<Long> failedIds = new ArrayList<>();
-
-        for (int i = 0; i < limit; i++) {
-            Vehicle v = vehicles.get(i);
-
-            boolean hasLocal = v.getImageName() != null && !v.getImageName().isBlank();
-            boolean hasExternal = v.getImageUrl() != null
-                    && (v.getImageUrl().startsWith("http://") || v.getImageUrl().startsWith("https://"));
-
-            if (hasLocal || !hasExternal) {
-                skipped++;
-                continue;
-            }
-
-            try {
-                String category = v.getType() != null ? v.getType().name().toLowerCase(Locale.ROOT) : "general";
-                String filename = imageStorageService.downloadVehicleImage(v.getImageUrl(), category);
-                v.setImageName(filename);
-                v.setImageCategory(category);
-                v.setImageUrl(null);
-                vehicleRepository.save(v);
-                migrated++;
-            } catch (Exception e) {
-                failed++;
-                failedIds.add(v.getId());
-            }
-        }
 
         return ResponseEntity.ok(new MigrationResult(limit, migrated, skipped, failed, failedIds));
     }

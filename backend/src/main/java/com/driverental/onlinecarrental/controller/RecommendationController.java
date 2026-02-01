@@ -125,6 +125,15 @@ public class RecommendationController {
     }
 
     private VehicleResponse convertToResponse(Vehicle vehicle) {
+        String imageUrl = null;
+        if (vehicle.getImageName() != null && !vehicle.getImageName().isBlank()) {
+            if (vehicle.getImageCategory() != null && !vehicle.getImageCategory().isBlank()) {
+                imageUrl = "/api/images/vehicles/" + vehicle.getImageCategory() + "/" + vehicle.getImageName();
+            } else {
+                imageUrl = "/api/images/vehicles/" + vehicle.getImageName();
+            }
+        }
+
         return VehicleResponse.builder()
                 .id(vehicle.getId())
                 .make(vehicle.getMake())
@@ -132,7 +141,7 @@ public class RecommendationController {
                 .year(vehicle.getYear())
                 .type(vehicle.getType())
                 .dailyPrice(vehicle.getDailyPrice())
-                .imageUrl(vehicle.getImageUrl())
+                .imageUrl(imageUrl)
                 .isAvailable(vehicle.getIsAvailable())
                 .rating(vehicle.getRating())
                 .reviewCount(vehicle.getReviewCount())

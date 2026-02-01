@@ -16,6 +16,7 @@ export interface Car {
   available: boolean;
   rating: number;
   reviews: number;
+  registrationNumber?: string;
 }
 
 export interface CarFilters {

@@ -18,7 +18,7 @@ public class CorsConfig {
 
         // Explicitly allow your Codespaces frontend URL
         configuration.setAllowedOrigins(
-            List.of("https://organic-rotary-phone-4j9pj594vv5pcjrgw-5173.app.github.dev")
+            List.of("https://super-pancake-5gvrx59g57r4fvppq-5173.app.github.dev")
         );
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         configuration.setAllowedHeaders(List.of("*"));

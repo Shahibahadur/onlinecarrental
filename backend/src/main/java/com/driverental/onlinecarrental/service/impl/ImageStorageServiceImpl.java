@@ -19,18 +19,15 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class ImageStorageServiceImpl implements ImageStorageService {
 
-    @Value("${app.storage.vehicles-dir:../uploads/vehicles}")
+    @Value("${app.storage.vehicles-dir:uploads/vehicles}")
     private String vehiclesDir;
 
     private Path vehiclesBaseDir() {
-        String normalized = vehiclesDir == null ? "" : vehiclesDir.replace('\\', '/');
         Path base = Path.of(vehiclesDir);
-        if (!base.isAbsolute() && normalized.startsWith("backend/")) {
+        if (!base.isAbsolute()) {
+            // For relative paths, resolve them relative to the backend project root
             Path cwd = Path.of("").toAbsolutePath().normalize();
-            Path leaf = cwd.getFileName();
-            if (leaf != null && leaf.toString().equalsIgnoreCase("backend")) {
-                base = Path.of(normalized.substring("backend/".length()));
-            }
+            base = cwd.resolve(vehiclesDir).normalize();
         }
         return base;
     }

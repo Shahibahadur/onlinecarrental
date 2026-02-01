@@ -61,7 +61,9 @@ public class VehicleRequest {
     @Size(max = 100)
     private String location;
 
-    private String imageUrl;
+    private String imageName;
+
+    private String registrationNumber;
 
     @NotNull
     private Boolean isAvailable;
