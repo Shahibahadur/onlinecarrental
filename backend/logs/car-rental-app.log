@@ -15810,3 +15810,249 @@ io.jsonwebtoken.ExpiredJwtException: JWT expired at 2026-01-28T15:59:46Z. Curren
         users u1_0 
     limit
         ?, ?
+2026-01-29T16:17:03.629Z DEBUG 65070 --- [http-nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+2026-01-29T16:17:03.636Z DEBUG 65070 --- [http-nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        v1_0.id,
+        v1_0.base_price,
+        v1_0.created_at,
+        v1_0.daily_price,
+        v1_0.description,
+        v1_0.engine_capacity,
+        v1_0.fuel_type,
+        v1_0.image_category,
+        v1_0.image_name,
+        v1_0.image_names,
+        v1_0.image_url,
+        v1_0.is_available,
+        v1_0.license_plate,
+        v1_0.location,
+        v1_0.luggage_capacity,
+        v1_0.main_image_name,
+        v1_0.make,
+        v1_0.model,
+        v1_0.rating,
+        v1_0.review_count,
+        v1_0.seats,
+        v1_0.transmission,
+        v1_0.type,
+        v1_0.updated_at,
+        v1_0.year 
+    from
+        vehicles v1_0 
+    limit
+        ?, ?
+2026-01-29T16:17:03.640Z DEBUG 65070 --- [http-nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        f1_0.vehicle_id,
+        f1_0.feature 
+    from
+        vehicle_features f1_0 
+    where
+        f1_0.vehicle_id=?
+2026-01-29T16:17:03.641Z DEBUG 65070 --- [http-nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        f1_0.vehicle_id,
+        f1_0.feature 
+    from
+        vehicle_features f1_0 
+    where
+        f1_0.vehicle_id=?
+2026-01-29T16:17:08.437Z DEBUG 65070 --- [http-nio-8080-exec-4] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+2026-01-29T16:17:08.444Z DEBUG 65070 --- [http-nio-8080-exec-4] org.hibernate.SQL                        : 
+    select
+        b1_0.id,
+        b1_0.cancelled_at,
+        b1_0.confirmed_at,
+        b1_0.created_at,
+        b1_0.dropoff_location,
+        b1_0.end_date,
+        b1_0.pickup_location,
+        b1_0.start_date,
+        b1_0.status,
+        b1_0.total_price,
+        b1_0.user_id,
+        b1_0.vehicle_id 
+    from
+        bookings b1_0 
+    limit
+        ?, ?
+2026-01-29T16:17:09.298Z DEBUG 65070 --- [http-nio-8080-exec-5] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+2026-01-29T16:17:09.305Z DEBUG 65070 --- [http-nio-8080-exec-5] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    limit
+        ?, ?
+2026-01-29T16:17:09.768Z DEBUG 65070 --- [http-nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+2026-01-29T16:17:09.776Z DEBUG 65070 --- [http-nio-8080-exec-1] org.hibernate.SQL                        : 
+    select
+        ice1_0.id,
+        ice1_0.created_at,
+        ice1_0.description,
+        ice1_0.is_active,
+        ice1_0.is_default,
+        ice1_0.name,
+        ice1_0.updated_at 
+    from
+        image_categories ice1_0
+2026-01-29T16:17:09.930Z DEBUG 65070 --- [http-nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+2026-01-29T16:17:09.932Z DEBUG 65070 --- [http-nio-8080-exec-2] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+2026-01-29T16:17:09.942Z DEBUG 65070 --- [http-nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        v1_0.id,
+        v1_0.base_price,
+        v1_0.created_at,
+        v1_0.daily_price,
+        v1_0.description,
+        v1_0.engine_capacity,
+        v1_0.fuel_type,
+        v1_0.image_category,
+        v1_0.image_name,
+        v1_0.image_names,
+        v1_0.image_url,
+        v1_0.is_available,
+        v1_0.license_plate,
+        v1_0.location,
+        v1_0.luggage_capacity,
+        v1_0.main_image_name,
+        v1_0.make,
+        v1_0.model,
+        v1_0.rating,
+        v1_0.review_count,
+        v1_0.seats,
+        v1_0.transmission,
+        v1_0.type,
+        v1_0.updated_at,
+        v1_0.year 
+    from
+        vehicles v1_0
+2026-01-29T16:17:09.952Z DEBUG 65070 --- [http-nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        vi1_0.id,
+        vi1_0.alt_text,
+        vi1_0.category,
+        vi1_0.created_at,
+        vi1_0.description,
+        vi1_0.display_order,
+        vi1_0.image_name,
+        vi1_0.image_path,
+        vi1_0.is_active,
+        vi1_0.updated_at,
+        vi1_0.vehicle_id 
+    from
+        vehicle_images vi1_0 
+    where
+        vi1_0.vehicle_id=? 
+        and vi1_0.is_active
+2026-01-29T16:17:09.954Z DEBUG 65070 --- [http-nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        vi1_0.id,
+        vi1_0.alt_text,
+        vi1_0.category,
+        vi1_0.created_at,
+        vi1_0.description,
+        vi1_0.display_order,
+        vi1_0.image_name,
+        vi1_0.image_path,
+        vi1_0.is_active,
+        vi1_0.updated_at,
+        vi1_0.vehicle_id 
+    from
+        vehicle_images vi1_0 
+    where
+        vi1_0.vehicle_id=? 
+        and vi1_0.is_active
