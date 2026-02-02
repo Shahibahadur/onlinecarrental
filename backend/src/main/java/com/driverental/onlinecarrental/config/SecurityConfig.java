@@ -16,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.client.RestTemplate;
 
 @Configuration
 @EnableWebSecurity
@@ -37,7 +38,7 @@ public class SecurityConfig {
                         .permitAll()
                         .requestMatchers("/api/images/vehicles/upload").hasRole("ADMIN")
                         .requestMatchers("/api/images/**").permitAll()
-                        .requestMatchers("/api/payment/esewa/**").permitAll()
+                        .requestMatchers("/api/payment/esewa/**", "/api/payment/khalti/**").permitAll()
                         .requestMatchers("/api/vehicles/search", "/api/vehicles/{id}").permitAll()
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
@@ -65,5 +66,10 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
     }
 }

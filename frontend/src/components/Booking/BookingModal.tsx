@@ -77,15 +77,27 @@ const BookingModal: React.FC<BookingModalProps> = ({ car, isOpen, onClose, onSuc
       queryClient.invalidateQueries({ queryKey: ['userBookings'] });
       queryClient.invalidateQueries({ queryKey: ['bookings'] });
 
-      const bookingId = (resp as any)?.data?.id;
+      // Defensive logging and bookingId extraction (support multiple response shapes)
+      // Axios responses typically have the payload in resp.data, but some runtimes
+      // or wrappers may return the data directly. Handle both.
+      // eslint-disable-next-line no-console
+      console.log('Booking create response:', resp);
+      const bookingId = (resp as any)?.data?.id ?? (resp as any)?.id ?? (resp as any)?.data?.bookingId;
       const paymentMethod = bookingData.paymentMethod;
 
-      if (paymentMethod === 'esewa' && bookingId) {
-        setTimeout(() => {
-          onClose();
-          navigate(`/esewa/checkout?bookingId=${bookingId}`);
-        }, 800);
-        return;
+      if (paymentMethod === 'esewa') {
+        if (bookingId) {
+          setTimeout(() => {
+            onClose();
+            navigate(`/esewa/checkout?bookingId=${bookingId}`);
+          }, 800);
+          return;
+        } else {
+          // eslint-disable-next-line no-console
+          console.error('Booking ID missing after booking creation:', resp);
+          setError('Booking created but booking ID not returned. Please try again or contact support.');
+          return;
+        }
       }
 
       setTimeout(() => {
