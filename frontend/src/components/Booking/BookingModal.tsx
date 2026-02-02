@@ -72,30 +72,47 @@ const BookingModal: React.FC<BookingModalProps> = ({ car, isOpen, onClose, onSuc
 
   const bookingMutation = useMutation({
     mutationFn: (data: BookingRequest) => bookingAPI.create(data),
-    onSuccess: (resp) => {
+    onSuccess: async (resp) => {
       setSuccess(true);
       queryClient.invalidateQueries({ queryKey: ['userBookings'] });
       queryClient.invalidateQueries({ queryKey: ['bookings'] });
 
-      // Defensive logging and bookingId extraction (support multiple response shapes)
-      // Axios responses typically have the payload in resp.data, but some runtimes
-      // or wrappers may return the data directly. Handle both.
+      // Defensive logging and bookingId extraction
       // eslint-disable-next-line no-console
       console.log('Booking create response:', resp);
-      const bookingId = (resp as any)?.data?.id ?? (resp as any)?.id ?? (resp as any)?.data?.bookingId;
+      let bookingId = (resp as any)?.data?.id ?? (resp as any)?.id ?? (resp as any)?.data?.bookingId;
       const paymentMethod = bookingData.paymentMethod;
 
       if (paymentMethod === 'esewa') {
-        if (bookingId) {
-          setTimeout(() => {
-            onClose();
-            navigate(`/esewa/checkout?bookingId=${bookingId}`);
-          }, 800);
-          return;
-        } else {
+        try {
+          // If no bookingId returned, try fetching user's bookings and find the latest matching booking
+          if (!bookingId) {
+            // eslint-disable-next-line no-console
+            console.warn('Booking ID missing, attempting to fetch latest user booking');
+            const userBookingsResp = await bookingAPI.getByUser();
+            const bookings: any[] = (userBookingsResp as any).data ?? (userBookingsResp as any);
+            // Try to find booking matching vehicle and dates
+            const found = bookings?.find(b => b.vehicleId === car.id && b.startDate === bookingData.startDate && b.endDate === bookingData.endDate);
+            bookingId = found?.id ?? bookings?.[0]?.id;
+          }
+
+          if (bookingId) {
+            setTimeout(() => {
+              onClose();
+              navigate(`/esewa/checkout?bookingId=${bookingId}`);
+            }, 800);
+            return;
+          }
+
+          // If still no bookingId, show error
           // eslint-disable-next-line no-console
-          console.error('Booking ID missing after booking creation:', resp);
-          setError('Booking created but booking ID not returned. Please try again or contact support.');
+          console.error('Booking ID missing after booking creation and fallback lookup:', resp);
+          setError('Booking created but booking ID not found. Please try again or contact support.');
+          return;
+        } catch (e: any) {
+          // eslint-disable-next-line no-console
+          console.error('Error resolving bookingId for eSewa flow:', e);
+          setError(e?.response?.data?.message || e?.message || 'Failed to initiate eSewa checkout');
           return;
         }
       }
