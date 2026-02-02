@@ -7,6 +7,7 @@ interface VehicleResponse {
   id: number | string;
   make: string;
   model: string;
+  year?: number;
   type: string;
   dailyPrice: number;
   location: string;
@@ -15,6 +16,7 @@ interface VehicleResponse {
   seats: number;
   luggageCapacity: number;
   imageUrl?: string | null;
+  description?: string;
   isAvailable?: boolean;
   rating?: number;
   reviewCount?: number;
@@ -35,6 +37,7 @@ interface VehicleRequest {
   dailyPrice: number;
   location: string;
   imageName?: string;
+  description?: string;
   registrationNumber?: string;
   isAvailable: boolean;
 }
@@ -56,8 +59,6 @@ const normalizeVehicleType = (type?: string): Car['type'] => {
   if (t === 'HATCHBACK') return 'Hatchback';
   if (t === 'LUXURY') return 'Luxury';
   if (t === 'SPORTS') return 'Sports';
-  if (t === 'ELECTRIC') return 'Electric';
-  if (t === 'HYBRID') return 'Electric';
   return 'SUV';
 };
 
@@ -90,6 +91,8 @@ const transformVehicleToCar = (vehicle: VehicleResponse): Car => {
     available: vehicle.isAvailable ?? true,
     rating: vehicle.rating || 0,
     reviews: vehicle.reviewCount || 0,
+    year: vehicle.year,
+    description: vehicle.description || '',
   };
 };
 
@@ -123,6 +126,7 @@ const toVehicleRequest = (data: Partial<Car> & any): VehicleRequest => {
     dailyPrice,
     location: String(data.location || ''),
     imageName,
+    description: data.description || '',
     registrationNumber: data.registrationNumber || '',
     isAvailable: data.available !== false,
   };

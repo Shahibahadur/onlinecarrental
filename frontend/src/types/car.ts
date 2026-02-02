@@ -3,7 +3,7 @@ export interface Car {
   name: string;
   model: string;
   brand: string;
-  type: 'SUV' | 'Sedan' | 'Hatchback' | 'Luxury' | 'Sports' | 'Electric';
+  type: 'SUV' | 'Sedan' | 'Hatchback' | 'Luxury' | 'Sports';
   pricePerDay: number;
   location: string;
   transmission: 'Automatic' | 'Manual';
@@ -17,6 +17,8 @@ export interface Car {
   rating: number;
   reviews: number;
   registrationNumber?: string;
+  year?: number;
+  description?: string;
 }
 
 export interface CarFilters {

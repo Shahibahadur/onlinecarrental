@@ -57,6 +57,7 @@ public class VehicleServiceImpl implements VehicleService {
                 .location(request.getLocation())
                 .imageName(request.getImageName())
                    .imageCategory(imageCategory)
+                .description(request.getDescription())
                 .registrationNumber(request.getRegistrationNumber())
                 .isAvailable(request.getIsAvailable())
                 .rating(0.0)
@@ -84,6 +85,10 @@ public class VehicleServiceImpl implements VehicleService {
         vehicle.setBasePrice(request.getBasePrice());
         vehicle.setDailyPrice(request.getDailyPrice());
         vehicle.setLocation(request.getLocation());
+        
+        if (request.getDescription() != null) {
+            vehicle.setDescription(request.getDescription());
+        }
         
         String imageCategory = request.getType() != null ? request.getType().name().toLowerCase(Locale.ROOT) : "general";
         vehicle.setImageCategory(imageCategory);

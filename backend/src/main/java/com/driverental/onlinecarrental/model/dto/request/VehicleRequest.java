@@ -63,6 +63,8 @@ public class VehicleRequest {
 
     private String imageName;
 
+    private String description;
+
     private String registrationNumber;
 
     @NotNull

@@ -8,7 +8,5 @@ public enum VehicleType {
     LUXURY,
     SPORTS,
     VAN,
-    TRUCK,
-    ELECTRIC,
-    HYBRID
+    TRUCK
 }

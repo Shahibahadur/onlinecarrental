@@ -17,6 +17,7 @@ interface VehicleResponse {
   dailyPrice: number;
   location: string;
   imageUrl?: string;
+  description?: string;
   isAvailable: boolean;
   rating?: number;
   reviewCount?: number;
@@ -34,8 +35,6 @@ const transformVehicleToCar = (vehicle: VehicleResponse): Car => {
     if (t === 'HATCHBACK') return 'Hatchback';
     if (t === 'LUXURY') return 'Luxury';
     if (t === 'SPORTS') return 'Sports';
-    if (t === 'ELECTRIC') return 'Electric';
-    if (t === 'HYBRID') return 'Electric';
     return 'SUV';
   };
 
@@ -75,6 +74,8 @@ const transformVehicleToCar = (vehicle: VehicleResponse): Car => {
     available: vehicle.isAvailable ?? true,
     rating: vehicle.rating || 0,
     reviews: vehicle.reviewCount || 0,
+    year: vehicle.year,
+    description: vehicle.description || '',
   };
 };
 

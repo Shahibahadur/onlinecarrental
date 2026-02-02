@@ -1,7 +1,7 @@
 export const CARS_CDN_BASE_URL = '';
 
 export const CAR_TYPES = [
-  'SUV', 'Sedan', 'Hatchback', 'Luxury', 'Sports', 'Electric'
+  'SUV', 'Sedan', 'Hatchback', 'Luxury', 'Sports'
 ] as const;
 
 export const TRANSMISSION_TYPES = [

@@ -9,8 +9,6 @@ export type VehicleType =
   | 'HATCHBACK'
   | 'LUXURY'
   | 'SPORTS'
-  | 'ELECTRIC'
-  | 'HYBRID'
   | 'VAN'
   | 'TRUCK'
   | 'CONVERTIBLE';
@@ -21,8 +19,6 @@ export const VEHICLE_TYPE_DISPLAY: Record<VehicleType, string> = {
   HATCHBACK: 'Hatchback',
   LUXURY: 'Luxury',
   SPORTS: 'Sports',
-  ELECTRIC: 'Electric',
-  HYBRID: 'Hybrid',
   VAN: 'Van',
   TRUCK: 'Truck',
   CONVERTIBLE: 'Convertible',

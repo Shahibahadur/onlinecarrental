@@ -34,6 +34,8 @@ const CarForm: React.FC<CarFormProps> = ({ car, onSubmit, onSuccess, onCancel, i
       available: true,
       rating: 5,
       reviews: 0,
+      year: new Date().getFullYear(),
+      description: '',
     }
   );
 
@@ -302,6 +304,18 @@ const CarForm: React.FC<CarFormProps> = ({ car, onSubmit, onSuccess, onCancel, i
         <p className="text-xs text-neutral-500 mt-1">Enter features separated by commas</p>
       </div>
 
+      <div>
+        <label className="block text-sm font-medium text-neutral-700 mb-1">Description</label>
+        <textarea
+          placeholder="Enter detailed description of the vehicle..."
+          value={formData.description || ''}
+          onChange={(e) => handleChange('description', e.target.value)}
+          rows={4}
+          className="w-full px-4 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
+        />
+        <p className="text-xs text-neutral-500 mt-1">Provide additional details about the vehicle</p>
+      </div>
+
       <div className="grid grid-cols-2 gap-4">
         <div>
           <label className="flex items-center">
@@ -331,17 +345,14 @@ const CarForm: React.FC<CarFormProps> = ({ car, onSubmit, onSuccess, onCancel, i
           </select>
         </div>
         <div>
-          <label className="block text-sm font-medium text-neutral-700 mb-1">Fuel Type</label>
-          <select
-            value={formData.fuelType}
-            onChange={(e) => handleChange('fuelType', e.target.value)}
+          <label className="block text-sm font-medium text-neutral-700 mb-1">Year</label>
+          <input
+            type="number"
+            value={formData.year || ''}
+            onChange={(e) => handleChange('year', e.target.value)}
+            placeholder="e.g., 2020"
             className="w-full px-4 py-2 border border-neutral-300 rounded-lg"
-          >
-            <option value="">Select Fuel Type</option>
-            {FUEL_TYPES.map(type => (
-              <option key={type} value={type}>{type}</option>
-            ))}
-          </select>
+          />
         </div>
       </div>
 

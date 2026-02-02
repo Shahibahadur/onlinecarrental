@@ -5,8 +5,6 @@ public enum ImageCategory {
     SPORTS("Sports"),
     CONVERTIBLE("Convertible"),
     HATCHBACK("Hatchback"),
-    HYBRID("Hybrid"),
-    ELECTRIC("Electric"),
     SUV("SUV");
 
     private final String description;
