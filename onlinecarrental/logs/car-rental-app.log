@@ -1,0 +1,114 @@
+2026-02-05T15:35:25.162Z  INFO 167303 --- [restartedMain] c.d.o.OnlineCarRentalApplication         : Starting OnlineCarRentalApplication using Java 21.0.9 with PID 167303 (/workspaces/onlinecarrental/backend/target/classes started by codespace in /workspaces/onlinecarrental/backend)
+2026-02-05T15:35:25.169Z  INFO 167303 --- [restartedMain] c.d.o.OnlineCarRentalApplication         : No active profile set, falling back to 1 default profile: "default"
+2026-02-05T15:35:25.269Z  INFO 167303 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-02-05T15:35:25.269Z  INFO 167303 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-02-05T15:35:26.220Z  INFO 167303 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-02-05T15:35:26.221Z  INFO 167303 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-02-05T15:35:26.427Z  INFO 167303 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 201 ms. Found 8 JPA repository interfaces.
+2026-02-05T15:35:26.445Z  INFO 167303 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-02-05T15:35:26.446Z  INFO 167303 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-02-05T15:35:26.461Z  INFO 167303 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.BookingRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-02-05T15:35:26.462Z  INFO 167303 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.ImageCategoryRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-02-05T15:35:26.462Z  INFO 167303 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.PaymentRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-02-05T15:35:26.462Z  INFO 167303 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.PriceConfigRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-02-05T15:35:26.462Z  INFO 167303 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.ReviewRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-02-05T15:35:26.463Z  INFO 167303 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.UserRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-02-05T15:35:26.463Z  INFO 167303 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.VehicleImageRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-02-05T15:35:26.464Z  INFO 167303 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.VehicleRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-02-05T15:35:26.464Z  INFO 167303 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 12 ms. Found 0 Redis repository interfaces.
+2026-02-05T15:35:27.043Z  INFO 167303 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-02-05T15:35:27.054Z  INFO 167303 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-02-05T15:35:27.054Z  INFO 167303 --- [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.16]
+2026-02-05T15:35:27.087Z  INFO 167303 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-02-05T15:35:27.088Z  INFO 167303 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1817 ms
+2026-02-05T15:35:27.237Z  INFO 167303 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-02-05T15:35:27.286Z  INFO 167303 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.3.1.Final
+2026-02-05T15:35:27.324Z  INFO 167303 --- [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-02-05T15:35:27.486Z  INFO 167303 --- [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-02-05T15:35:27.504Z  INFO 167303 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-02-05T15:35:27.788Z  INFO 167303 --- [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@5e0fed7a
+2026-02-05T15:35:27.790Z  INFO 167303 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-02-05T15:35:27.829Z  WARN 167303 --- [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-02-05T15:35:28.908Z  INFO 167303 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-02-05T15:35:29.001Z  INFO 167303 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-02-05T15:35:29.216Z  INFO 167303 --- [restartedMain] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-02-05T15:35:30.876Z  INFO 167303 --- [restartedMain] c.d.o.service.impl.SearchServiceImpl     : Rebuilding search index...
+2026-02-05T15:35:30.953Z DEBUG 167303 --- [restartedMain] org.hibernate.SQL                        : 
+    select
+        distinct v1_0.id,
+        v1_0.base_price,
+        v1_0.created_at,
+        v1_0.daily_price,
+        v1_0.description,
+        v1_0.engine_capacity,
+        f1_0.vehicle_id,
+        f1_0.feature,
+        v1_0.fuel_type,
+        v1_0.image_category,
+        v1_0.image_name,
+        v1_0.image_names,
+        v1_0.is_available,
+        v1_0.license_plate,
+        v1_0.location,
+        v1_0.luggage_capacity,
+        v1_0.main_image_name,
+        v1_0.make,
+        v1_0.model,
+        v1_0.rating,
+        v1_0.registration_number,
+        v1_0.review_count,
+        v1_0.seats,
+        v1_0.transmission,
+        v1_0.type,
+        v1_0.updated_at,
+        v1_0.year 
+    from
+        vehicles v1_0 
+    left join
+        vehicle_features f1_0 
+            on v1_0.id=f1_0.vehicle_id
+2026-02-05T15:35:30.981Z  INFO 167303 --- [restartedMain] c.d.o.service.impl.SearchServiceImpl     : Search index rebuilt with 37 keywords
+2026-02-05T15:35:31.097Z  WARN 167303 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-02-05T15:35:31.786Z  INFO 167303 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-02-05T15:35:31.816Z  INFO 167303 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path ''
+2026-02-05T15:35:31.828Z  INFO 167303 --- [restartedMain] c.d.o.OnlineCarRentalApplication         : Started OnlineCarRentalApplication in 7.157 seconds (process running for 7.67)
+2026-02-05T15:35:31.840Z  INFO 167303 --- [scheduling-1] c.d.o.service.impl.SearchServiceImpl     : Rebuilding search index...
+2026-02-05T15:35:31.842Z DEBUG 167303 --- [scheduling-1] org.hibernate.SQL                        : 
+    select
+        distinct v1_0.id,
+        v1_0.base_price,
+        v1_0.created_at,
+        v1_0.daily_price,
+        v1_0.description,
+        v1_0.engine_capacity,
+        f1_0.vehicle_id,
+        f1_0.feature,
+        v1_0.fuel_type,
+        v1_0.image_category,
+        v1_0.image_name,
+        v1_0.image_names,
+        v1_0.is_available,
+        v1_0.license_plate,
+        v1_0.location,
+        v1_0.luggage_capacity,
+        v1_0.main_image_name,
+        v1_0.make,
+        v1_0.model,
+        v1_0.rating,
+        v1_0.registration_number,
+        v1_0.review_count,
+        v1_0.seats,
+        v1_0.transmission,
+        v1_0.type,
+        v1_0.updated_at,
+        v1_0.year 
+    from
+        vehicles v1_0 
+    left join
+        vehicle_features f1_0 
+            on v1_0.id=f1_0.vehicle_id
+2026-02-05T15:35:31.855Z  INFO 167303 --- [scheduling-1] c.d.o.service.impl.SearchServiceImpl     : Search index rebuilt with 37 keywords
+2026-02-05T15:39:54.251Z  INFO 167303 --- [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 177 class path changes (0 additions, 177 deletions, 0 modifications)
+2026-02-05T15:39:54.291Z  INFO 167303 --- [Thread-5] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-02-05T15:39:54.299Z  INFO 167303 --- [Thread-5] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-02-05T15:39:54.325Z  INFO 167303 --- [Thread-5] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
