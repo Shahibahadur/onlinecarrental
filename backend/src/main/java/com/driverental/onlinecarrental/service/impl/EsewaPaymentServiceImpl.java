@@ -6,6 +6,7 @@ import com.driverental.onlinecarrental.model.entity.Booking;
 import com.driverental.onlinecarrental.model.entity.Payment;
 import com.driverental.onlinecarrental.model.enums.PaymentMethod;
 import com.driverental.onlinecarrental.model.enums.PaymentStatus;
+import com.driverental.onlinecarrental.model.exception.BusinessException;
 import com.driverental.onlinecarrental.model.exception.ResourceNotFoundException;
 import com.driverental.onlinecarrental.repository.BookingRepository;
 import com.driverental.onlinecarrental.repository.PaymentRepository;
@@ -14,20 +15,25 @@ import com.driverental.onlinecarrental.service.EsewaPaymentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import jakarta.persistence.EntityManager;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -40,6 +46,7 @@ public class EsewaPaymentServiceImpl implements EsewaPaymentService {
     private final BookingRepository bookingRepository;
     private final BookingService bookingService;
     private final RestTemplateBuilder restTemplateBuilder;
+    private final EntityManager entityManager;
 
     @Override
     @Transactional
@@ -56,19 +63,93 @@ public class EsewaPaymentServiceImpl implements EsewaPaymentService {
 
         String uuid = UUID.randomUUID().toString();
 
-        // Create/update local payment row (so we can link verification to a booking later)
+        // Handle payment record with proper transaction management
         if (booking != null) {
-            Payment payment = paymentRepository.findByBookingId(booking.getId())
-                    .orElse(Payment.builder().booking(booking).build());
-            payment.setAmount(amount);
-            payment.setPaymentMethod(PaymentMethod.ESEWA);
-            payment.setStatus(PaymentStatus.PROCESSING);
-            payment.setTransactionId(uuid);
-            paymentRepository.save(payment);
+            // First, check if payment already exists
+            Optional<Payment> existingPayment = paymentRepository.findByBookingId(booking.getId());
+            
+            if (existingPayment.isPresent()) {
+                Payment payment = existingPayment.get();
+                
+                // If already completed, reject
+                if (payment.getStatus() == PaymentStatus.COMPLETED) {
+                    throw new BusinessException("Payment already completed for this booking");
+                }
+                
+                log.info("Updating existing payment {} for booking {}", payment.getId(), booking.getId());
+                
+                // Reuse existing transaction UUID for retry attempts
+                if (payment.getTransactionId() != null) {
+                    uuid = payment.getTransactionId();
+                } else {
+                    payment.setTransactionId(uuid);
+                }
+                
+                payment.setAmount(amount);
+                payment.setPaymentMethod(PaymentMethod.ESEWA);
+                payment.setStatus(PaymentStatus.PROCESSING);
+                paymentRepository.save(payment);
+                
+                log.info("Payment updated successfully. UUID: {}", uuid);
+            } else {
+                // Try to create new payment, but handle race condition
+                uuid = createPaymentWithRaceConditionHandling(booking, amount);
+                log.info("Payment resolved for booking {}. UUID: {}", booking.getId(), uuid);
+            }
         }
 
         Map<String, String> params = buildEsewaFormParams(uuid, amount);
         return params;
+    }
+
+    /**
+     * Creates a new payment record with race condition handling.
+     * If another thread creates the payment concurrently, we fetch and use theirs.
+     * Runs in the parent transaction context.
+     */
+    private String createPaymentWithRaceConditionHandling(Booking booking, BigDecimal amount) {
+        try {
+            // Attempt to create new payment
+            log.info("Creating new payment for booking {}", booking.getId());
+            
+            String uuid = UUID.randomUUID().toString();
+            
+            Payment payment = Payment.builder()
+                    .booking(booking)
+                    .amount(amount)
+                    .paymentMethod(PaymentMethod.ESEWA)
+                    .status(PaymentStatus.PROCESSING)
+                    .transactionId(uuid)
+                    .build();
+            
+            Payment saved = paymentRepository.save(payment);
+            log.info("Payment created successfully. ID: {}, UUID: {}", saved.getId(), uuid);
+            
+            return uuid;
+        } catch (DataIntegrityViolationException e) {
+            // Race condition: another thread created payment first
+            log.warn("Race condition detected for booking {}. Fetching existing payment created by another thread.", 
+                    booking.getId());
+            
+            // Clear the corrupted session state to prevent Hibernate assertion failures
+            entityManager.clear();
+            
+            // Fetch the payment that was created by the winning thread
+            Optional<Payment> raceWinnerPayment = paymentRepository.findByBookingId(booking.getId());
+            
+            if (raceWinnerPayment.isPresent()) {
+                Payment payment = raceWinnerPayment.get();
+                log.info("Successfully recovered from race condition. Using payment ID: {}, UUID: {}", 
+                        payment.getId(), payment.getTransactionId());
+                
+                // Return the existing transaction UUID
+                return payment.getTransactionId() != null ? payment.getTransactionId() : UUID.randomUUID().toString();
+            } else {
+                // This shouldn't happen, but handle it gracefully
+                log.error("Race condition occurred but cannot find the created payment for booking {}", booking.getId());
+                throw new BusinessException("Failed to create payment. Please try again.");
+            }
+        }
     }
 
     @Override
@@ -114,12 +195,25 @@ public class EsewaPaymentServiceImpl implements EsewaPaymentService {
     }
 
     private Map<String, String> buildEsewaFormParams(String transactionUuid, BigDecimal totalAmount) {
-        String totalAmountStr = totalAmount.stripTrailingZeros().toPlainString();
+        // Ensure the amount is properly scaled
+        totalAmount = totalAmount.setScale(2, RoundingMode.HALF_UP);
+        
+        // For eSewa requests, whole numbers should be formatted without decimals
+        // (e.g., "100" instead of "100.00") and decimals should be plain strings
+        String totalAmountForFormAndSignature = totalAmount.stripTrailingZeros().scale() <= 0
+                ? String.valueOf(totalAmount.intValue())
+                : totalAmount.toPlainString();
+
+        // Calculate amount breakdown (all charges are zero for test/basic implementation)
+        BigDecimal taxAmount = new BigDecimal("0.00");
+        BigDecimal serviceCharge = new BigDecimal("0.00");
+        BigDecimal deliveryCharge = new BigDecimal("0.00");
+        BigDecimal amount = totalAmount.subtract(taxAmount).subtract(serviceCharge).subtract(deliveryCharge);
 
         Map<String, String> params = new HashMap<>();
-        params.put("amount", totalAmountStr);
+        params.put("amount", amount.toPlainString());
         params.put("tax_amount", "0");
-        params.put("total_amount", totalAmountStr);
+        params.put("total_amount", totalAmountForFormAndSignature);
         params.put("transaction_uuid", transactionUuid);
         params.put("product_code", esewaProperties.getProductCode());
         params.put("product_service_charge", "0");
@@ -130,8 +224,9 @@ public class EsewaPaymentServiceImpl implements EsewaPaymentService {
         String signedFieldNames = "total_amount,transaction_uuid,product_code";
         params.put("signed_field_names", signedFieldNames);
 
-        String signatureMessage = "total_amount=" + totalAmountStr + ",transaction_uuid=" + transactionUuid + ",product_code="
-                + esewaProperties.getProductCode();
+        // The signature message must use the exact same formatted total_amount value as in the form
+        String signatureMessage = String.format("total_amount=%s,transaction_uuid=%s,product_code=%s",
+                totalAmountForFormAndSignature, transactionUuid, esewaProperties.getProductCode());
         params.put("signature", hmacSha256Base64(esewaProperties.getSecretKey(), signatureMessage));
 
         return params;

@@ -9,14 +9,14 @@ export type EsewaInitiateResponse = Record<string, string>;
 
 export interface PaymentRequest {
     bookingId: number;
-    paymentMethod: 'CREDIT_CARD' | 'DEBIT_CARD' | 'PAYPAL' | 'ESEWA' | 'CASH' | 'BANK_TRANSFER';
+    paymentMethod: 'KHALTI' | 'ESEWA';
 }
 
 export interface Payment {
     id: number;
     bookingId: number;
     amount: number;
-    paymentMethod: string;
+    paymentMethod: 'KHALTI' | 'ESEWA';
     status: 'PENDING' | 'PROCESSING' | 'COMPLETED' | 'FAILED' | 'REFUNDED';
     transactionId?: string;
     createdAt: string;

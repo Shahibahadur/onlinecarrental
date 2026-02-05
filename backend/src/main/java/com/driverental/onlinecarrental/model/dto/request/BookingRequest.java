@@ -1,13 +1,10 @@
 package com.driverental.onlinecarrental.model.dto.request;
 
-import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDate;
 
 @Data
 @Builder
@@ -19,12 +16,10 @@ public class BookingRequest {
     private Long vehicleId;
 
     @NotNull
-    @Future
-    private String startDate;
+    private String startDate;  // Date validation handled in BookingService
 
     @NotNull
-    @Future
-    private String endDate;
+    private String endDate;    // Date validation handled in BookingService
 
     @NotNull
     private String pickupLocation;

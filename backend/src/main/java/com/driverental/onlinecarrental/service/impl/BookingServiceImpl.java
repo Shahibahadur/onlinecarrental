@@ -24,6 +24,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -48,21 +49,31 @@ public class BookingServiceImpl implements BookingService {
             throw new BusinessException("Vehicle is not available for booking");
         }
 
-        // Check vehicle availability
-        if (!isVehicleAvailable(request.getVehicleId(), request.getStartDate(), request.getEndDate())) {
-            throw new BusinessException("Vehicle not available for selected dates");
+        // Parse and validate dates early
+        LocalDate startDate;
+        LocalDate endDate;
+        try {
+            startDate = LocalDate.parse(request.getStartDate());
+            endDate = LocalDate.parse(request.getEndDate());
+        } catch (Exception e) {
+            log.error("Invalid date format. Start: {}, End: {}", request.getStartDate(), request.getEndDate());
+            throw new BusinessException("Invalid date format. Please use YYYY-MM-DD");
         }
 
-        // Calculate price using dynamic pricing
-        LocalDate startDate = LocalDate.parse(request.getStartDate());
-        LocalDate endDate = LocalDate.parse(request.getEndDate());
-
+        // Validate date range
         if (startDate.isAfter(endDate)) {
             throw new BusinessException("Start date cannot be after end date");
         }
 
         if (startDate.isBefore(LocalDate.now())) {
             throw new BusinessException("Start date cannot be in the past");
+        }
+
+        // Check vehicle availability with detailed logging
+        if (!isVehicleAvailable(request.getVehicleId(), request.getStartDate(), request.getEndDate(), userId)) {
+            log.warn("Vehicle {} not available for dates {} to {} (user: {})", 
+                    request.getVehicleId(), startDate, endDate, userId);
+            throw new BusinessException("Vehicle not available for selected dates. Please choose different dates.");
         }
 
         BigDecimal totalPrice = pricingService.calculateBookingPrice(vehicle, startDate, endDate);
@@ -81,7 +92,8 @@ public class BookingServiceImpl implements BookingService {
                 .build();
 
         Booking savedBooking = bookingRepository.save(booking);
-        log.info("Booking created successfully: {}", savedBooking.getId());
+        log.info("Booking created successfully: {} for vehicle: {}, dates: {} to {}", 
+                savedBooking.getId(), vehicle.getId(), startDate, endDate);
 
         return convertToResponse(savedBooking);
     }
@@ -142,10 +154,11 @@ public class BookingServiceImpl implements BookingService {
             throw new BusinessException("Booking cannot be confirmed in current status: " + booking.getStatus());
         }
 
-        // Double-check vehicle availability
+        // Double-check vehicle availability (exclude this booking's user)
         if (!isVehicleAvailable(booking.getVehicle().getId(),
                 booking.getStartDate().toString(),
-                booking.getEndDate().toString())) {
+                booking.getEndDate().toString(),
+                booking.getUser().getId())) {
             throw new BusinessException("Vehicle no longer available for booking dates");
         }
 
@@ -166,7 +179,43 @@ public class BookingServiceImpl implements BookingService {
         List<Booking> conflictingBookings = bookingRepository.findConflictingBookings(
                 vehicleId, start, end);
 
+        if (!conflictingBookings.isEmpty()) {
+            log.debug("Found {} conflicting bookings for vehicle {} on dates {} to {}", 
+                    conflictingBookings.size(), vehicleId, start, end);
+            conflictingBookings.forEach(b -> 
+                    log.debug("  - Booking {}: {} ({}) to {} ({})", 
+                            b.getId(), b.getUser().getEmail(), b.getStatus(), 
+                            b.getEndDate(), b.getStatus()));
+        }
         return conflictingBookings.isEmpty();
+    }
+
+    public boolean isVehicleAvailable(Long vehicleId, String startDate, String endDate, Long userId) {
+        LocalDate start = LocalDate.parse(startDate);
+        LocalDate end = LocalDate.parse(endDate);
+
+        List<Booking> conflictingBookings = bookingRepository.findConflictingBookings(
+                vehicleId, start, end);
+
+        // Filter out user's own PENDING bookings to allow retry/modification
+        List<Booking> otherConflicts = conflictingBookings.stream()
+                .filter(b -> !b.getUser().getId().equals(userId) || 
+                           !b.getStatus().equals(BookingStatus.PENDING))
+                .collect(Collectors.toList());
+
+        if (!otherConflicts.isEmpty()) {
+            log.warn("Vehicle {} not available for user {} on dates {} to {}: {} conflicts", 
+                    vehicleId, userId, start, end, otherConflicts.size());
+            otherConflicts.forEach(b -> 
+                    log.debug("  - Booking {}: user={}, status={}, period: {} to {}", 
+                            b.getId(), b.getUser().getEmail(), b.getStatus(), 
+                            b.getStartDate(), b.getEndDate()));
+        } else if (!conflictingBookings.isEmpty()) {
+            log.info("User {} is retrying their own PENDING booking for vehicle {} on dates {} to {}", 
+                    userId, vehicleId, start, end);
+        }
+        
+        return otherConflicts.isEmpty();
     }
 
     @Transactional
