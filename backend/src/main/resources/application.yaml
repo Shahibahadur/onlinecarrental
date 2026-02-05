@@ -74,8 +74,8 @@ khalti:
   livePublicKey: ${KHALTI_PUBLIC_KEY}
   initialUrl: "https://khalti.com/api/v2/epay/initiate/"
   verifyUrl: "https://khalti.com/api/v2/epay/complete/"
-  websiteUrl: "http://localhost:8080"
-  callbackUrl: "http://localhost:8080/api/payment/khalti-response-handle"
+  websiteUrl: "http://https://super-pancake-5gvrx59g57r4fvppq-8080.app.github.dev"
+  callbackUrl: "http://https://super-pancake-5gvrx59g57r4fvppq-8080.app.github.dev/api/payment/khalti-response-handle"
 
 logging:
   level:
