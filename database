@@ -1,0 +1,82 @@
+INSERT INTO your_table_name (
+    id, base_price, created_at, daily_price, description, engine_capacity, fuel_type, 
+    image_category, image_name, image_names, image_url, is_available, license_plate, 
+    location, luggage_capacity, main_image_name, make, model, rating, review_count, 
+    seats, transmission, type, updated_at, year, registration_number
+) VALUES
+(1, 2000.00, '2026-02-02 14:31:41.243568', 2000.00, NULL, NULL, 'ELECTRIC', 'sedan', 'Tesla_Model_3.webp', NULL, NULL, 1, NULL, 'Kathmandu', 2, NULL, 'Tesla', '2026', 0, 0, 5, 'Manual', 'SEDAN', '2026-02-02 14:33:52.722982', 2026, NULL),
+
+(2, 1000.00, '2026-02-02 14:42:13.264760', 1000.00,
+ 'A reliable petrol sedan with good mileage, modern tech, and comfortable seating for city and highway driving in Nepal',
+ NULL, 'PETROL', 'sedan', 'Honda_City.jpg', NULL, NULL, 1, NULL, 'Kathmandu', 2, NULL,
+ 'Honda', '2023', 0, 0, 4, 'Manual', 'SEDAN', '2026-02-02 14:42:13.264778', 2025, 'KA-2-456'),
+
+(3, 0.00, '2026-02-02 14:46:00.061704', 0.00,
+ 'A fuel-efficient diesel sedan with modern features and comfortable seating, suitable for city and highway driving in Nepal.',
+ NULL, 'DIESEL', 'sedan', 'Toyota_Corolla.jpg', NULL, NULL, 1, NULL, 'Kathmandu', 2, NULL,
+ 'Toyota', '2024', 0, 0, 5, 'Manual', 'SEDAN', '2026-02-02 14:46:00.061717', 2026, 'KA-3-123'),
+
+(4, 1500.00, '2026-02-02 15:03:44.839407', 1500.00,
+ 'A stylish diesel sedan offering good fuel efficiency, smooth performance, and comfortable driving on Nepal’s roads',
+ NULL, 'PETROL', 'sedan', 'Hyundai_Verna.jpg', NULL, NULL, 1, NULL, 'Bhaktapur', 2, NULL,
+ 'Hyundai', '2024', 0, 0, 5, 'Manual', 'SEDAN', '2026-02-02 15:03:44.839427', 2026, 'BH 3 PA 3456'),
+
+(5, 800.00, '2026-02-02 15:09:57.110247', 800.00, NULL, NULL, 'PETROL',
+ 'sedan', 'Toyota_Corolla_Altis.webp', NULL, NULL, 1, NULL, 'Kathmandu', 2, NULL,
+ 'Toyota', 'Corolla Altis', 0, 0, 5, 'Manual', 'SEDAN', '2026-02-02 15:10:13.223281', 2026, NULL),
+
+(6, 2000.00, '2026-02-02 15:14:33.909556', 2000.00,
+ 'It is suitable for rough roads and daily driving in Nepal',
+ NULL, 'PETROL', 'suv', 'Toyota_RAV4.webp', NULL, NULL, 1, NULL, 'Kathmandu', 2, NULL,
+ 'Toyota', 'RAV4', 0, 0, 6, 'Manual', 'SUV', '2026-02-02 15:14:33.909568', 2026, 'KA-1-784'),
+
+(7, 1200.00, '2026-02-02 15:18:00.734228', 1200.00,
+ 'it is suitable for city and highway use in Nepal.',
+ NULL, 'ELECTRIC', 'suv', 'Hyundai_Kona.webp', NULL, NULL, 1, NULL, 'Kathmandu', 2, NULL,
+ 'Hyundai', 'Kona Electric', 0, 0, 5, 'Manual', 'SUV', '2026-02-02 15:18:00.734239', 2026, 'KA-5-723'),
+
+(8, 1300.00, '2026-02-02 15:26:17.361594', 1300.00,
+ 'Electric SUV ideal for daily driving and urban roads in Nepal.',
+ NULL, 'ELECTRIC', 'sedan', 'MG_ZS.jfif', NULL, NULL, 1, NULL, 'Bhaktapur', 2, NULL,
+ 'MG', 'ZS EV', 0, 0, 5, 'Manual', 'SEDAN', '2026-02-02 15:26:17.361606', 2026, 'BH-1-456');
+
+
+INSERT INTO vehicle_features (vehicle_id, feature) VALUES
+(1, 'Charging: Fast & home charging'),
+(1, 'Comfort: Climate control'),
+(1, 'Regenerative braking'),
+
+(2, 'Key Tech: Touchscreen infotainment'),
+(2, 'Rear camera'),
+(2, 'Comfort: Air conditioning'),
+(2, 'Power windows'),
+
+(3, 'Key Tech: Touchscreen infotainment'),
+(3, 'Parking sensors'),
+(3, 'Comfort: Air conditioning'),
+(3, 'Comfortable interior'),
+
+(4, 'Safety: ABS airbags'),
+(4, 'Comfort: Air conditioning'),
+(4, 'Power steering'),
+
+(5, 'Power steering'),
+(5, 'Air conditioning'),
+(5, 'ABS brakes'),
+(5, 'Airbags'),
+(5, 'Touchscreen display'),
+
+(6, 'Power steering'),
+(6, 'Air conditioning'),
+(6, 'ABS brakes'),
+
+(7, 'Fast charging'),
+(7, 'Touchscreen display'),
+(7, 'ABS brakes'),
+(7, 'Airbags'),
+(7, 'Regenerative braking'),
+
+(8, 'Touchscreen display'),
+(8, 'ABS brakes'),
+(8, 'Airbags'),
+(8, 'Cruise control');
