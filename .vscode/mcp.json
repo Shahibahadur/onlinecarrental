@@ -1,0 +1,8 @@
+{
+  "servers": {
+    "onlinecarrental MCP": {
+      "type": "sse",
+      "url": "https://gitmcp.io/Shahibahadur/onlinecarrental"
+    }
+  }
+}
