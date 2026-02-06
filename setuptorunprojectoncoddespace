@@ -9,18 +9,16 @@ sdk list java | grep installed
  sudo service mysql start
  sudo mysql -u root -p
 
- select user, host from mysql.user;
- drop user 'root'@'localhost';
-
-
-
-pkill -f "java.*onlinecarrental"
-
-select user, host from mysql.user;
- drop user 'root'@'localhost';
+DROP user 'root'@'localhost';
 CREATE DATABASE car_rental_db;
 CREATE USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'root';
 GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
 
-https://example.com/testing.jpg
+select user, host from mysql.user;
+
+
+
+
+
+
