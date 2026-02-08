@@ -55,10 +55,18 @@ public class EsewaPaymentServiceImpl implements EsewaPaymentService {
         Long bookingId = request.getBookingId();
 
         Booking booking = null;
+        // baseAmount = rental charge without VAT, taxAmount = VAT, totalAmount = base + VAT
+        BigDecimal baseAmount = amount != null ? amount : BigDecimal.ZERO;
+        BigDecimal taxAmount = BigDecimal.ZERO;
+        BigDecimal totalAmount = baseAmount;
+
         if (bookingId != null) {
             booking = bookingRepository.findById(bookingId)
                     .orElseThrow(() -> new ResourceNotFoundException("Booking", "id", bookingId));
-            amount = booking.getTotalPrice();
+            baseAmount = booking.getTotalPrice();
+            taxAmount = baseAmount.multiply(new BigDecimal("0.13")).setScale(2, RoundingMode.HALF_UP);
+            totalAmount = baseAmount.add(taxAmount).setScale(2, RoundingMode.HALF_UP);
+            amount = totalAmount;
         }
 
         String uuid = UUID.randomUUID().toString();
@@ -84,7 +92,7 @@ public class EsewaPaymentServiceImpl implements EsewaPaymentService {
                 } else {
                     payment.setTransactionId(uuid);
                 }
-                
+
                 payment.setAmount(amount);
                 payment.setPaymentMethod(PaymentMethod.ESEWA);
                 payment.setStatus(PaymentStatus.PROCESSING);
@@ -98,7 +106,7 @@ public class EsewaPaymentServiceImpl implements EsewaPaymentService {
             }
         }
 
-        Map<String, String> params = buildEsewaFormParams(uuid, amount);
+        Map<String, String> params = buildEsewaFormParams(uuid, baseAmount, taxAmount, totalAmount);
         return params;
     }
 
@@ -133,15 +141,26 @@ public class EsewaPaymentServiceImpl implements EsewaPaymentService {
             
             // Clear the corrupted session state to prevent Hibernate assertion failures
             entityManager.clear();
-            
-            // Fetch the payment that was created by the winning thread
-            Optional<Payment> raceWinnerPayment = paymentRepository.findByBookingId(booking.getId());
-            
+
+            // Retry a few times to allow the other transaction to commit
+            Optional<Payment> raceWinnerPayment = Optional.empty();
+            int attempts = 5;
+            for (int i = 0; i < attempts; i++) {
+                raceWinnerPayment = paymentRepository.findByBookingId(booking.getId());
+                if (raceWinnerPayment.isPresent()) break;
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException ie) {
+                    Thread.currentThread().interrupt();
+                    break;
+                }
+            }
+
             if (raceWinnerPayment.isPresent()) {
                 Payment payment = raceWinnerPayment.get();
                 log.info("Successfully recovered from race condition. Using payment ID: {}, UUID: {}", 
                         payment.getId(), payment.getTransactionId());
-                
+
                 // Return the existing transaction UUID
                 return payment.getTransactionId() != null ? payment.getTransactionId() : UUID.randomUUID().toString();
             } else {
@@ -194,25 +213,29 @@ public class EsewaPaymentServiceImpl implements EsewaPaymentService {
         return result;
     }
 
-    private Map<String, String> buildEsewaFormParams(String transactionUuid, BigDecimal totalAmount) {
-        // Ensure the amount is properly scaled
+        private Map<String, String> buildEsewaFormParams(String transactionUuid, BigDecimal baseAmount, BigDecimal taxAmount, BigDecimal totalAmount) {
+        // Ensure amounts are properly scaled
+        baseAmount = baseAmount.setScale(2, RoundingMode.HALF_UP);
+        taxAmount = taxAmount.setScale(2, RoundingMode.HALF_UP);
         totalAmount = totalAmount.setScale(2, RoundingMode.HALF_UP);
-        
-        // For eSewa requests, whole numbers should be formatted without decimals
-        // (e.g., "100" instead of "100.00") and decimals should be plain strings
-        String totalAmountForFormAndSignature = totalAmount.stripTrailingZeros().scale() <= 0
-                ? String.valueOf(totalAmount.intValue())
-                : totalAmount.toPlainString();
 
-        // Calculate amount breakdown (all charges are zero for test/basic implementation)
-        BigDecimal taxAmount = new BigDecimal("0.00");
-        BigDecimal serviceCharge = new BigDecimal("0.00");
-        BigDecimal deliveryCharge = new BigDecimal("0.00");
-        BigDecimal amount = totalAmount.subtract(taxAmount).subtract(serviceCharge).subtract(deliveryCharge);
+        // For eSewa requests, whole numbers should be formatted without decimals when possible
+        String totalAmountForFormAndSignature = totalAmount.stripTrailingZeros().scale() <= 0
+            ? String.valueOf(totalAmount.intValue())
+            : totalAmount.toPlainString();
+
+        String baseAmountForForm = baseAmount.stripTrailingZeros().scale() <= 0
+            ? String.valueOf(baseAmount.intValue())
+            : baseAmount.toPlainString();
+
+        String taxAmountForForm = taxAmount.stripTrailingZeros().scale() <= 0
+            ? String.valueOf(taxAmount.intValue())
+            : taxAmount.toPlainString();
 
         Map<String, String> params = new HashMap<>();
-        params.put("amount", amount.toPlainString());
-        params.put("tax_amount", "0");
+        // Send total amount as the main `amount` so eSewa shows the charge including VAT
+        params.put("amount", totalAmountForFormAndSignature);
+        params.put("tax_amount", taxAmountForForm);
         params.put("total_amount", totalAmountForFormAndSignature);
         params.put("transaction_uuid", transactionUuid);
         params.put("product_code", esewaProperties.getProductCode());
@@ -226,11 +249,11 @@ public class EsewaPaymentServiceImpl implements EsewaPaymentService {
 
         // The signature message must use the exact same formatted total_amount value as in the form
         String signatureMessage = String.format("total_amount=%s,transaction_uuid=%s,product_code=%s",
-                totalAmountForFormAndSignature, transactionUuid, esewaProperties.getProductCode());
+            totalAmountForFormAndSignature, transactionUuid, esewaProperties.getProductCode());
         params.put("signature", hmacSha256Base64(esewaProperties.getSecretKey(), signatureMessage));
 
         return params;
-    }
+        }
 
     private String hmacSha256Base64(String secret, String message) {
         try {

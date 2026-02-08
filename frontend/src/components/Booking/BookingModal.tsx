@@ -34,7 +34,7 @@ const BookingModal: React.FC<BookingModalProps> = ({ car, isOpen, onClose, onSuc
     dropoffLocation: car?.location || '',
     withDriver: false,
     insurance: false,
-    paymentMethod: 'cash',
+    paymentMethod: 'esewa',
     customerName: user?.firstName && user?.lastName ? `${user.firstName} ${user.lastName}` : '',
     customerPhone: user?.phone || '',
     customerEmail: user?.email || '',
@@ -711,7 +711,7 @@ const BookingModal: React.FC<BookingModalProps> = ({ car, isOpen, onClose, onSuc
                     Payment Method
                   </label>
                   <div className="grid grid-cols-2 gap-3">
-                    {['cash', 'esewa', 'khalti', 'bank'].map((method) => (
+                    {['esewa', 'khalti'].map((method) => (
                       <label key={method} className="flex items-center p-3 border border-neutral-300 rounded-lg cursor-pointer hover:bg-neutral-50">
                         <input
                           type="radio"
@@ -721,7 +721,7 @@ const BookingModal: React.FC<BookingModalProps> = ({ car, isOpen, onClose, onSuc
                           onChange={(e) => setBookingData(prev => ({ ...prev, paymentMethod: e.target.value }))}
                           className="mr-2"
                         />
-                        <span className="capitalize">{method === 'esewa' ? 'eSewa' : method === 'khalti' ? 'Khalti' : method === 'bank' ? 'Bank Transfer' : 'Cash on Pickup'}</span>
+                        <span className="capitalize">{method === 'esewa' ? 'eSewa' : 'Khalti'}</span>
                       </label>
                     ))}
                   </div>

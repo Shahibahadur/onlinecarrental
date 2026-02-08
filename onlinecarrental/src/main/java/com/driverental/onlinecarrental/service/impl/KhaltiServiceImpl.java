@@ -23,6 +23,8 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 @Slf4j
 @Service
@@ -71,9 +73,12 @@ public class KhaltiServiceImpl implements KhaltiService {
             KhaltiResponse khaltiResponse = response.getBody();
             
             // Create/update payment record
-            Payment payment = paymentRepository.findByBookingId(booking.getId())
+                Payment payment = paymentRepository.findByBookingId(booking.getId())
                     .orElse(Payment.builder().booking(booking).build());
-            payment.setAmount(booking.getTotalPrice());
+                BigDecimal base = booking.getTotalPrice() != null ? booking.getTotalPrice() : BigDecimal.ZERO;
+                BigDecimal tax = base.multiply(new BigDecimal("0.13")).setScale(2, RoundingMode.HALF_UP);
+                BigDecimal totalWithTax = base.add(tax).setScale(2, RoundingMode.HALF_UP);
+                payment.setAmount(totalWithTax);
             payment.setPaymentMethod(com.driverental.onlinecarrental.model.enums.PaymentMethod.KHALTI);
             payment.setStatus(PaymentStatus.PROCESSING);
             payment.setTransactionId(khaltiResponse.getPidx());
