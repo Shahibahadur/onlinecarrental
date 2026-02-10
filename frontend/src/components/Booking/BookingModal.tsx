@@ -17,7 +17,7 @@ interface BookingModalProps {
   onSuccess?: () => void;
 }
 
-type BookingStep = 'details' | 'options' | 'confirm';
+type BookingStep = 'unified';
 
 const BookingModal: React.FC<BookingModalProps> = ({ car, isOpen, onClose, onSuccess }) => {
   const { user } = useSelector((state: RootState) => state.auth);
@@ -25,7 +25,7 @@ const BookingModal: React.FC<BookingModalProps> = ({ car, isOpen, onClose, onSuc
   const navigate = useNavigate();
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
-  const [currentStep, setCurrentStep] = useState<BookingStep>('details');
+  const [currentStep, setCurrentStep] = useState<BookingStep>('unified');
 
   const [bookingData, setBookingData] = useState({
     startDate: '',
@@ -57,7 +57,7 @@ const BookingModal: React.FC<BookingModalProps> = ({ car, isOpen, onClose, onSuc
     if (isOpen && car) {
       setError(null);
       setSuccess(false);
-      setCurrentStep('details');
+      setCurrentStep('unified');
       const today = new Date().toISOString().split('T')[0];
       const tomorrow = new Date(Date.now() + 86400000).toISOString().split('T')[0];
       setBookingData(prev => ({
@@ -247,21 +247,12 @@ const BookingModal: React.FC<BookingModalProps> = ({ car, isOpen, onClose, onSuc
     };
   }, [bookingData, car.pricePerDay]);
 
-  const canProceedToStep2 = () => {
+  const canProceedToBook = () => {
     return bookingData.startDate && 
            bookingData.endDate && 
            bookingData.pickupLocation && 
            bookingData.dropoffLocation &&
            pricingBreakdown.days > 0;
-  };
-
-  const handleStep1Next = () => {
-    if (!canProceedToStep2()) {
-      setError('Please fill in all required fields: dates and locations');
-      return;
-    }
-    setError(null);
-    setCurrentStep('options');
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -344,32 +335,6 @@ const BookingModal: React.FC<BookingModalProps> = ({ car, isOpen, onClose, onSuc
             </button>
           </div>
 
-          {/* Step Indicator */}
-          <div className="bg-primary-50 px-6 py-4 border-b border-primary-200">
-            <div className="flex items-center justify-center space-x-4">
-              <div className={`flex items-center ${currentStep === 'details' ? 'text-primary-600' : 'text-neutral-400'}`}>
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center ${currentStep === 'details' ? 'bg-primary-600 text-white' : 'bg-neutral-300'}`}>
-                  1
-                </div>
-                <span className="ml-2 font-medium">Details</span>
-              </div>
-              <ArrowRight className="h-5 w-5 text-neutral-300" />
-              <div className={`flex items-center ${currentStep === 'options' ? 'text-primary-600' : 'text-neutral-400'}`}>
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center ${currentStep === 'options' ? 'bg-primary-600 text-white' : 'bg-neutral-300'}`}>
-                  2
-                </div>
-                <span className="ml-2 font-medium">Options</span>
-              </div>
-              <ArrowRight className="h-5 w-5 text-neutral-300" />
-              <div className={`flex items-center ${currentStep === 'confirm' ? 'text-primary-600' : 'text-neutral-400'}`}>
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center ${currentStep === 'confirm' ? 'bg-primary-600 text-white' : 'bg-neutral-300'}`}>
-                  3
-                </div>
-                <span className="ml-2 font-medium">Confirm</span>
-              </div>
-            </div>
-          </div>
-
           {/* Modal Content */}
           <div className="bg-white px-6 pt-6 pb-6 max-h-[80vh] overflow-y-auto">
             {/* Success Message */}
@@ -394,201 +359,181 @@ const BookingModal: React.FC<BookingModalProps> = ({ car, isOpen, onClose, onSuc
               </div>
             )}
 
-            {/* STEP 1: Details & Pricing */}
-            {currentStep === 'details' && (
-              <div className="space-y-6">
-                <div>
-                  <h2 className="text-2xl font-bold text-neutral-900 mb-2">Book {car.name}</h2>
-                  <p className="text-neutral-600">Select your rental dates and locations</p>
-                </div>
-
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                  {/* Left: Form */}
-                  <div className="space-y-4">
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-sm font-medium text-neutral-700 mb-1">
-                          <Calendar className="inline h-4 w-4 mr-1" />
-                          Start Date
-                        </label>
-                        <input
-                          type="date"
-                          required
-                          min={new Date().toISOString().split('T')[0]}
-                          value={bookingData.startDate}
-                          onChange={(e) => {
-                            setBookingData(prev => ({ ...prev, startDate: e.target.value }));
-                            setError(null);
-                          }}
-                          className="w-full px-3 py-2 border border-neutral-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
-                        />
-                      </div>
-
-                      <div>
-                        <label className="block text-sm font-medium text-neutral-700 mb-1">
-                          <Calendar className="inline h-4 w-4 mr-1" />
-                          End Date
-                        </label>
-                        <input
-                          type="date"
-                          required
-                          min={bookingData.startDate || new Date().toISOString().split('T')[0]}
-                          value={bookingData.endDate}
-                          onChange={(e) => {
-                            setBookingData(prev => ({ ...prev, endDate: e.target.value }));
-                            setError(null);
-                          }}
-                          className="w-full px-3 py-2 border border-neutral-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
-                        />
-                      </div>
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-neutral-700 mb-1">
-                        <MapPin className="inline h-4 w-4 mr-1" />
-                        Pickup Location
-                      </label>
-                      <select
-                        required
-                        value={bookingData.pickupLocation}
-                        onChange={(e) => {
-                          setBookingData(prev => ({ ...prev, pickupLocation: e.target.value }));
-                          setError(null);
-                        }}
-                        className="w-full px-3 py-2 border border-neutral-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
-                      >
-                        <option value="">Select pickup location</option>
-                        {LOCATIONS.map((location) => (
-                          <option key={location} value={location}>
-                            {location}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-neutral-700 mb-1">
-                        <MapPin className="inline h-4 w-4 mr-1" />
-                        Drop-off Location
-                      </label>
-                      <select
-                        required
-                        value={bookingData.dropoffLocation}
-                        onChange={(e) => {
-                          setBookingData(prev => ({ ...prev, dropoffLocation: e.target.value }));
-                          setError(null);
-                        }}
-                        className="w-full px-3 py-2 border border-neutral-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
-                      >
-                        <option value="">Select drop-off location</option>
-                        {LOCATIONS.map((location) => (
-                          <option key={location} value={location}>
-                            {location}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-
-                    {pricingBreakdown.days > 0 && (
-                      <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
-                        <div className="flex items-center space-x-2 text-blue-800">
-                          <Info className="h-4 w-4" />
-                          <span className="text-sm font-medium">
-                            Rental Duration: {pricingBreakdown.days} {pricingBreakdown.days === 1 ? 'day' : 'days'}
-                            {pricingBreakdown.weekendDays > 0 && ` (${pricingBreakdown.weekendDays} weekend ${pricingBreakdown.weekendDays === 1 ? 'day' : 'days'})`}
-                          </span>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Right: Pricing Breakdown */}
-                  <div className="bg-gradient-to-br from-primary-50 to-blue-50 rounded-lg p-6 border border-primary-200">
-                    <div className="flex items-center space-x-2 mb-4">
-                      <Calculator className="h-5 w-5 text-primary-600" />
-                      <h3 className="text-lg font-bold text-neutral-900">Price Calculation</h3>
-                    </div>
-
-                    {pricingBreakdown.days === 0 ? (
-                      <div className="text-center py-8 text-neutral-500">
-                        <p>Fill in dates and locations to see pricing</p>
-                      </div>
-                    ) : (
-                      <div className="space-y-3">
-                        <div className="flex justify-between text-sm">
-                          <span className="text-neutral-600">Base Rate</span>
-                          <span className="font-medium">{formatPricePerDay(pricingBreakdown.dailyRate)}</span>
-                        </div>
-                        <div className="flex justify-between text-sm">
-                          <span className="text-neutral-600">× {pricingBreakdown.days} days</span>
-                          <span className="font-medium">{formatCurrency(pricingBreakdown.subtotal)}</span>
-                        </div>
-
-                        {pricingBreakdown.discountPercentage > 0 && (
-                          <div className="flex justify-between text-sm text-green-600 pt-2 border-t border-neutral-200">
-                            <span className="flex items-center">
-                              <Percent className="h-4 w-4 mr-1" />
-                              {pricingBreakdown.discountPercentage}% Long-term Discount
-                            </span>
-                            <span className="font-medium">-{formatCurrency(pricingBreakdown.longTermDiscount)}</span>
-                          </div>
-                        )}
-
-                        {pricingBreakdown.weekendSurcharge > 0 && (
-                          <div className="flex justify-between text-sm text-orange-600">
-                            <span>Weekend Surcharge ({pricingBreakdown.weekendDays} days)</span>
-                            <span className="font-medium">+{formatCurrency(pricingBreakdown.weekendSurcharge)}</span>
-                          </div>
-                        )}
-
-                        {pricingBreakdown.oneWayFee > 0 && (
-                          <div className="flex justify-between text-sm text-orange-600">
-                            <span>One-way Rental Fee</span>
-                            <span className="font-medium">+{formatCurrency(pricingBreakdown.oneWayFee)}</span>
-                          </div>
-                        )}
-
-                        <div className="pt-3 border-t-2 border-primary-200">
-                          <div className="flex justify-between items-center mb-2">
-                            <span className="font-semibold text-neutral-900">Subtotal</span>
-                            <span className="font-bold text-lg text-primary-600">
-                              {formatCurrency(pricingBreakdown.total - pricingBreakdown.driverCost - pricingBreakdown.insuranceCost - pricingBreakdown.tax)}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                <div className="flex justify-end space-x-3 pt-4 border-t">
-                  <button
-                    type="button"
-                    onClick={onClose}
-                    className="px-6 py-2 border border-neutral-300 text-neutral-700 rounded-md hover:bg-neutral-50 transition-colors"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="button"
-                    onClick={handleStep1Next}
-                    disabled={!canProceedToStep2()}
-                    className={`px-6 py-2 rounded-md font-medium transition-colors flex items-center ${
-                      canProceedToStep2()
-                        ? 'bg-primary-600 text-white hover:bg-primary-700'
-                        : 'bg-neutral-300 text-neutral-500 cursor-not-allowed'
-                    }`}
-                  >
-                    Continue
-                    <ArrowRight className="h-4 w-4 ml-2" />
-                  </button>
-                </div>
-              </div>
-            )}
-
-            {/* STEP 2: Additional Options */}
-            {currentStep === 'options' && (
+            {/* Unified Booking Form */}
+            {currentStep === 'unified' && (
               <form onSubmit={handleSubmit} className="space-y-6">
+                {/* Booking Details Header */}
+                <div>
+                  <h2 className="text-2xl font-bold text-neutral-900 mb-2">Complete Your Booking for {car.name}</h2>
+                  <p className="text-neutral-600">One step to reserve your vehicle and arrange payment</p>
+                </div>
+
+                {/* Rental Dates & Locations Section */}
+                <div className="border-b pb-6">
+                  <h3 className="text-lg font-semibold text-neutral-900 mb-4 flex items-center">
+                    <Calendar className="h-5 w-5 mr-2 text-primary-600" />
+                    Rental Details
+                  </h3>
+
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    {/* Left: Form Inputs */}
+                    <div className="space-y-4">
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-medium text-neutral-700 mb-1">
+                            <Calendar className="inline h-4 w-4 mr-1" />
+                            Start Date
+                          </label>
+                          <input
+                            type="date"
+                            required
+                            min={new Date().toISOString().split('T')[0]}
+                            value={bookingData.startDate}
+                            onChange={(e) => {
+                              setBookingData(prev => ({ ...prev, startDate: e.target.value }));
+                              setError(null);
+                            }}
+                            className="w-full px-3 py-2 border border-neutral-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="block text-sm font-medium text-neutral-700 mb-1">
+                            <Calendar className="inline h-4 w-4 mr-1" />
+                            End Date
+                          </label>
+                          <input
+                            type="date"
+                            required
+                            min={bookingData.startDate || new Date().toISOString().split('T')[0]}
+                            value={bookingData.endDate}
+                            onChange={(e) => {
+                              setBookingData(prev => ({ ...prev, endDate: e.target.value }));
+                              setError(null);
+                            }}
+                            className="w-full px-3 py-2 border border-neutral-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+                          />
+                        </div>
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium text-neutral-700 mb-1">
+                          <MapPin className="inline h-4 w-4 mr-1" />
+                          Pickup Location
+                        </label>
+                        <select
+                          required
+                          value={bookingData.pickupLocation}
+                          onChange={(e) => {
+                            setBookingData(prev => ({ ...prev, pickupLocation: e.target.value }));
+                            setError(null);
+                          }}
+                          className="w-full px-3 py-2 border border-neutral-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+                        >
+                          <option value="">Select pickup location</option>
+                          {LOCATIONS.map((location) => (
+                            <option key={location} value={location}>
+                              {location}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium text-neutral-700 mb-1">
+                          <MapPin className="inline h-4 w-4 mr-1" />
+                          Drop-off Location
+                        </label>
+                        <select
+                          required
+                          value={bookingData.dropoffLocation}
+                          onChange={(e) => {
+                            setBookingData(prev => ({ ...prev, dropoffLocation: e.target.value }));
+                            setError(null);
+                          }}
+                          className="w-full px-3 py-2 border border-neutral-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
+                        >
+                          <option value="">Select drop-off location</option>
+                          {LOCATIONS.map((location) => (
+                            <option key={location} value={location}>
+                              {location}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+
+                      {pricingBreakdown.days > 0 && (
+                        <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                          <div className="flex items-center space-x-2 text-blue-800">
+                            <Info className="h-4 w-4" />
+                            <span className="text-sm font-medium">
+                              Rental Duration: {pricingBreakdown.days} {pricingBreakdown.days === 1 ? 'day' : 'days'}
+                              {pricingBreakdown.weekendDays > 0 && ` (${pricingBreakdown.weekendDays} weekend ${pricingBreakdown.weekendDays === 1 ? 'day' : 'days'})`}
+                            </span>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Right: Pricing Breakdown */}
+                    <div className="bg-gradient-to-br from-primary-50 to-blue-50 rounded-lg p-6 border border-primary-200">
+                      <div className="flex items-center space-x-2 mb-4">
+                        <Calculator className="h-5 w-5 text-primary-600" />
+                        <h3 className="text-lg font-bold text-neutral-900">Base Price Calculation</h3>
+                      </div>
+
+                      {pricingBreakdown.days === 0 ? (
+                        <div className="text-center py-8 text-neutral-500">
+                          <p>Fill in dates to see pricing</p>
+                        </div>
+                      ) : (
+                        <div className="space-y-3">
+                          <div className="flex justify-between text-sm">
+                            <span className="text-neutral-600">Base Rate</span>
+                            <span className="font-medium">{formatPricePerDay(pricingBreakdown.dailyRate)}</span>
+                          </div>
+                          <div className="flex justify-between text-sm">
+                            <span className="text-neutral-600">× {pricingBreakdown.days} days</span>
+                            <span className="font-medium">{formatCurrency(pricingBreakdown.subtotal)}</span>
+                          </div>
+
+                          {pricingBreakdown.discountPercentage > 0 && (
+                            <div className="flex justify-between text-sm text-green-600 pt-2 border-t border-neutral-200">
+                              <span className="flex items-center">
+                                <Percent className="h-4 w-4 mr-1" />
+                                {pricingBreakdown.discountPercentage}% Long-term Discount
+                              </span>
+                              <span className="font-medium">-{formatCurrency(pricingBreakdown.longTermDiscount)}</span>
+                            </div>
+                          )}
+
+                          {pricingBreakdown.weekendSurcharge > 0 && (
+                            <div className="flex justify-between text-sm text-orange-600">
+                              <span>Weekend Surcharge ({pricingBreakdown.weekendDays} days)</span>
+                              <span className="font-medium">+{formatCurrency(pricingBreakdown.weekendSurcharge)}</span>
+                            </div>
+                          )}
+
+                          {pricingBreakdown.oneWayFee > 0 && (
+                            <div className="flex justify-between text-sm text-orange-600">
+                              <span>One-way Rental Fee</span>
+                              <span className="font-medium">+{formatCurrency(pricingBreakdown.oneWayFee)}</span>
+                            </div>
+                          )}
+
+                          <div className="pt-3 border-t-2 border-primary-200">
+                            <div className="flex justify-between items-center mb-2">
+                              <span className="font-semibold text-neutral-900">Subtotal</span>
+                              <span className="font-bold text-lg text-primary-600">
+                                {formatCurrency(pricingBreakdown.total - pricingBreakdown.driverCost - pricingBreakdown.insuranceCost - pricingBreakdown.tax)}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
                 <div>
                   <h2 className="text-2xl font-bold text-neutral-900 mb-2">Add Services</h2>
                   <p className="text-neutral-600">Choose additional services for your rental</p>
@@ -730,17 +675,16 @@ const BookingModal: React.FC<BookingModalProps> = ({ car, isOpen, onClose, onSuc
                 <div className="flex justify-between space-x-3 pt-4 border-t">
                   <button
                     type="button"
-                    onClick={() => setCurrentStep('details')}
-                    className="px-6 py-2 border border-neutral-300 text-neutral-700 rounded-md hover:bg-neutral-50 transition-colors flex items-center"
+                    onClick={onClose}
+                    className="px-6 py-2 border border-neutral-300 text-neutral-700 rounded-md hover:bg-neutral-50 transition-colors"
                   >
-                    <ArrowLeft className="h-4 w-4 mr-2" />
-                    Back
+                    Cancel
                   </button>
                   <button
                     type="submit"
-                    disabled={bookingMutation.isPending || success}
-                    className={`px-6 py-2 rounded-md font-medium transition-colors ${
-                      bookingMutation.isPending || success
+                    disabled={!canProceedToBook() || bookingMutation.isPending || success}
+                    className={`px-6 py-2 rounded-md font-medium transition-colors flex items-center ${
+                      !canProceedToBook() || bookingMutation.isPending || success
                         ? 'bg-neutral-400 text-white cursor-not-allowed'
                         : 'bg-primary-600 text-white hover:bg-primary-700'
                     }`}
