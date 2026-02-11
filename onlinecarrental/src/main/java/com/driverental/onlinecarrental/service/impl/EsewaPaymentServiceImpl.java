@@ -15,12 +15,8 @@ import com.driverental.onlinecarrental.service.EsewaPaymentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionTemplate;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -50,154 +46,66 @@ public class EsewaPaymentServiceImpl implements EsewaPaymentService {
     private final TransactionTemplate transactionTemplate;
 
     @Override
-    @Transactional
     public Map<String, String> initiate(EsewaInitiateRequest request) {
-        BigDecimal amount = request.getAmount();
         Long bookingId = request.getBookingId();
+        
+        if (bookingId == null) {
+            // No booking ID, just generate UUID for the payment
+            String uuid = UUID.randomUUID().toString();
+            BigDecimal amount = request.getAmount() != null ? request.getAmount() : BigDecimal.ZERO;
+            return buildEsewaFormParams(uuid, amount, BigDecimal.ZERO, amount);
+        }
+        
+        // Use database-level locking with pessimistic write to prevent race conditions
+        return createOrGetPaymentWithLock(bookingId);
+    }
 
-        Booking booking = null;
-        // baseAmount = rental charge without VAT, taxAmount = VAT, totalAmount = base + VAT
-        BigDecimal baseAmount = amount != null ? amount : BigDecimal.ZERO;
-        BigDecimal taxAmount = BigDecimal.ZERO;
-        BigDecimal totalAmount = baseAmount;
-
-        if (bookingId != null) {
-            booking = bookingRepository.findById(bookingId)
+    /**
+     * Creates or gets a payment for a booking using pessimistic write lock.
+     * This prevents concurrent inserts for the same booking.
+     */
+    private Map<String, String> createOrGetPaymentWithLock(Long bookingId) {
+        return transactionTemplate.execute(status -> {
+            // Use pessimistic lock to prevent concurrent inserts
+            Optional<Payment> existingPayment = paymentRepository.findByBookingIdWithLock(bookingId);
+            if (existingPayment.isPresent()) {
+                log.info("Existing payment found for booking {}. Using payment ID: {}", 
+                        bookingId, existingPayment.get().getId());
+                Payment payment = existingPayment.get();
+                BigDecimal baseAmount = payment.getAmount();
+                BigDecimal taxAmount = baseAmount.multiply(new BigDecimal("0.13")).setScale(2, RoundingMode.HALF_UP);
+                BigDecimal totalAmount = baseAmount.add(taxAmount).setScale(2, RoundingMode.HALF_UP);
+                return buildEsewaFormParams(payment.getTransactionId(), baseAmount, taxAmount, totalAmount);
+            }
+            
+            // Load booking
+            Booking booking = bookingRepository.findById(bookingId)
                     .orElseThrow(() -> new ResourceNotFoundException("Booking", "id", bookingId));
-            baseAmount = booking.getTotalPrice();
-            taxAmount = baseAmount.multiply(new BigDecimal("0.13")).setScale(2, RoundingMode.HALF_UP);
-            totalAmount = baseAmount.add(taxAmount).setScale(2, RoundingMode.HALF_UP);
-            amount = totalAmount;
-        }
-
-        String uuid = UUID.randomUUID().toString();
-
-        // Handle payment record with database-first approach
-        if (booking != null) {
-            uuid = getOrCreatePayment(booking, amount);
-            log.info("Payment finalized for booking {}. Transaction UUID: {}", booking.getId(), uuid);
-        }
-
-        Map<String, String> params = buildEsewaFormParams(uuid, baseAmount, taxAmount, totalAmount);
-        return params;
-    }
-
-    /**
-     * Gets or creates a Payment for the given booking using a database-first approach.
-     * 
-     * STRATEGY: Attempt insert first (not check-then-insert).
-     * - If insert succeeds, return the new payment's UUID.
-     * - If insert fails with UNIQUE constraint violation, fetch the existing payment.
-     * 
-     * EXCEPTION HANDLING:
-     * - Catches DataIntegrityViolationException from the database insert.
-     * - Uses TransactionTemplate to run fetch in a clean, separate transaction.
-     * - Never throws or propagates DataIntegrityViolationException to the caller.
-     * 
-     * SESSION SAFETY:
-     * - createPaymentDirectly() uses REQUIRES_NEW propagation for its own independent transaction.
-     * - If DataIntegrityViolationException occurs, that transaction is completely rolled back.
-     * - The parent transaction (initiate()) is NOT marked rollback-only.
-     * - fetchExistingPaymentBlocking() uses TransactionTemplate for another independent transaction.
-     * - No session contamination or AssertionFailure possible.
-     * 
-     * CONCURRENCY:
-     * - Both concurrent threads will eventually return the same Payment UUID.
-     * - No Hibernate session contamination or AssertionFailure.
-     * - Fully idempotent and Production-ready.
-     */
-    private String getOrCreatePayment(Booking booking, BigDecimal amount) {
-        try {
-            return createPaymentDirectly(booking, amount);
-        } catch (DataIntegrityViolationException e) {
-            // Another thread won the race and created the payment first.
-            // The child transaction (createPaymentDirectly) is already rolled back.
-            // The parent transaction (initiate) is still active and clean.
-            // Fetch it in a clean, separate transaction via TransactionTemplate.
-            log.info("Payment already exists for booking ID: {} (race condition). Fetching existing payment...", 
-                    booking.getId());
-            return fetchExistingPaymentBlocking(booking.getId());
-        }
-    }
-
-    /**
-     * Attempts to create a new Payment directly without any checks.
-     * This is the database-first approach: let the database enforce UNIQUE constraint.
-     * 
-     * CRITICAL: Uses REQUIRES_NEW propagation to ensure this method runs in a completely 
-     * independent transaction, NOT in the parent's transaction context.
-     * This prevents Hibernate session contamination if the insert fails.
-     * 
-     * If the insert fails with DataIntegrityViolationException (duplicate key), 
-     * that exception bubbles up to the caller for handling.
-     */
-    @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.READ_COMMITTED)
-    private String createPaymentDirectly(Booking booking, BigDecimal amount) {
-        String uuid = UUID.randomUUID().toString();
-        
-        Payment payment = Payment.builder()
-                .booking(booking)
-                .amount(amount)
-                .paymentMethod(PaymentMethod.ESEWA)
-                .status(PaymentStatus.PROCESSING)
-                .transactionId(uuid)
-                .build();
-        
-        Payment saved = paymentRepository.save(payment);
-        log.info("Payment created successfully. Payment ID: {}, UUID: {}", saved.getId(), uuid);
-        
-        return uuid;
-    }
-
-    /**
-     * Fetches an existing Payment for a booking, with retry logic.
-     * 
-     * ISOLATION:
-     * - Uses TransactionTemplate to issue queries in a completely separate transaction.
-     * - Uses READ_COMMITTED isolation to ensure we see committed data from other threads.
-     * - No contamination from the parent transaction.
-     * 
-     * RETRY:
-     * - Retries up to 10 times with 50ms delays (max 500ms wait).
-     * - Gives the competing thread's insert time to commit.
-     * - If not found after retries, throws BusinessException (not DataIntegrityViolationException).
-     */
-    private String fetchExistingPaymentBlocking(Long bookingId) {
-        final int maxAttempts = 10;
-        final long delayMs = 50;
-        
-        for (int attempt = 1; attempt <= maxAttempts; attempt++) {
-            final int currentAttempt = attempt; // Capture as final for lambda
-            String uuid = transactionTemplate.execute(status -> {
-                Optional<Payment> payment = paymentRepository.findByBookingId(bookingId);
-                return payment.map(p -> {
-                    log.info("Existing payment found on attempt {}/{}. Payment ID: {}, UUID: {}", 
-                            currentAttempt, maxAttempts, p.getId(), p.getTransactionId());
-                    return p.getTransactionId();
-                }).orElse(null);
-            });
             
-            if (uuid != null) {
-                return uuid;
-            }
+            // Create new payment
+            BigDecimal baseAmount = booking.getTotalPrice();
+            BigDecimal taxAmount = baseAmount.multiply(new BigDecimal("0.13")).setScale(2, RoundingMode.HALF_UP);
+            BigDecimal totalAmount = baseAmount.add(taxAmount).setScale(2, RoundingMode.HALF_UP);
             
-            if (attempt < maxAttempts) {
-                try {
-                    Thread.sleep(delayMs);
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                    log.error("Interrupted while waiting for existing payment for booking ID: {}", bookingId);
-                    throw new BusinessException("Interrupted while fetching payment. Please retry.");
-                }
-            }
-        }
-        
-        log.error("Could not find existing Payment for booking ID: {} after {} retries", bookingId, maxAttempts);
-        throw new BusinessException("Payment creation failed due to race condition. Please retry.");
+            String uuid = UUID.randomUUID().toString();
+            
+            Payment payment = Payment.builder()
+                    .booking(booking)
+                    .amount(totalAmount)
+                    .paymentMethod(PaymentMethod.ESEWA)
+                    .status(PaymentStatus.PROCESSING)
+                    .transactionId(uuid)
+                    .build();
+            
+            Payment saved = paymentRepository.save(payment);
+            log.info("Payment created successfully. Payment ID: {}, Booking ID: {}, UUID: {}", 
+                    saved.getId(), bookingId, uuid);
+            
+            return buildEsewaFormParams(uuid, baseAmount, taxAmount, totalAmount);
+        });
     }
 
     @Override
-    @Transactional
     public Map<String, Object> verify(String uuid, String amount) {
         RestTemplate restTemplate = restTemplateBuilder.build();
 
@@ -213,25 +121,31 @@ public class EsewaPaymentServiceImpl implements EsewaPaymentService {
         Object statusObj = body.get("status");
         String status = statusObj != null ? statusObj.toString() : "UNKNOWN";
 
-        // SAFE: Fetch payment in a separate transaction to avoid session reuse
-        Long paymentId = fetchPaymentIdByTransactionUuid(uuid);
-        
-        if (paymentId != null) {
-            // Update payment in yet another separate transaction
-            if ("COMPLETE".equalsIgnoreCase(status) || "COMPLETED".equalsIgnoreCase(status)) {
-                updatePaymentStatus(paymentId, PaymentStatus.COMPLETED);
-                
-                // Fetch the booking ID in a separate transaction before confirming
-                Long bookingId = fetchBookingIdByPaymentId(paymentId);
-                if (bookingId != null) {
-                    bookingService.confirmBooking(bookingId);
+        // Fetch and update payment in a clean transaction
+        final String finalUuid = uuid;
+        transactionTemplate.execute(txStatus -> {
+            Optional<Payment> paymentOpt = paymentRepository.findByTransactionId(finalUuid);
+            if (paymentOpt.isPresent()) {
+                Payment payment = paymentOpt.get();
+                if ("COMPLETE".equalsIgnoreCase(status) || "COMPLETED".equalsIgnoreCase(status)) {
+                    payment.setStatus(PaymentStatus.COMPLETED);
+                    payment.setCompletedAt(LocalDateTime.now());
+                    paymentRepository.save(payment);
+                    
+                    // Confirm booking
+                    if (payment.getBooking() != null) {
+                        bookingService.confirmBooking(payment.getBooking().getId());
+                    }
+                } else {
+                    payment.setStatus(PaymentStatus.FAILED);
+                    paymentRepository.save(payment);
                 }
+                log.info("Payment updated. Status: {}, Transaction UUID: {}", status, finalUuid);
             } else {
-                updatePaymentStatus(paymentId, PaymentStatus.FAILED);
+                log.warn("No payment found for transaction UUID: {}", finalUuid);
             }
-        } else {
-            log.warn("No local Payment found for transaction uuid={}", uuid);
-        }
+            return null;
+        });
 
         Map<String, Object> result = new HashMap<>();
         result.put("status", status);
@@ -239,56 +153,7 @@ public class EsewaPaymentServiceImpl implements EsewaPaymentService {
         return result;
     }
 
-    /**
-     * Fetches payment ID by transaction UUID in a completely isolated transaction.
-     * Returns only the ID to ensure no Session reuse.
-     */
-    private Long fetchPaymentIdByTransactionUuid(String uuid) {
-        return transactionTemplate.execute(status -> {
-            Optional<Payment> payment = paymentRepository.findByTransactionId(uuid);
-            if (payment.isPresent()) {
-                log.info("Found payment for transaction UUID: {}", uuid);
-                return payment.get().getId();
-            }
-            return null;
-        });
-    }
-
-    /**
-     * Fetches booking ID by payment ID in a completely isolated transaction.
-     * Returns only the ID to ensure no Session reuse.
-     */
-    private Long fetchBookingIdByPaymentId(Long paymentId) {
-        return transactionTemplate.execute(status -> {
-            Optional<Payment> payment = paymentRepository.findById(paymentId);
-            if (payment.isPresent() && payment.get().getBooking() != null) {
-                log.info("Found booking for payment ID: {}", paymentId);
-                return payment.get().getBooking().getId();
-            }
-            return null;
-        });
-    }
-
-    /**
-     * Updates payment status in a completely isolated transaction.
-     * Never reads the Payment (would attaches to Session), just updates by ID.
-     */
-    private void updatePaymentStatus(Long paymentId, PaymentStatus newStatus) {
-        transactionTemplate.execute(status -> {
-            Payment payment = paymentRepository.findById(paymentId).orElse(null);
-            if (payment != null) {
-                payment.setStatus(newStatus);
-                if (newStatus == PaymentStatus.COMPLETED) {
-                    payment.setCompletedAt(LocalDateTime.now());
-                }
-                paymentRepository.save(payment);
-                log.info("Updated payment ID: {} to status: {}", paymentId, newStatus);
-            }
-            return null;
-        });
-    }
-
-        private Map<String, String> buildEsewaFormParams(String transactionUuid, BigDecimal baseAmount, BigDecimal taxAmount, BigDecimal totalAmount) {
+    private Map<String, String> buildEsewaFormParams(String transactionUuid, BigDecimal baseAmount, BigDecimal taxAmount, BigDecimal totalAmount) {
         // Ensure amounts are properly scaled
         baseAmount = baseAmount.setScale(2, RoundingMode.HALF_UP);
         taxAmount = taxAmount.setScale(2, RoundingMode.HALF_UP);
@@ -308,7 +173,6 @@ public class EsewaPaymentServiceImpl implements EsewaPaymentService {
             : taxAmount.toPlainString();
 
         Map<String, String> params = new HashMap<>();
-        // Send base amount as `amount` and total (base + tax + charges) as `total_amount` so eSewa can validate sums
         params.put("amount", baseAmountForForm);
         params.put("tax_amount", taxAmountForForm);
         params.put("total_amount", totalAmountForFormAndSignature);
@@ -322,13 +186,12 @@ public class EsewaPaymentServiceImpl implements EsewaPaymentService {
         String signedFieldNames = "total_amount,transaction_uuid,product_code";
         params.put("signed_field_names", signedFieldNames);
 
-        // The signature message must use the exact same formatted total_amount value as in the form
         String signatureMessage = String.format("total_amount=%s,transaction_uuid=%s,product_code=%s",
             totalAmountForFormAndSignature, transactionUuid, esewaProperties.getProductCode());
         params.put("signature", hmacSha256Base64(esewaProperties.getSecretKey(), signatureMessage));
 
         return params;
-        }
+    }
 
     private String hmacSha256Base64(String secret, String message) {
         try {
