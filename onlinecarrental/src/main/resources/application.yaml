@@ -56,10 +56,10 @@ app:
     product-code: EPAYTEST
     secret-key: 8gBm/:&EnhH.1/q
     form-url: https://rc-epay.esewa.com.np/api/epay/main/v2/form
-    status-url: https://rc.esewa.com.np/api/epay/transaction/status
-    success-url: http://super-pancake-5gvrx59g57r4fvppq-5173.app.github.dev/esewa/success
-    failure-url: http://super-pancake-5gvrx59g57r4fvppq-5173.app.github.dev/esewa/failure
-  
+    status-url: https://rc-epay.esewa.com.np/api/epay/status
+    success-url: https://super-pancake-5gvrx59g57r4fvppq.app.github.dev/esewa/success
+    failure-url: https://super-pancake-5gvrx59g57r4fvppq.app.github.dev/esewa/failure
+ 
   cors:
     allowed-origins: "http://localhost:3000,http://localhost:5173"
   

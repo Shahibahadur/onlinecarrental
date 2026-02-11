@@ -3101,3 +3101,842 @@ Caused by: org.springframework.data.mapping.PropertyReferenceException: No prope
     where
         p1_0.booking_id=? for update
 2026-02-11T10:46:40.499Z  INFO 49506 --- [http-nio-8080-exec-9] c.d.o.s.impl.EsewaPaymentServiceImpl     : Existing payment found for booking 25. Using payment ID: 45
+2026-02-11T12:44:59.892Z  INFO 20157 --- [restartedMain] c.d.o.OnlineCarRentalApplication         : Starting OnlineCarRentalApplication using Java 21.0.9 with PID 20157 (/workspaces/onlinecarrental/onlinecarrental/target/classes started by codespace in /workspaces/onlinecarrental/onlinecarrental)
+2026-02-11T12:44:59.900Z  INFO 20157 --- [restartedMain] c.d.o.OnlineCarRentalApplication         : No active profile set, falling back to 1 default profile: "default"
+2026-02-11T12:45:00.014Z  INFO 20157 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2026-02-11T12:45:00.017Z  INFO 20157 --- [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2026-02-11T12:45:02.072Z  INFO 20157 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-02-11T12:45:02.073Z  INFO 20157 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-02-11T12:45:02.232Z  INFO 20157 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 153 ms. Found 8 JPA repository interfaces.
+2026-02-11T12:45:02.249Z  INFO 20157 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2026-02-11T12:45:02.250Z  INFO 20157 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2026-02-11T12:45:02.265Z  INFO 20157 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.BookingRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-02-11T12:45:02.266Z  INFO 20157 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.ImageCategoryRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-02-11T12:45:02.266Z  INFO 20157 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.PaymentRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-02-11T12:45:02.266Z  INFO 20157 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.PriceConfigRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-02-11T12:45:02.267Z  INFO 20157 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.ReviewRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-02-11T12:45:02.267Z  INFO 20157 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.UserRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-02-11T12:45:02.268Z  INFO 20157 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.VehicleImageRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-02-11T12:45:02.268Z  INFO 20157 --- [restartedMain] .RepositoryConfigurationExtensionSupport : Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.driverental.onlinecarrental.repository.VehicleRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+2026-02-11T12:45:02.268Z  INFO 20157 --- [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 11 ms. Found 0 Redis repository interfaces.
+2026-02-11T12:45:02.857Z  INFO 20157 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-02-11T12:45:02.866Z  INFO 20157 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-02-11T12:45:02.867Z  INFO 20157 --- [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.16]
+2026-02-11T12:45:02.899Z  INFO 20157 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-02-11T12:45:02.900Z  INFO 20157 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 2882 ms
+2026-02-11T12:45:03.251Z  INFO 20157 --- [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-02-11T12:45:03.309Z  INFO 20157 --- [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.3.1.Final
+2026-02-11T12:45:03.343Z  INFO 20157 --- [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-02-11T12:45:03.684Z  INFO 20157 --- [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-02-11T12:45:03.704Z  INFO 20157 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-02-11T12:45:04.073Z  INFO 20157 --- [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@55b9016c
+2026-02-11T12:45:04.074Z  INFO 20157 --- [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-02-11T12:45:04.118Z  WARN 20157 --- [restartedMain] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-02-11T12:45:05.098Z  INFO 20157 --- [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-02-11T12:45:05.341Z  INFO 20157 --- [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-02-11T12:45:05.546Z  INFO 20157 --- [restartedMain] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-02-11T12:45:07.288Z  INFO 20157 --- [restartedMain] c.d.o.service.impl.SearchServiceImpl     : Rebuilding search index...
+2026-02-11T12:45:07.355Z DEBUG 20157 --- [restartedMain] org.hibernate.SQL                        : 
+    select
+        distinct v1_0.id,
+        v1_0.base_price,
+        v1_0.created_at,
+        v1_0.daily_price,
+        v1_0.description,
+        v1_0.engine_capacity,
+        f1_0.vehicle_id,
+        f1_0.feature,
+        v1_0.fuel_type,
+        v1_0.image_category,
+        v1_0.image_name,
+        v1_0.image_names,
+        v1_0.is_available,
+        v1_0.license_plate,
+        v1_0.location,
+        v1_0.luggage_capacity,
+        v1_0.main_image_name,
+        v1_0.make,
+        v1_0.model,
+        v1_0.rating,
+        v1_0.registration_number,
+        v1_0.review_count,
+        v1_0.seats,
+        v1_0.transmission,
+        v1_0.type,
+        v1_0.updated_at,
+        v1_0.year 
+    from
+        vehicles v1_0 
+    left join
+        vehicle_features f1_0 
+            on v1_0.id=f1_0.vehicle_id
+2026-02-11T12:45:07.383Z  INFO 20157 --- [restartedMain] c.d.o.service.impl.SearchServiceImpl     : Search index rebuilt with 37 keywords
+2026-02-11T12:45:07.502Z  WARN 20157 --- [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-02-11T12:45:08.206Z  INFO 20157 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2026-02-11T12:45:08.245Z  INFO 20157 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path ''
+2026-02-11T12:45:08.264Z  INFO 20157 --- [restartedMain] c.d.o.OnlineCarRentalApplication         : Started OnlineCarRentalApplication in 9.204 seconds (process running for 9.698)
+2026-02-11T12:45:08.276Z  INFO 20157 --- [scheduling-1] c.d.o.service.impl.SearchServiceImpl     : Rebuilding search index...
+2026-02-11T12:45:08.278Z DEBUG 20157 --- [scheduling-1] org.hibernate.SQL                        : 
+    select
+        distinct v1_0.id,
+        v1_0.base_price,
+        v1_0.created_at,
+        v1_0.daily_price,
+        v1_0.description,
+        v1_0.engine_capacity,
+        f1_0.vehicle_id,
+        f1_0.feature,
+        v1_0.fuel_type,
+        v1_0.image_category,
+        v1_0.image_name,
+        v1_0.image_names,
+        v1_0.is_available,
+        v1_0.license_plate,
+        v1_0.location,
+        v1_0.luggage_capacity,
+        v1_0.main_image_name,
+        v1_0.make,
+        v1_0.model,
+        v1_0.rating,
+        v1_0.registration_number,
+        v1_0.review_count,
+        v1_0.seats,
+        v1_0.transmission,
+        v1_0.type,
+        v1_0.updated_at,
+        v1_0.year 
+    from
+        vehicles v1_0 
+    left join
+        vehicle_features f1_0 
+            on v1_0.id=f1_0.vehicle_id
+2026-02-11T12:45:08.287Z  INFO 20157 --- [scheduling-1] c.d.o.service.impl.SearchServiceImpl     : Search index rebuilt with 37 keywords
+2026-02-11T12:47:28.999Z  INFO 20157 --- [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-02-11T12:47:29.001Z  INFO 20157 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-02-11T12:47:29.004Z  INFO 20157 --- [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2026-02-11T12:47:29.347Z DEBUG 20157 --- [http-nio-8080-exec-2] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+2026-02-11T12:47:29.357Z  WARN 20157 --- [http-nio-8080-exec-2] o.s.w.s.h.HandlerMappingIntrospector     : Cache miss for REQUEST dispatch to '/api/auth/login' (previous null). Performing MatchableHandlerMapping lookup. This is logged once only at WARN level, and every time at TRACE.
+2026-02-11T12:47:29.552Z DEBUG 20157 --- [http-nio-8080-exec-2] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+2026-02-11T12:47:29.641Z DEBUG 20157 --- [http-nio-8080-exec-2] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+2026-02-11T12:47:30.504Z DEBUG 20157 --- [http-nio-8080-exec-4] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+2026-02-11T12:47:30.528Z DEBUG 20157 --- [http-nio-8080-exec-4] org.hibernate.SQL                        : 
+    select
+        count(*) 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+2026-02-11T12:47:30.535Z DEBUG 20157 --- [http-nio-8080-exec-4] org.hibernate.SQL                        : 
+    select
+        b1_0.id,
+        b1_0.cancelled_at,
+        b1_0.confirmed_at,
+        b1_0.created_at,
+        b1_0.dropoff_location,
+        b1_0.end_date,
+        b1_0.pickup_location,
+        b1_0.start_date,
+        b1_0.status,
+        b1_0.total_price,
+        b1_0.user_id,
+        b1_0.vehicle_id 
+    from
+        bookings b1_0 
+    where
+        b1_0.user_id=? 
+    limit
+        ?, ?
+2026-02-11T12:47:38.874Z DEBUG 20157 --- [http-nio-8080-exec-7] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+2026-02-11T12:47:38.893Z  WARN 20157 --- [http-nio-8080-exec-7] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.method.annotation.MethodArgumentTypeMismatchException: Failed to convert value of type 'java.lang.String' to required type 'java.lang.Long'; For input string: "undefined"]
+2026-02-11T12:47:39.994Z DEBUG 20157 --- [http-nio-8080-exec-6] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+2026-02-11T12:47:40.008Z  WARN 20157 --- [http-nio-8080-exec-6] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [org.springframework.web.method.annotation.MethodArgumentTypeMismatchException: Failed to convert value of type 'java.lang.String' to required type 'java.lang.Long'; For input string: "undefined"]
+2026-02-11T12:47:42.941Z DEBUG 20157 --- [http-nio-8080-exec-9] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+2026-02-11T12:47:42.961Z DEBUG 20157 --- [http-nio-8080-exec-9] org.hibernate.SQL                        : 
+    select
+        v1_0.id,
+        v1_0.base_price,
+        v1_0.created_at,
+        v1_0.daily_price,
+        v1_0.description,
+        v1_0.engine_capacity,
+        v1_0.fuel_type,
+        v1_0.image_category,
+        v1_0.image_name,
+        v1_0.image_names,
+        v1_0.is_available,
+        v1_0.license_plate,
+        v1_0.location,
+        v1_0.luggage_capacity,
+        v1_0.main_image_name,
+        v1_0.make,
+        v1_0.model,
+        v1_0.rating,
+        v1_0.registration_number,
+        v1_0.review_count,
+        v1_0.seats,
+        v1_0.transmission,
+        v1_0.type,
+        v1_0.updated_at,
+        v1_0.year 
+    from
+        vehicles v1_0 
+    where
+        v1_0.is_available=1 
+        and (
+            ? is null 
+            or trim(BOTH from ?)='' 
+            or lower(v1_0.make) like replace(concat('%', lower(?), '%'), '\\', '\\\\') 
+            or lower(v1_0.model) like replace(concat('%', lower(?), '%'), '\\', '\\\\') 
+            or lower(v1_0.location) like replace(concat('%', lower(?), '%'), '\\', '\\\\') 
+            or lower(v1_0.type) like replace(concat('%', lower(?), '%'), '\\', '\\\\')
+        ) 
+    limit
+        ?, ?
+2026-02-11T12:47:42.976Z DEBUG 20157 --- [http-nio-8080-exec-9] org.hibernate.SQL                        : 
+    select
+        f1_0.vehicle_id,
+        f1_0.feature 
+    from
+        vehicle_features f1_0 
+    where
+        f1_0.vehicle_id=?
+2026-02-11T12:47:42.978Z DEBUG 20157 --- [http-nio-8080-exec-9] org.hibernate.SQL                        : 
+    select
+        f1_0.vehicle_id,
+        f1_0.feature 
+    from
+        vehicle_features f1_0 
+    where
+        f1_0.vehicle_id=?
+2026-02-11T12:47:42.979Z DEBUG 20157 --- [http-nio-8080-exec-9] org.hibernate.SQL                        : 
+    select
+        f1_0.vehicle_id,
+        f1_0.feature 
+    from
+        vehicle_features f1_0 
+    where
+        f1_0.vehicle_id=?
+2026-02-11T12:47:42.980Z DEBUG 20157 --- [http-nio-8080-exec-9] org.hibernate.SQL                        : 
+    select
+        f1_0.vehicle_id,
+        f1_0.feature 
+    from
+        vehicle_features f1_0 
+    where
+        f1_0.vehicle_id=?
+2026-02-11T12:47:42.981Z DEBUG 20157 --- [http-nio-8080-exec-9] org.hibernate.SQL                        : 
+    select
+        f1_0.vehicle_id,
+        f1_0.feature 
+    from
+        vehicle_features f1_0 
+    where
+        f1_0.vehicle_id=?
+2026-02-11T12:47:42.983Z DEBUG 20157 --- [http-nio-8080-exec-9] org.hibernate.SQL                        : 
+    select
+        f1_0.vehicle_id,
+        f1_0.feature 
+    from
+        vehicle_features f1_0 
+    where
+        f1_0.vehicle_id=?
+2026-02-11T12:47:42.984Z DEBUG 20157 --- [http-nio-8080-exec-9] org.hibernate.SQL                        : 
+    select
+        f1_0.vehicle_id,
+        f1_0.feature 
+    from
+        vehicle_features f1_0 
+    where
+        f1_0.vehicle_id=?
+2026-02-11T12:47:42.985Z DEBUG 20157 --- [http-nio-8080-exec-9] org.hibernate.SQL                        : 
+    select
+        f1_0.vehicle_id,
+        f1_0.feature 
+    from
+        vehicle_features f1_0 
+    where
+        f1_0.vehicle_id=?
+2026-02-11T12:53:30.551Z DEBUG 20157 --- [http-nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+2026-02-11T12:53:30.559Z DEBUG 20157 --- [http-nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        count(*) 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+2026-02-11T12:53:30.562Z DEBUG 20157 --- [http-nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        b1_0.id,
+        b1_0.cancelled_at,
+        b1_0.confirmed_at,
+        b1_0.created_at,
+        b1_0.dropoff_location,
+        b1_0.end_date,
+        b1_0.pickup_location,
+        b1_0.start_date,
+        b1_0.status,
+        b1_0.total_price,
+        b1_0.user_id,
+        b1_0.vehicle_id 
+    from
+        bookings b1_0 
+    where
+        b1_0.user_id=? 
+    limit
+        ?, ?
+2026-02-11T12:53:30.731Z DEBUG 20157 --- [http-nio-8080-exec-8] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+2026-02-11T12:53:30.737Z DEBUG 20157 --- [http-nio-8080-exec-8] org.hibernate.SQL                        : 
+    select
+        count(*) 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+2026-02-11T12:53:30.741Z DEBUG 20157 --- [http-nio-8080-exec-8] org.hibernate.SQL                        : 
+    select
+        b1_0.id,
+        b1_0.cancelled_at,
+        b1_0.confirmed_at,
+        b1_0.created_at,
+        b1_0.dropoff_location,
+        b1_0.end_date,
+        b1_0.pickup_location,
+        b1_0.start_date,
+        b1_0.status,
+        b1_0.total_price,
+        b1_0.user_id,
+        b1_0.vehicle_id 
+    from
+        bookings b1_0 
+    where
+        b1_0.user_id=? 
+    limit
+        ?, ?
+2026-02-11T12:58:52.438Z DEBUG 20157 --- [http-nio-8080-exec-4] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+2026-02-11T12:58:52.445Z DEBUG 20157 --- [http-nio-8080-exec-4] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+2026-02-11T12:58:52.537Z DEBUG 20157 --- [http-nio-8080-exec-4] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+2026-02-11T12:58:52.913Z DEBUG 20157 --- [http-nio-8080-exec-10] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+2026-02-11T12:58:52.919Z DEBUG 20157 --- [http-nio-8080-exec-10] org.hibernate.SQL                        : 
+    select
+        count(*) 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+2026-02-11T12:58:52.924Z DEBUG 20157 --- [http-nio-8080-exec-10] org.hibernate.SQL                        : 
+    select
+        b1_0.id,
+        b1_0.cancelled_at,
+        b1_0.confirmed_at,
+        b1_0.created_at,
+        b1_0.dropoff_location,
+        b1_0.end_date,
+        b1_0.pickup_location,
+        b1_0.start_date,
+        b1_0.status,
+        b1_0.total_price,
+        b1_0.user_id,
+        b1_0.vehicle_id 
+    from
+        bookings b1_0 
+    where
+        b1_0.user_id=? 
+    limit
+        ?, ?
+2026-02-11T12:58:58.188Z DEBUG 20157 --- [http-nio-8080-exec-2] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+2026-02-11T12:58:58.195Z DEBUG 20157 --- [http-nio-8080-exec-2] org.hibernate.SQL                        : 
+    select
+        v1_0.id,
+        v1_0.base_price,
+        v1_0.created_at,
+        v1_0.daily_price,
+        v1_0.description,
+        v1_0.engine_capacity,
+        v1_0.fuel_type,
+        v1_0.image_category,
+        v1_0.image_name,
+        v1_0.image_names,
+        v1_0.is_available,
+        v1_0.license_plate,
+        v1_0.location,
+        v1_0.luggage_capacity,
+        v1_0.main_image_name,
+        v1_0.make,
+        v1_0.model,
+        v1_0.rating,
+        v1_0.registration_number,
+        v1_0.review_count,
+        v1_0.seats,
+        v1_0.transmission,
+        v1_0.type,
+        v1_0.updated_at,
+        v1_0.year 
+    from
+        vehicles v1_0 
+    where
+        v1_0.is_available=1 
+        and (
+            ? is null 
+            or trim(BOTH from ?)='' 
+            or lower(v1_0.make) like replace(concat('%', lower(?), '%'), '\\', '\\\\') 
+            or lower(v1_0.model) like replace(concat('%', lower(?), '%'), '\\', '\\\\') 
+            or lower(v1_0.location) like replace(concat('%', lower(?), '%'), '\\', '\\\\') 
+            or lower(v1_0.type) like replace(concat('%', lower(?), '%'), '\\', '\\\\')
+        ) 
+    limit
+        ?, ?
+2026-02-11T12:58:58.201Z DEBUG 20157 --- [http-nio-8080-exec-2] org.hibernate.SQL                        : 
+    select
+        f1_0.vehicle_id,
+        f1_0.feature 
+    from
+        vehicle_features f1_0 
+    where
+        f1_0.vehicle_id=?
+2026-02-11T12:58:58.203Z DEBUG 20157 --- [http-nio-8080-exec-2] org.hibernate.SQL                        : 
+    select
+        f1_0.vehicle_id,
+        f1_0.feature 
+    from
+        vehicle_features f1_0 
+    where
+        f1_0.vehicle_id=?
+2026-02-11T12:58:58.205Z DEBUG 20157 --- [http-nio-8080-exec-2] org.hibernate.SQL                        : 
+    select
+        f1_0.vehicle_id,
+        f1_0.feature 
+    from
+        vehicle_features f1_0 
+    where
+        f1_0.vehicle_id=?
+2026-02-11T12:58:58.208Z DEBUG 20157 --- [http-nio-8080-exec-2] org.hibernate.SQL                        : 
+    select
+        f1_0.vehicle_id,
+        f1_0.feature 
+    from
+        vehicle_features f1_0 
+    where
+        f1_0.vehicle_id=?
+2026-02-11T12:58:58.210Z DEBUG 20157 --- [http-nio-8080-exec-2] org.hibernate.SQL                        : 
+    select
+        f1_0.vehicle_id,
+        f1_0.feature 
+    from
+        vehicle_features f1_0 
+    where
+        f1_0.vehicle_id=?
+2026-02-11T12:58:58.212Z DEBUG 20157 --- [http-nio-8080-exec-2] org.hibernate.SQL                        : 
+    select
+        f1_0.vehicle_id,
+        f1_0.feature 
+    from
+        vehicle_features f1_0 
+    where
+        f1_0.vehicle_id=?
+2026-02-11T12:58:58.213Z DEBUG 20157 --- [http-nio-8080-exec-2] org.hibernate.SQL                        : 
+    select
+        f1_0.vehicle_id,
+        f1_0.feature 
+    from
+        vehicle_features f1_0 
+    where
+        f1_0.vehicle_id=?
+2026-02-11T12:58:58.214Z DEBUG 20157 --- [http-nio-8080-exec-2] org.hibernate.SQL                        : 
+    select
+        f1_0.vehicle_id,
+        f1_0.feature 
+    from
+        vehicle_features f1_0 
+    where
+        f1_0.vehicle_id=?
+2026-02-11T12:59:13.385Z DEBUG 20157 --- [http-nio-8080-exec-2] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+2026-02-11T12:59:13.406Z DEBUG 20157 --- [http-nio-8080-exec-2] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.id=?
+2026-02-11T12:59:13.408Z DEBUG 20157 --- [http-nio-8080-exec-2] org.hibernate.SQL                        : 
+    select
+        v1_0.id,
+        v1_0.base_price,
+        v1_0.created_at,
+        v1_0.daily_price,
+        v1_0.description,
+        v1_0.engine_capacity,
+        v1_0.fuel_type,
+        v1_0.image_category,
+        v1_0.image_name,
+        v1_0.image_names,
+        v1_0.is_available,
+        v1_0.license_plate,
+        v1_0.location,
+        v1_0.luggage_capacity,
+        v1_0.main_image_name,
+        v1_0.make,
+        v1_0.model,
+        v1_0.rating,
+        v1_0.registration_number,
+        v1_0.review_count,
+        v1_0.seats,
+        v1_0.transmission,
+        v1_0.type,
+        v1_0.updated_at,
+        v1_0.year 
+    from
+        vehicles v1_0 
+    where
+        v1_0.id=?
+2026-02-11T12:59:13.423Z DEBUG 20157 --- [http-nio-8080-exec-2] org.hibernate.SQL                        : 
+    select
+        b1_0.id,
+        b1_0.cancelled_at,
+        b1_0.confirmed_at,
+        b1_0.created_at,
+        b1_0.dropoff_location,
+        b1_0.end_date,
+        b1_0.pickup_location,
+        b1_0.start_date,
+        b1_0.status,
+        b1_0.total_price,
+        b1_0.user_id,
+        b1_0.vehicle_id 
+    from
+        bookings b1_0 
+    where
+        b1_0.vehicle_id=? 
+        and b1_0.status!='CANCELLED' 
+        and (
+            (
+                b1_0.start_date between ? and ?
+            ) 
+            or (
+                b1_0.end_date between ? and ?
+            ) 
+            or (
+                b1_0.start_date<=? 
+                and b1_0.end_date>=?
+            )
+        )
+2026-02-11T12:59:13.429Z DEBUG 20157 --- [http-nio-8080-exec-2] org.hibernate.SQL                        : 
+    select
+        count(b1_0.id) 
+    from
+        bookings b1_0 
+    where
+        b1_0.start_date between ? and ?
+2026-02-11T12:59:13.431Z  INFO 20157 --- [http-nio-8080-exec-2] c.d.o.a.pricing.DynamicPricingEngine     : Dynamic pricing calculation: Base=2000.00, Final=2207.999999999999800000, Multiplier=1.1039999999999999
+2026-02-11T12:59:13.453Z DEBUG 20157 --- [http-nio-8080-exec-2] org.hibernate.SQL                        : 
+    insert 
+    into
+        bookings
+        (cancelled_at, confirmed_at, created_at, dropoff_location, end_date, pickup_location, start_date, status, total_price, user_id, vehicle_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2026-02-11T12:59:13.463Z  INFO 20157 --- [http-nio-8080-exec-2] c.d.o.service.impl.BookingServiceImpl    : Booking created successfully: 26 for vehicle: 6, dates: 2026-02-11 to 2026-02-12
+2026-02-11T12:59:14.610Z DEBUG 20157 --- [http-nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+2026-02-11T12:59:14.656Z DEBUG 20157 --- [http-nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        p1_0.id,
+        p1_0.amount,
+        p1_0.booking_id,
+        p1_0.completed_at,
+        p1_0.created_at,
+        p1_0.payment_method,
+        p1_0.status,
+        p1_0.transaction_id 
+    from
+        payments p1_0 
+    where
+        p1_0.booking_id=? for update
+2026-02-11T12:59:14.661Z DEBUG 20157 --- [http-nio-8080-exec-3] org.hibernate.SQL                        : 
+    select
+        b1_0.id,
+        b1_0.cancelled_at,
+        b1_0.confirmed_at,
+        b1_0.created_at,
+        b1_0.dropoff_location,
+        b1_0.end_date,
+        b1_0.pickup_location,
+        b1_0.start_date,
+        b1_0.status,
+        b1_0.total_price,
+        b1_0.user_id,
+        b1_0.vehicle_id 
+    from
+        bookings b1_0 
+    where
+        b1_0.id=?
+2026-02-11T12:59:14.668Z DEBUG 20157 --- [http-nio-8080-exec-3] org.hibernate.SQL                        : 
+    insert 
+    into
+        payments
+        (amount, booking_id, completed_at, created_at, payment_method, status, transaction_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?)
+2026-02-11T12:59:14.670Z  INFO 20157 --- [http-nio-8080-exec-3] c.d.o.s.impl.EsewaPaymentServiceImpl     : Payment created successfully. Payment ID: 46, Booking ID: 26, UUID: f787f5d4-08c4-4a61-9f5b-ddf0dcfd2764
+2026-02-11T12:59:14.670Z  INFO 20157 --- [http-nio-8080-exec-3] c.d.o.s.impl.EsewaPaymentServiceImpl     : Built eSewa form params. Transaction UUID: f787f5d4-08c4-4a61-9f5b-ddf0dcfd2764, Total Amount: 2495.04
+2026-02-11T12:59:14.725Z DEBUG 20157 --- [http-nio-8080-exec-8] org.hibernate.SQL                        : 
+    select
+        u1_0.id,
+        u1_0.created_at,
+        u1_0.email,
+        u1_0.first_name,
+        u1_0.last_name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.updated_at 
+    from
+        users u1_0 
+    where
+        u1_0.email=?
+2026-02-11T12:59:14.731Z DEBUG 20157 --- [http-nio-8080-exec-8] org.hibernate.SQL                        : 
+    select
+        p1_0.id,
+        p1_0.amount,
+        p1_0.booking_id,
+        p1_0.completed_at,
+        p1_0.created_at,
+        p1_0.payment_method,
+        p1_0.status,
+        p1_0.transaction_id 
+    from
+        payments p1_0 
+    where
+        p1_0.booking_id=? for update
+2026-02-11T12:59:14.733Z  INFO 20157 --- [http-nio-8080-exec-8] c.d.o.s.impl.EsewaPaymentServiceImpl     : Existing payment found for booking 26. Using payment ID: 46
+2026-02-11T12:59:14.733Z  INFO 20157 --- [http-nio-8080-exec-8] c.d.o.s.impl.EsewaPaymentServiceImpl     : Built eSewa form params. Transaction UUID: f787f5d4-08c4-4a61-9f5b-ddf0dcfd2764, Total Amount: 2819.40
