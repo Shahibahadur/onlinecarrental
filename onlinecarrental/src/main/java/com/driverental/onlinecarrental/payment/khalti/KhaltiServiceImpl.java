@@ -1,9 +1,5 @@
-package com.driverental.onlinecarrental.service.impl;
+package com.driverental.onlinecarrental.payment.khalti;
 
-import com.driverental.onlinecarrental.config.KhaltiConfig;
-import com.driverental.onlinecarrental.model.dto.khalti.KhaltiCallbackDTO;
-import com.driverental.onlinecarrental.model.dto.khalti.KhaltiRequest;
-import com.driverental.onlinecarrental.model.dto.khalti.KhaltiResponse;
 import com.driverental.onlinecarrental.model.entity.Booking;
 import com.driverental.onlinecarrental.model.entity.Payment;
 import com.driverental.onlinecarrental.model.enums.PaymentStatus;
@@ -11,7 +7,6 @@ import com.driverental.onlinecarrental.model.exception.ResourceNotFoundException
 import com.driverental.onlinecarrental.repository.BookingRepository;
 import com.driverental.onlinecarrental.repository.PaymentRepository;
 import com.driverental.onlinecarrental.service.BookingService;
-import com.driverental.onlinecarrental.service.KhaltiService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.*;

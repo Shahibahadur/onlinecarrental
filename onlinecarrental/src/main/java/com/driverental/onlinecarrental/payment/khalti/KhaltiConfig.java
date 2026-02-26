@@ -1,4 +1,4 @@
-package com.driverental.onlinecarrental.config;
+package com.driverental.onlinecarrental.payment.khalti;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

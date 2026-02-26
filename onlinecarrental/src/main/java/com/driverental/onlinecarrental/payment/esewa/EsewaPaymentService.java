@@ -1,6 +1,4 @@
-package com.driverental.onlinecarrental.service;
-
-import com.driverental.onlinecarrental.model.dto.request.EsewaInitiateRequest;
+package com.driverental.onlinecarrental.payment.esewa;
 
 import java.util.Map;
 

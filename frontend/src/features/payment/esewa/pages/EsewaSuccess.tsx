@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { paymentAPI } from '../../api/payment';
+import { esewaAPI } from '../api/esewaApi';
 
 export default function EsewaSuccess() {
   const location = useLocation();
@@ -29,7 +29,7 @@ export default function EsewaSuccess() {
           throw new Error('Invalid eSewa response data');
         }
 
-        const resp = await paymentAPI.esewaVerify(String(uuid), String(amount));
+        const resp = await esewaAPI.verify(String(uuid), String(amount));
         const s = resp.data?.status;
 
         if (String(s).toUpperCase() === 'COMPLETE' || String(s).toUpperCase() === 'COMPLETED') {

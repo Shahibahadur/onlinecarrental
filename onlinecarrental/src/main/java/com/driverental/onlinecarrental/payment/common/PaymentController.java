@@ -1,8 +1,7 @@
-package com.driverental.onlinecarrental.controller;
+package com.driverental.onlinecarrental.payment.common;
 
 import com.driverental.onlinecarrental.model.dto.request.PaymentRequest;
 import com.driverental.onlinecarrental.model.dto.response.PaymentResponse;
-import com.driverental.onlinecarrental.service.PaymentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;

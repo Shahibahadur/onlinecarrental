@@ -1,4 +1,4 @@
-package com.driverental.onlinecarrental.config;
+package com.driverental.onlinecarrental.payment.esewa;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

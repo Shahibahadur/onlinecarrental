@@ -1,9 +1,5 @@
-package com.driverental.onlinecarrental.controller;
+package com.driverental.onlinecarrental.payment.khalti;
 
-import com.driverental.onlinecarrental.model.dto.khalti.KhaltiCallbackDTO;
-import com.driverental.onlinecarrental.model.dto.khalti.KhaltiRequest;
-import com.driverental.onlinecarrental.model.dto.khalti.KhaltiResponse;
-import com.driverental.onlinecarrental.service.KhaltiService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;

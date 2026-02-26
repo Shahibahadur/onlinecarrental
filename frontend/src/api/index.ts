@@ -5,3 +5,4 @@ export { recommendationsAPI } from './recommendations';
 export { adminAPI } from './admin';
 export { reviewAPI } from './review';
 export { default as axiosInstance } from './axios';
+export { paymentAPI } from './payment';

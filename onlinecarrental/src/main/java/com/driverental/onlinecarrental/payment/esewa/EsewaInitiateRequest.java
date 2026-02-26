@@ -1,4 +1,4 @@
-package com.driverental.onlinecarrental.model.dto.request;
+package com.driverental.onlinecarrental.payment.esewa;
 
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;

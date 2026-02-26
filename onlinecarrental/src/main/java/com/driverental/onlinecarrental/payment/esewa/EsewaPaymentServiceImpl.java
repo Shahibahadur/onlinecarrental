@@ -1,7 +1,5 @@
-package com.driverental.onlinecarrental.service.impl;
+package com.driverental.onlinecarrental.payment.esewa;
 
-import com.driverental.onlinecarrental.config.EsewaProperties;
-import com.driverental.onlinecarrental.model.dto.request.EsewaInitiateRequest;
 import com.driverental.onlinecarrental.model.entity.Booking;
 import com.driverental.onlinecarrental.model.entity.Payment;
 import com.driverental.onlinecarrental.model.enums.PaymentMethod;
@@ -10,7 +8,6 @@ import com.driverental.onlinecarrental.model.exception.ResourceNotFoundException
 import com.driverental.onlinecarrental.repository.BookingRepository;
 import com.driverental.onlinecarrental.repository.PaymentRepository;
 import com.driverental.onlinecarrental.service.BookingService;
-import com.driverental.onlinecarrental.service.EsewaPaymentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -171,19 +168,6 @@ public class EsewaPaymentServiceImpl implements EsewaPaymentService {
 
     /**
      * Builds eSewa form parameters for payment redirect
-     * 
-     * Required parameters according to eSewa documentation:
-     * - amount: Base price (without tax)
-     * - tax_amount: Tax amount (13% VAT)
-     * - total_amount: Total amount (amount + tax_amount)
-     * - transaction_uuid: Unique transaction identifier
-     * - product_code: Merchant code
-     * - product_service_charge: Service charge (optional)
-     * - product_delivery_charge: Delivery charge (optional)
-     * - success_url: Callback URL on success
-     * - failure_url: Callback URL on failure
-     * - signed_field_names: Comma-separated list of signed fields
-     * - signature: HMAC-SHA256 signature
      */
     private Map<String, String> buildEsewaFormParams(String transactionUuid, BigDecimal baseAmount, BigDecimal taxAmount, BigDecimal totalAmount) {
         // Ensure amounts are properly scaled
@@ -237,10 +221,6 @@ public class EsewaPaymentServiceImpl implements EsewaPaymentService {
 
     /**
      * Generates HMAC-SHA256 signature for eSewa payment request
-     * 
-     * @param secret The secret key provided by eSewa
-     * @param message The message to sign (format: key1=value1,key2=value2,...)
-     * @return Base64 encoded signature
      */
     private String hmacSha256Base64(String secret, String message) {
         try {

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { paymentAPI } from '../../api/payment';
+import { esewaAPI } from '../api/esewaApi';
 
 type EsewaParams = Record<string, string>;
 
@@ -23,7 +23,7 @@ export default function EsewaCheckout() {
         }
 
         // amount is ignored by backend when bookingId is provided
-        const resp = await paymentAPI.esewaInitiate({ bookingId, amount: 0 });
+        const resp = await esewaAPI.initiate({ bookingId, amount: 0 });
         setEsewaParams(resp.data);
       } catch (e: any) {
         setError(e?.response?.data?.message || e?.message || 'Failed to initiate eSewa payment');

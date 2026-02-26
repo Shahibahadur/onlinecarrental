@@ -11,9 +11,7 @@ import NotFound from './pages/NotFound';
 import About from './pages/About';
 import Services from './pages/Services';
 import Contact from './pages/Contact';
-import EsewaSuccess from './pages/Payment/EsewaSuccess';
-import EsewaFailure from './pages/Payment/EsewaFailure';
-import EsewaCheckout from './pages/Payment/EsewaCheckout';
+import { EsewaSuccess, EsewaFailure, EsewaCheckout } from './features/payment/esewa';
 
 // Auth Pages
 import Login from './pages/Auth/Login';

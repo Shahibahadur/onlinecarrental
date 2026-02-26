@@ -1,4 +1,4 @@
-package com.driverental.onlinecarrental.service;
+package com.driverental.onlinecarrental.payment.common;
 
 import com.driverental.onlinecarrental.model.dto.request.PaymentRequest;
 import com.driverental.onlinecarrental.model.dto.response.PaymentResponse;

@@ -1,7 +1,5 @@
-package com.driverental.onlinecarrental.controller;
+package com.driverental.onlinecarrental.payment.esewa;
 
-import com.driverental.onlinecarrental.model.dto.request.EsewaInitiateRequest;
-import com.driverental.onlinecarrental.service.EsewaPaymentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;

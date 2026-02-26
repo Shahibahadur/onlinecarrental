@@ -1,4 +1,4 @@
-package com.driverental.onlinecarrental.service.impl;
+package com.driverental.onlinecarrental.payment.common;
 
 import com.driverental.onlinecarrental.model.dto.request.PaymentRequest;
 import com.driverental.onlinecarrental.model.dto.response.PaymentResponse;
@@ -8,7 +8,6 @@ import com.driverental.onlinecarrental.model.enums.PaymentStatus;
 import com.driverental.onlinecarrental.model.exception.ResourceNotFoundException;
 import com.driverental.onlinecarrental.repository.BookingRepository;
 import com.driverental.onlinecarrental.repository.PaymentRepository;
-import com.driverental.onlinecarrental.service.PaymentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

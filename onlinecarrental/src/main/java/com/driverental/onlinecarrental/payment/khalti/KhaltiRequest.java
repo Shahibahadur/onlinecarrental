@@ -1,6 +1,5 @@
-package com.driverental.onlinecarrental.model.dto.khalti;
+package com.driverental.onlinecarrental.payment.khalti;
 
-import com.driverental.onlinecarrental.model.enums.PaymentMethod;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
