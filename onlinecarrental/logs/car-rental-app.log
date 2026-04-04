@@ -3940,3 +3940,39 @@ Caused by: org.springframework.data.mapping.PropertyReferenceException: No prope
         p1_0.booking_id=? for update
 2026-02-11T12:59:14.733Z  INFO 20157 --- [http-nio-8080-exec-8] c.d.o.s.impl.EsewaPaymentServiceImpl     : Existing payment found for booking 26. Using payment ID: 46
 2026-02-11T12:59:14.733Z  INFO 20157 --- [http-nio-8080-exec-8] c.d.o.s.impl.EsewaPaymentServiceImpl     : Built eSewa form params. Transaction UUID: f787f5d4-08c4-4a61-9f5b-ddf0dcfd2764, Total Amount: 2819.40
+2026-02-11T13:45:08.265Z  INFO 20157 --- [scheduling-1] c.d.o.service.impl.SearchServiceImpl     : Rebuilding search index...
+2026-02-11T13:45:08.268Z DEBUG 20157 --- [scheduling-1] org.hibernate.SQL                        : 
+    select
+        distinct v1_0.id,
+        v1_0.base_price,
+        v1_0.created_at,
+        v1_0.daily_price,
+        v1_0.description,
+        v1_0.engine_capacity,
+        f1_0.vehicle_id,
+        f1_0.feature,
+        v1_0.fuel_type,
+        v1_0.image_category,
+        v1_0.image_name,
+        v1_0.image_names,
+        v1_0.is_available,
+        v1_0.license_plate,
+        v1_0.location,
+        v1_0.luggage_capacity,
+        v1_0.main_image_name,
+        v1_0.make,
+        v1_0.model,
+        v1_0.rating,
+        v1_0.registration_number,
+        v1_0.review_count,
+        v1_0.seats,
+        v1_0.transmission,
+        v1_0.type,
+        v1_0.updated_at,
+        v1_0.year 
+    from
+        vehicles v1_0 
+    left join
+        vehicle_features f1_0 
+            on v1_0.id=f1_0.vehicle_id
+2026-02-11T13:45:08.275Z  INFO 20157 --- [scheduling-1] c.d.o.service.impl.SearchServiceImpl     : Search index rebuilt with 37 keywords
