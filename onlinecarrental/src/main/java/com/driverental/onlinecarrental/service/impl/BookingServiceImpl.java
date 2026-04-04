@@ -123,6 +123,13 @@ public class BookingServiceImpl implements BookingService {
     @Override
     @Transactional
     public BookingResponse cancelBooking(Long id) {
+        // User cancellation - just requests cancellation, requires admin approval
+        return requestCancellation(id);
+    }
+
+    @Override
+    @Transactional
+    public BookingResponse requestCancellation(Long id) {
         Booking booking = bookingRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Booking", "id", id));
 
@@ -135,11 +142,49 @@ public class BookingServiceImpl implements BookingService {
             throw new BusinessException("Cannot cancel booking within 24 hours of start date");
         }
 
-        booking.setStatus(BookingStatus.CANCELLED);
+        booking.setStatus(BookingStatus.CANCELLATION_REQUESTED);
         booking.setCancelledAt(LocalDateTime.now());
 
         Booking updatedBooking = bookingRepository.save(booking);
-        log.info("Booking cancelled: {}", id);
+        log.info("Cancellation requested for booking: {}", id);
+
+        return convertToResponse(updatedBooking);
+    }
+
+    @Override
+    @Transactional
+    public BookingResponse approveCancellation(Long id) {
+        Booking booking = bookingRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Booking", "id", id));
+
+        if (booking.getStatus() != BookingStatus.CANCELLATION_REQUESTED) {
+            throw new BusinessException("Booking is not in cancellation requested status");
+        }
+
+        booking.setStatus(BookingStatus.CANCELLED);
+
+        Booking updatedBooking = bookingRepository.save(booking);
+        log.info("Cancellation approved for booking: {}", id);
+
+        return convertToResponse(updatedBooking);
+    }
+
+    @Override
+    @Transactional
+    public BookingResponse rejectCancellation(Long id) {
+        Booking booking = bookingRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Booking", "id", id));
+
+        if (booking.getStatus() != BookingStatus.CANCELLATION_REQUESTED) {
+            throw new BusinessException("Booking is not in cancellation requested status");
+        }
+
+        // Revert to previous status (confirmed or pending)
+        booking.setStatus(BookingStatus.CONFIRMED);
+        booking.setCancelledAt(null);
+
+        Booking updatedBooking = bookingRepository.save(booking);
+        log.info("Cancellation rejected for booking: {}", id);
 
         return convertToResponse(updatedBooking);
     }

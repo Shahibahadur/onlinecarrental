@@ -14,6 +14,12 @@ public interface BookingService {
 
     BookingResponse cancelBooking(Long id);
 
+    BookingResponse requestCancellation(Long id);
+
+    BookingResponse approveCancellation(Long id);
+
+    BookingResponse rejectCancellation(Long id);
+
     BookingResponse confirmBooking(Long id);
 
     boolean isVehicleAvailable(Long vehicleId, String startDate, String endDate);

@@ -15,7 +15,7 @@ export const bookingAPI = {
     axiosInstance.put<Booking>(`/bookings/${id}`, data),
 
   cancel: (id: string) =>
-    axiosInstance.post(`/bookings/${id}/cancel`),
+    axiosInstance.put(`/bookings/${id}/cancel`),
 
   getByUser: () =>
     axiosInstance.get<Booking[]>('/bookings/my'),

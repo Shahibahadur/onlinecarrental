@@ -37,7 +37,7 @@ const Terms: React.FC = () => {
             <h2 className="text-2xl font-bold text-neutral-900 mb-4">3. Booking & Payment</h2>
             <ul className="list-disc list-inside text-neutral-600 space-y-2">
               <li>Booking confirmation is subject to vehicle availability</li>
-              <li>Payment can be made via cash, eSewa, Khalti, bank transfer, or credit/debit card</li>
+              <li>Payment can be made via cash, eSewa, bank transfer, or credit/debit card</li>
               <li>Security deposit may be required and will be refunded upon vehicle return in good condition</li>
               <li>All prices are in Nepalese Rupees (NPR) unless stated otherwise</li>
             </ul>

@@ -26,7 +26,7 @@ const Header: React.FC = () => {
   ];
 
   return (
-    <header className="sticky top-0 z-40 bg-white/90 backdrop-blur border-b border-neutral-200">
+    <header className="sticky top-0 z-40 bg-white/85 backdrop-blur-md border-b border-neutral-200/80 shadow-sm transition-shadow duration-300 hover:shadow-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo - CaRs */}
@@ -43,13 +43,18 @@ const Header: React.FC = () => {
               <Link
                 key={item.name}
                 to={item.href}
-                className={`text-sm font-medium uppercase transition-colors ${
+                className={`group relative text-sm font-medium uppercase transition-colors duration-300 ${
                   location.pathname === item.href
                     ? 'text-primary-600'
                     : 'text-neutral-900 hover:text-primary-600'
                 }`}
               >
                 {item.name}
+                <span
+                  className={`absolute -bottom-1 left-0 h-0.5 rounded-full bg-primary-600 transition-all duration-300 ease-out ${
+                    location.pathname === item.href ? 'w-full opacity-100' : 'w-0 opacity-0 group-hover:w-full group-hover:opacity-100'
+                  }`}
+                />
               </Link>
             ))}
           </nav>

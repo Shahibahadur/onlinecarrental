@@ -1,4 +1,4 @@
-INSERT INTO your_table_name (
+INSERT INTO vehicles (
     id, base_price, created_at, daily_price, description, engine_capacity, fuel_type, 
     image_category, image_name, image_names, image_url, is_available, license_plate, 
     location, luggage_capacity, main_image_name, make, model, rating, review_count, 

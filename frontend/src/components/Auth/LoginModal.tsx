@@ -36,6 +36,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ isOpen, onClose }) => {
         firstName: response.data.firstName,
         lastName: response.data.lastName,
         phone: '',
+        role: response.data.role,
       };
 
       dispatch(setUser(user));

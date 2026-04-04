@@ -12,6 +12,7 @@ import com.driverental.onlinecarrental.repository.BookingRepository;
 import com.driverental.onlinecarrental.repository.PaymentRepository;
 import com.driverental.onlinecarrental.service.BookingService;
 import com.driverental.onlinecarrental.service.EsewaPaymentService;
+import com.driverental.onlinecarrental.service.internal.PaymentTxHelper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -47,6 +48,7 @@ public class EsewaPaymentServiceImpl implements EsewaPaymentService {
     private final BookingService bookingService;
     private final RestTemplateBuilder restTemplateBuilder;
     private final EntityManager entityManager;
+    private final PaymentTxHelper paymentTxHelper;
 
     @Override
     @Transactional
@@ -65,8 +67,8 @@ public class EsewaPaymentServiceImpl implements EsewaPaymentService {
 
         // Handle payment record with proper transaction management
         if (booking != null) {
-            // First, check if payment already exists
-            Optional<Payment> existingPayment = paymentRepository.findByBookingId(booking.getId());
+            // First, check if payment already exists (use new TX for fresh visibility)
+            Optional<Payment> existingPayment = paymentTxHelper.findPaymentByBookingIdNewTx(booking.getId());
             
             if (existingPayment.isPresent()) {
                 Payment payment = existingPayment.get();
@@ -92,8 +94,9 @@ public class EsewaPaymentServiceImpl implements EsewaPaymentService {
                 
                 log.info("Payment updated successfully. UUID: {}", uuid);
             } else {
-                // Try to create new payment, but handle race condition
-                uuid = createPaymentWithRaceConditionHandling(booking, amount);
+                // Try to create new payment in an independent transaction to avoid marking the
+                // main transaction as rollback-only on unique constraint violation.
+                uuid = paymentTxHelper.createOrGetPaymentUuidNewTx(booking.getId(), amount);
                 log.info("Payment resolved for booking {}. UUID: {}", booking.getId(), uuid);
             }
         }
@@ -107,8 +110,17 @@ public class EsewaPaymentServiceImpl implements EsewaPaymentService {
      * If another thread creates the payment concurrently, we fetch and use theirs.
      * Runs in the parent transaction context.
      */
-    private String createPaymentWithRaceConditionHandling(Booking booking, BigDecimal amount) {
+    private synchronized String createPaymentWithRaceConditionHandling(Booking booking, BigDecimal amount) {
         try {
+            // First, check if payment already exists (double-check pattern)
+            Optional<Payment> existingPayment = paymentRepository.findByBookingId(booking.getId());
+            if (existingPayment.isPresent()) {
+                Payment payment = existingPayment.get();
+                log.info("Payment already exists for booking {}. Using existing payment ID: {}, UUID: {}", 
+                        booking.getId(), payment.getId(), payment.getTransactionId());
+                return payment.getTransactionId() != null ? payment.getTransactionId() : UUID.randomUUID().toString();
+            }
+            
             // Attempt to create new payment
             log.info("Creating new payment for booking {}", booking.getId());
             
@@ -128,27 +140,55 @@ public class EsewaPaymentServiceImpl implements EsewaPaymentService {
             return uuid;
         } catch (DataIntegrityViolationException e) {
             // Race condition: another thread created payment first
-            log.warn("Race condition detected for booking {}. Fetching existing payment created by another thread.", 
+            log.warn("Race condition detected for booking {}. Attempting to fetch existing payment created by another thread.", 
                     booking.getId());
-            
-            // Clear the corrupted session state to prevent Hibernate assertion failures
+
+            // Clear the persistence context to avoid stale entities
             entityManager.clear();
-            
-            // Fetch the payment that was created by the winning thread
-            Optional<Payment> raceWinnerPayment = paymentRepository.findByBookingId(booking.getId());
-            
+
+            // Retry with exponential backoff to allow the winner transaction to commit
+            final int maxAttempts = 10;         // ~1.1s total wait (100ms, 100ms, 150ms, 200ms, ...)
+            long sleepMs = 100L;
+            Optional<Payment> raceWinnerPayment = Optional.empty();
+
+            for (int attempt = 1; attempt <= maxAttempts; attempt++) {
+                // Perform lookup in a separate transaction to see committed row from the winner
+                raceWinnerPayment = paymentTxHelper.findPaymentByBookingIdNewTx(booking.getId());
+                if (raceWinnerPayment.isPresent()) {
+                    break;
+                }
+
+                try {
+                    Thread.sleep(sleepMs);
+                } catch (InterruptedException ie) {
+                    Thread.currentThread().interrupt();
+                    break;
+                }
+
+                // increase delay gradually to give the other transaction time to commit
+                if (attempt >= 2) {
+                    sleepMs = Math.min(sleepMs + 50L, 300L);
+                }
+            }
+
             if (raceWinnerPayment.isPresent()) {
                 Payment payment = raceWinnerPayment.get();
                 log.info("Successfully recovered from race condition. Using payment ID: {}, UUID: {}", 
                         payment.getId(), payment.getTransactionId());
-                
-                // Return the existing transaction UUID
                 return payment.getTransactionId() != null ? payment.getTransactionId() : UUID.randomUUID().toString();
-            } else {
-                // This shouldn't happen, but handle it gracefully
-                log.error("Race condition occurred but cannot find the created payment for booking {}", booking.getId());
-                throw new BusinessException("Failed to create payment. Please try again.");
             }
+
+            // As a last resort, do another clear and one final lookup before failing
+            entityManager.clear();
+            raceWinnerPayment = paymentTxHelper.findPaymentByBookingIdNewTx(booking.getId());
+            if (raceWinnerPayment.isPresent()) {
+                Payment payment = raceWinnerPayment.get();
+                log.info("Recovered on final lookup. Using payment ID: {}, UUID: {}", payment.getId(), payment.getTransactionId());
+                return payment.getTransactionId() != null ? payment.getTransactionId() : UUID.randomUUID().toString();
+            }
+
+            log.error("Race condition occurred but cannot find the created payment for booking {} after retries", booking.getId());
+            throw new BusinessException("Failed to create payment. Please try again.");
         }
     }
 

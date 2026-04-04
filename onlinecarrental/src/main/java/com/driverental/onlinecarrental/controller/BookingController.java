@@ -60,9 +60,21 @@ public class BookingController {
     }
 
     @PutMapping("/{id}/cancel")
-    @Operation(summary = "Cancel a booking")
+    @Operation(summary = "Cancel a booking (requests cancellation, requires admin approval)")
     public ResponseEntity<BookingResponse> cancelBooking(@PathVariable Long id) {
         return ResponseEntity.ok(bookingService.cancelBooking(id));
+    }
+
+    @PutMapping("/{id}/approve-cancellation")
+    @Operation(summary = "Approve booking cancellation (admin only)")
+    public ResponseEntity<BookingResponse> approveCancellation(@PathVariable Long id) {
+        return ResponseEntity.ok(bookingService.approveCancellation(id));
+    }
+
+    @PutMapping("/{id}/reject-cancellation")
+    @Operation(summary = "Reject booking cancellation (admin only)")
+    public ResponseEntity<BookingResponse> rejectCancellation(@PathVariable Long id) {
+        return ResponseEntity.ok(bookingService.rejectCancellation(id));
     }
 
     @PostMapping("/{bookingId}/pay")

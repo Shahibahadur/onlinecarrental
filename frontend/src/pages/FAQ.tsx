@@ -19,7 +19,7 @@ const FAQ: React.FC = () => {
     },
     {
       question: 'What payment methods do you accept?',
-      answer: 'We accept cash, eSewa, Khalti, bank transfers, and credit/debit cards. Payment can be made at the time of booking or upon vehicle pickup.',
+      answer: 'We accept cash, eSewa, bank transfers, and credit/debit cards. Payment can be made at the time of booking or upon vehicle pickup.',
     },
     {
       question: 'What is your cancellation policy?',

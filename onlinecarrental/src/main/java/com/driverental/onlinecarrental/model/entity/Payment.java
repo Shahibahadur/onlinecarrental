@@ -37,11 +37,13 @@ public class Payment {
 
     @Enumerated(EnumType.STRING)
     @NotNull
+    @Column(length = 20)
     private PaymentMethod paymentMethod;
 
     @Enumerated(EnumType.STRING)
     @NotNull
     @lombok.Builder.Default
+    @Column(length = 20)
     private PaymentStatus status = PaymentStatus.PENDING;
 
     private String transactionId;

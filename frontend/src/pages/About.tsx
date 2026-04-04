@@ -141,7 +141,7 @@ const About: React.FC = () => {
             <div className="bg-neutral-50 p-6 rounded-lg">
               <h3 className="text-xl font-semibold text-neutral-900 mb-4">Multiple Payment Methods</h3>
               <p className="text-neutral-600">
-                Pay via eSewa, Khalti, bank transfer, or cash. We accept all major payment 
+                Pay via eSewa, bank transfer, or cash. We accept all major payment 
                 methods for your convenience.
               </p>
             </div>

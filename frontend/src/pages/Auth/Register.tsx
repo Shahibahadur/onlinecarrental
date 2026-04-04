@@ -42,11 +42,12 @@ const Register: React.FC = () => {
       
       // Store user data in Redux
       const user = {
-        id: response.data.email, // Using email as ID temporarily
+        id: response.data.email,
         email: response.data.email,
         firstName: response.data.firstName,
         lastName: response.data.lastName,
         phone: data.phone,
+        role: response.data.role,
       };
       
       dispatch(setUser(user));

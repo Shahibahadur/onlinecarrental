@@ -13,7 +13,7 @@ const CarCard: React.FC<CarCardProps> = ({ car, onBook, onViewDetails }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 overflow-hidden hover:shadow-md hover:-translate-y-0.5 transition-all">
+    <div className="bg-white rounded-xl shadow-sm border border-neutral-200 overflow-hidden card-hover">
       <div className="relative">
         <img
           src={car.image}

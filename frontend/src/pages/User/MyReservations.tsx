@@ -60,6 +60,7 @@ const MyReservations: React.FC = () => {
             case 'ACTIVE': return 'bg-blue-100 text-blue-800';
             case 'COMPLETED': return 'bg-gray-100 text-gray-800';
             case 'CANCELLED': return 'bg-red-100 text-red-800';
+            case 'CANCELLATION_REQUESTED': return 'bg-orange-100 text-orange-800';
             default: return 'bg-gray-100 text-gray-800';
         }
     };
@@ -95,83 +96,87 @@ const MyReservations: React.FC = () => {
                 </div>
             ) : (
                 <div className="space-y-4">
-                    {bookings.map((booking) => (
-                        (() => {
-                            const status = (booking.status ?? '').toString().toUpperCase();
+                    {bookings.map((booking) => {
+                        const status = (booking.status ?? '').toString().toUpperCase();
 
-                            return (
-                        <div key={booking.id} className="bg-white rounded-lg shadow-md p-6 border border-neutral-200">
-                            <div className="flex justify-between items-start">
-                                <div className="flex-1">
-                                    <div className="flex items-center gap-3 mb-2">
-                                        <h3 className="text-xl font-semibold text-neutral-900">
-                                            {booking.vehicle?.make} {booking.vehicle?.model}
-                                        </h3>
-                                        <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(status)}`}>
-                                            {status}
-                                        </span>
-                                    </div>
-
-                                    <div className="grid grid-cols-2 gap-4 mt-4 text-sm">
-                                        <div>
-                                            <span className="text-neutral-600">Pickup:</span>
-                                            <p className="font-medium text-neutral-900">{booking.pickupLocation}</p>
-                                            <p className="text-neutral-600">{formatDate(booking.startDate)}</p>
+                        return (
+                            <div key={booking.id} className="bg-white rounded-lg shadow-md p-6 border border-neutral-200">
+                                <div className="flex justify-between items-start">
+                                    <div className="flex-1">
+                                        <div className="flex items-center gap-3 mb-2">
+                                            <h3 className="text-xl font-semibold text-neutral-900">
+                                                {booking.vehicle?.make} {booking.vehicle?.model}
+                                            </h3>
+                                            <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(status)}`}>
+                                                {status}
+                                            </span>
                                         </div>
-                                        <div>
-                                            <span className="text-neutral-600">Dropoff:</span>
-                                            <p className="font-medium text-neutral-900">{booking.dropoffLocation}</p>
-                                            <p className="text-neutral-600">{formatDate(booking.endDate)}</p>
+
+                                        <div className="grid grid-cols-2 gap-4 mt-4 text-sm">
+                                            <div>
+                                                <span className="text-neutral-600">Pickup:</span>
+                                                <p className="font-medium text-neutral-900">{booking.pickupLocation}</p>
+                                                <p className="text-neutral-600">{formatDate(booking.startDate)}</p>
+                                            </div>
+                                            <div>
+                                                <span className="text-neutral-600">Dropoff:</span>
+                                                <p className="font-medium text-neutral-900">{booking.dropoffLocation}</p>
+                                                <p className="text-neutral-600">{formatDate(booking.endDate)}</p>
+                                            </div>
+                                        </div>
+
+                                        <div className="mt-4">
+                                            <span className="text-2xl font-bold text-primary-600">${booking.totalPrice}</span>
+                                            <span className="text-neutral-600 ml-2">total</span>
                                         </div>
                                     </div>
 
-                                    <div className="mt-4">
-                                        <span className="text-2xl font-bold text-primary-600">${booking.totalPrice}</span>
-                                        <span className="text-neutral-600 ml-2">total</span>
+                                    <div className="flex flex-col gap-2 ml-4">
+                                        {status === 'PENDING' && (
+                                            <>
+                                                <button
+                                                    onClick={() => handlePayment(booking.id.toString())}
+                                                    className="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 font-medium"
+                                                >
+                                                    Pay Now
+                                                </button>
+                                                <button
+                                                    onClick={() => handleCancel(booking.id.toString())}
+                                                    className="px-4 py-2 bg-neutral-200 text-neutral-700 rounded-lg hover:bg-neutral-300 font-medium"
+                                                >
+                                                    Cancel
+                                                </button>
+                                            </>
+                                        )}
+
+                                        {status === 'CANCELLATION_REQUESTED' && (
+                                            <div className="px-4 py-2 bg-orange-100 text-orange-800 rounded-lg text-sm font-medium">
+                                                Cancellation Pending
+                                            </div>
+                                        )}
+
+                                        {status === 'ACTIVE' && (
+                                            <button
+                                                onClick={() => handleReturn(booking.id.toString())}
+                                                className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 font-medium"
+                                            >
+                                                Return Car
+                                            </button>
+                                        )}
+
+                                        {status === 'COMPLETED' && (
+                                            <a
+                                                href={`/reviews/new?bookingId=${booking.id}`}
+                                                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium text-center"
+                                            >
+                                                Leave Review
+                                            </a>
+                                        )}
                                     </div>
-                                </div>
-
-                                <div className="flex flex-col gap-2 ml-4">
-                                    {status === 'PENDING' && (
-                                        <>
-                                            <button
-                                                onClick={() => handlePayment(booking.id.toString())}
-                                                className="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 font-medium"
-                                            >
-                                                Pay Now
-                                            </button>
-                                            <button
-                                                onClick={() => handleCancel(booking.id.toString())}
-                                                className="px-4 py-2 bg-neutral-200 text-neutral-700 rounded-lg hover:bg-neutral-300 font-medium"
-                                            >
-                                                Cancel
-                                            </button>
-                                        </>
-                                    )}
-
-                                    {status === 'ACTIVE' && (
-                                        <button
-                                            onClick={() => handleReturn(booking.id.toString())}
-                                            className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 font-medium"
-                                        >
-                                            Return Car
-                                        </button>
-                                    )}
-
-                                    {status === 'COMPLETED' && (
-                                        <a
-                                            href={`/reviews/new?bookingId=${booking.id}`}
-                                            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-medium text-center"
-                                        >
-                                            Leave Review
-                                        </a>
-                                    )}
                                 </div>
                             </div>
-                        </div>
-                            );
-                        })()
-                    ))}
+                        );
+                    })}
                 </div>
             )}
         </div>

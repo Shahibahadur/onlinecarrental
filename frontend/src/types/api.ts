@@ -11,11 +11,13 @@ export interface Booking {
     | 'confirmed'
     | 'completed'
     | 'cancelled'
+    | 'cancellation_requested'
     | 'PENDING'
     | 'CONFIRMED'
     | 'ACTIVE'
     | 'COMPLETED'
-    | 'CANCELLED';
+    | 'CANCELLED'
+    | 'CANCELLATION_REQUESTED';
   pickupLocation: string;
   dropoffLocation: string;
   createdAt: string;
